@@ -23,10 +23,13 @@
 #include "SkDescriptor.h"
 #include "SkScalerContext.h"
 #include "SkTemplates.h"
+#include "SkThaiPreprocessor.h"
 
 class SkPaint;
 
 class SkGlyphCache_Globals;
+
+class SkThaiPreprocessor;
 
 /** \class SkGlyphCache
 
@@ -103,6 +106,11 @@ public:
     //! If found, remove the proc/data pair from the glyphcache (does not
     //  call the proc)
     void removeAuxProc(void (*auxProc)(void*));
+
+    //! preprocess UTF-8 characters
+    SkUnichar preprocessUTF8(const char** text);
+    //! preprocess UTF-8 characters
+    SkUnichar preprocessUTF16(const char** text);
 
     /** Call proc on all cache entries, stopping early if proc returns true.
         The proc should not create or delete caches, since it could produce
@@ -186,6 +194,7 @@ private:
     SkDescriptor*       fDesc;
     SkScalerContext*    fScalerContext;
     SkPaint::FontMetrics fFontMetricsY;
+    SkThaiPreprocessor* fPreprocessor;
 
     enum {
         kHashBits   = 6,

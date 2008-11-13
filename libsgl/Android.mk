@@ -119,6 +119,7 @@ LOCAL_SRC_FILES:= \
 	sgl/SkString.cpp \
 	sgl/SkStroke.cpp \
 	sgl/SkStrokerPriv.cpp \
+	sgl/SkThaiPreprocessor.cpp \
 	sgl/SkTSearch.cpp \
 	sgl/SkTypeface.cpp \
     sgl/SkUnPreMultiply.cpp \

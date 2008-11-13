@@ -541,7 +541,8 @@ static const SkGlyph& sk_getMetrics_utf8_00(SkGlyphCache* cache,
     SkASSERT(cache != NULL);
     SkASSERT(text != NULL);
     
-    return cache->getUnicharMetrics(SkUTF8_NextUnichar(text));
+    SkUnichar ch = cache->preprocessUTF8(text);
+    return cache->getUnicharMetrics(ch);
 }
 
 static const SkGlyph& sk_getMetrics_utf8_xy(SkGlyphCache* cache,
@@ -550,7 +551,8 @@ static const SkGlyph& sk_getMetrics_utf8_xy(SkGlyphCache* cache,
     SkASSERT(cache != NULL);
     SkASSERT(text != NULL);
     
-    return cache->getUnicharMetrics(SkUTF8_NextUnichar(text), x, y);
+    SkUnichar ch = cache->preprocessUTF8(text);
+    return cache->getUnicharMetrics(ch, x, y);
 }
 
 static const SkGlyph& sk_getMetrics_utf16_00(SkGlyphCache* cache, const char** text,
@@ -559,7 +561,8 @@ static const SkGlyph& sk_getMetrics_utf16_00(SkGlyphCache* cache, const char** t
     SkASSERT(cache != NULL);
     SkASSERT(text != NULL);
     
-    return cache->getUnicharMetrics(SkUTF16_NextUnichar((const uint16_t**)text));
+    SkUnichar ch = cache->preprocessUTF16(text);
+    return cache->getUnicharMetrics(ch);
 }
 
 static const SkGlyph& sk_getMetrics_utf16_xy(SkGlyphCache* cache,
@@ -568,8 +571,8 @@ static const SkGlyph& sk_getMetrics_utf16_xy(SkGlyphCache* cache,
     SkASSERT(cache != NULL);
     SkASSERT(text != NULL);
     
-    return cache->getUnicharMetrics(SkUTF16_NextUnichar((const uint16_t**)text),
-                                    x, y);
+    SkUnichar ch = cache->preprocessUTF16(text);
+    return cache->getUnicharMetrics(ch, x, y);
 }
 
 static const SkGlyph& sk_getMetrics_glyph_00(SkGlyphCache* cache, const char** text,

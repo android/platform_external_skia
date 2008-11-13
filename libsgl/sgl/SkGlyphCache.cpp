@@ -38,6 +38,8 @@ SkGlyphCache::SkGlyphCache(const SkDescriptor* desc)
     fScalerContext = SkScalerContext::Create(desc);
     fScalerContext->getFontMetrics(NULL, &fFontMetricsY);
 
+    fPreprocessor = SkNEW(SkThaiPreprocessor);
+
     // init to 0 so that all of the pointers will be null
     memset(fGlyphHash, 0, sizeof(fGlyphHash));
     // init with 0xFF so that the charCode field will be -1, which is invalid
@@ -63,6 +65,7 @@ SkGlyphCache::~SkGlyphCache() {
         gptr += 1;
     }
     SkDescriptor::Free(fDesc);
+    SkDELETE(fPreprocessor);
     SkDELETE(fScalerContext);
     this->invokeAndRemoveAuxProcs();
 }
@@ -625,4 +628,15 @@ size_t SkGlyphCache::InternalFreeCache(SkGlyphCache_Globals* globals,
 
     return bytesFreed;
 }
+
+SkUnichar SkGlyphCache::preprocessUTF8(const char** text) {
+    SkASSERT(fPreprocessor);
+    return fPreprocessor->fixThaiVowel8(text);
+}
+
+SkUnichar SkGlyphCache::preprocessUTF16(const char** text) {
+    SkASSERT(fPreprocessor);
+    return fPreprocessor->fixThaiVowel16(text);
+}
+
 
