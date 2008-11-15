@@ -18,21 +18,17 @@
 #include "SkThaiPreprocessor.h"
 #include "SkUtils.h"
 
-#define KO_KAI 0x0E01 //The first Thai letter in the unicode table
-#define FIRST_THAI_LETTER KO_KAI
-#define KHOMUT 0x0EB5 //The last Thai letter in the unicode table
-#define LAST_THAI_LETTER KHOMUT
-#define isNotInRange(a, b, c) ((a<b)||(a>c)) 
-#define isNotThaiLetter(ch) isNotInRange(ch, FIRST_THAI_LETTER, LAST_THAI_LETTER)
-
 SkUnichar SkThaiPreprocessor::fixThaiVowel16(const char** text) {
     ch = SkUTF16_NextUnichar((const uint16_t**)text);
 
     // Guard condition detecting 'ch' in Thai character range; for improving speed
-    if(isNotThaiLetter(ch)) return ch;
+    if((ch & THAI_CHAR_RANGE_MASK) != THAI_CHAR_RANGE_MASK) return ch;
 
     ch1 = 0;
-    if(isDownTail(ch) || isUpperLevel2(ch)) { ch1 = SkUTF16_NextUnichar((const uint16_t**)text); SkUTF16_PrevUnichar((const uint16_t**)text); }
+    if(isDownTail(ch) || isUpperLevel2(ch)) { 
+        ch1 = SkUTF16_NextUnichar((const uint16_t**)text); 
+        SkUTF16_PrevUnichar((const uint16_t**)text); 
+    }
     SkUnichar result = fixThaiVowel();
     pch0 = pch;
     pch = ch;
@@ -43,10 +39,13 @@ SkUnichar SkThaiPreprocessor::fixThaiVowel8(const char** text) {
     ch = SkUTF8_NextUnichar(text);
 
     // Guard condition detecting 'ch' in Thai character range; for improving speed
-    if(isNotThaiLetter(ch)) return ch;
+    if((ch & THAI_CHAR_RANGE_MASK) != THAI_CHAR_RANGE_MASK) return ch;
 
     ch1 = 0;
-    if(isDownTail(ch) || isUpperLevel2(ch)) { ch1 = SkUTF8_NextUnichar(text); SkUTF8_PrevUnichar(text); }
+    if(isDownTail(ch) || isUpperLevel2(ch)) {
+        ch1 = SkUTF8_NextUnichar(text);
+        SkUTF8_PrevUnichar(text);
+    }
     SkUnichar result = fixThaiVowel();
     pch0 = pch;
     pch = ch;
@@ -67,8 +66,11 @@ SkUnichar SkThaiPreprocessor::fixThaiVowel() {
     } else if (isUpperLevel2(ch)) {
         // Level 2
         SkUnichar temp_pch = pch;
+        SkUnichar temp_r_pch = r_pch;
+        
         if (isLowerLevel(pch)) {
             temp_pch = pch0;
+            temp_r_pch = r_pch0;
         }
 
         if (ch1 == SARA_AM) {
@@ -78,7 +80,7 @@ SkUnichar SkThaiPreprocessor::fixThaiVowel() {
                 result = ch;
         } else if (isUpTail(temp_pch)) {
             result = pullDownAndShiftLeft(ch);
-        } else if (isLeftShiftUpperLevel1(temp_pch)) {
+        } else if (isLeftShiftUpperLevel1(temp_r_pch)) {
             result = shiftLeft(ch);
         } else if (!isUpperLevel1(temp_pch)) {
             result = pullDown(ch);
@@ -91,8 +93,11 @@ SkUnichar SkThaiPreprocessor::fixThaiVowel() {
                 result = cutch;
             }
         }
-    } else if (isLowerLevel(ch) && !(isCutTail(pch))) {
+    } else if (isLowerLevel(ch) && !(isCutTail(r_pch))) {
         result = pullDown(ch);
     }
+
+    r_pch0 = r_pch;
+    r_pch = result;
     return result;
 }

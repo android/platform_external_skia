@@ -99,6 +99,8 @@
 #define THO_THAN_CUT_TAIL  0xF700
 #define YO_YING_CUT_TAIL  0xF70F
 
+#define THAI_CHAR_RANGE_MASK 0x0E00 // masking test for improving speed
+
 class SkThaiPreprocessor {
 
 private:
@@ -106,6 +108,9 @@ private:
     SkUnichar pch;
     SkUnichar ch;
     SkUnichar ch1;
+    
+    SkUnichar r_pch0;
+    SkUnichar r_pch;
 
     bool isUpTail(SkUnichar ch) {
         return  ch == PO_PLA ||
