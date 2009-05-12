@@ -188,6 +188,7 @@ LOCAL_SHARED_LIBRARIES := \
 	libutils \
 	libcorecg \
 	libexpat \
+	libdl \
 	libz
 
 LOCAL_STATIC_LIBRARIES := \
