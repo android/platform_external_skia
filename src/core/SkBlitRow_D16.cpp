@@ -248,7 +248,11 @@ static void S32A_D565_Blend_Dither(uint16_t* SK_RESTRICT dst,
 #endif
 
 #ifdef USE_T32CB16BLEND_ASM
+#ifdef ARCH_ARM
     extern "C" void scanline_t32cb16blend_arm(uint16_t*, uint32_t*, size_t);
+#elif defined(ARCH_SH)
+    extern "C" void scanline_t32cb16blend_sh(uint16_t*, uint32_t*, size_t);
+#endif
 #endif
 
 static const SkBlitRow::Proc gProcs16[] = {
@@ -261,7 +265,11 @@ static const SkBlitRow::Proc gProcs16[] = {
 #elif defined(USE_S32A_D565_OPAQUE_CHECK)
     S32A_D565_Opaque_255Check,
 #elif defined(USE_T32CB16BLEND_ASM)
+#ifdef ARCH_ARM
     (SkBlitRow::Proc)scanline_t32cb16blend_arm,
+#elif defined(ARCH_SH)
+    (SkBlitRow::Proc)scanline_t32cb16blend_sh,
+#endif
 #else
     S32A_D565_Opaque,
 #endif
