@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyX///7U\u003d",
+        "filename": "src/core/SkDraw.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-05-05T18:59:23Z",
+      "side": 1,
+      "message": "what is the rationale for using the cache here when drawTextOnPath does not ?",
+      "revId": "a2dfb00239c367c3663e8487a8213d0edad238ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
