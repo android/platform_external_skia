@@ -16,6 +16,24 @@
       "revId": "a2dfb00239c367c3663e8487a8213d0edad238ba",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX///zA\u003d",
+        "filename": "src/core/SkDraw.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1003782
+      },
+      "writtenOn": "2010-05-06T08:42:14Z",
+      "side": 1,
+      "message": "The cache must be used to retrieve the glyphs. It is used in drawTextOnPath as well via SkTextToPathIter (implemented in SkPaint).",
+      "parentUuid": "AAAAyX///7U\u003d",
+      "revId": "a2dfb00239c367c3663e8487a8213d0edad238ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
