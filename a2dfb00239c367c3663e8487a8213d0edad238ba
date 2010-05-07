@@ -34,6 +34,24 @@
       "revId": "a2dfb00239c367c3663e8487a8213d0edad238ba",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX///rs\u003d",
+        "filename": "src/core/SkDraw.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-05-07T18:34:36Z",
+      "side": 1,
+      "message": "I see, so if I understand correctly, you essentially have to duplicate the TextToPathIter code because paint is not setup in the same way or something.\n\ngood enough for me.",
+      "parentUuid": "AAAAyX///zA\u003d",
+      "revId": "a2dfb00239c367c3663e8487a8213d0edad238ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
