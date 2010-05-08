@@ -14,6 +14,16 @@
  * limitations under the License.
  */
 
+/*
+ * Copyright (C) 2010, Update to support Arabic 
+ * Rehab Mohamed, Sarah Shalaby, Dalia Hosny, Raghda Mohamed, Raghda Salah, Moustafa Youssef 
+ *
+ *  Compiler directive  USE_ARABIC_SKIA is used to enable the Arabic support either in Skia or in Canvas.
+ *  If the directive is defined, Arabic is enabled in Skia. 
+ *  If it is not defined, Arabic is enabled in Canvas.
+ */
+//#define USE_ARABIC_SKIA
+
 #ifndef SkPreConfig_DEFINED
 #define SkPreConfig_DEFINED
 
