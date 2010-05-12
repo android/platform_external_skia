@@ -15,6 +15,19 @@
 ** limitations under the License.
 */
 
+/*
+** Copyright (C) 2010, Update to support Arabic 
+** Rehab Mohamed, Sarah Shalaby, Dalia Hosny, Raghda Mohamed, Raghda Salah, Moustafa Youssef 
+**
+**
+** Before the text is displayed on the screen, the string is passed to the Reshape class, 
+** where it is properly encoded and reshaped to display Arabic characters. 
+**
+** A compiler directive [USE_ARABIC_SKIA]
+** is used to give the developer the flexibility to enable Arabic Reshaping in the Skia library, 
+** or alternatively in the canvas class.
+*/
+
 #include "SkDraw.h"
 #include "SkBlitter.h"
 #include "SkBounder.h"
@@ -34,6 +47,8 @@
 #include "SkAutoKern.h"
 #include "SkBitmapProcShader.h"
 #include "SkDrawProcs.h"
+
+#include "ushape.c"
 
 //#define TRACE_BITMAP_DRAWS
 
@@ -1379,7 +1394,36 @@ void SkDraw::drawText(const char text[], size_t byteLength,
         (paint.getAlpha() == 0 && paint.getXfermode() == NULL)) {
         return;
     }
+#if defined USE_ARABIC_SKIA
+    /*
+     * Update to Support arabic
+     */
 
+    // convert to const UChar*
+    const UChar*  nonReshapedText = (const UChar*)text;
+     bool hasAraicChar = false;
+    // check if the text has arabic characters
+    for(int index = 0 ; index < byteLength ; index++){
+    	if((nonReshapedText[index] > 1569 && nonReshapedText[index] < 1595)||(nonReshapedText[index] > 1599 && nonReshapedText[index] < 1619)){
+		hasAraicChar = true;
+		break;
+	}
+     }
+    if(hasAraicChar){  
+	UErrorCode e = U_ZERO_ERROR;
+	// convert from const UChar* to UChar* 
+	UChar * reshapedText = new UChar[byteLength];
+	// call the icu4c u_shapeArabic function to reshape the text.
+	int reshapedCount = u_shapeArabic(nonReshapedText, (int32_t)byteLength, reshapedText,(int32_t) byteLength, U_SHAPE_LETTERS_SHAPE | U_SHAPE_TEXT_DIRECTION_VISUAL_LTR | U_SHAPE_LENGTH_FIXED_SPACES_AT_END, &e);
+	if (reshapedCount > 0){
+	text = (const char *)reshapedText;
+	byteLength = reshapedCount;
+	}
+    }
+    /*
+     * End of update
+     */
+#endif
     SkScalar    underlineWidth = 0;
     SkPoint     underlineStart;
 

@@ -188,6 +188,8 @@ LOCAL_SHARED_LIBRARIES := \
 	libutils \
 	libcorecg \
 	libexpat \
+	libicuuc \
+	libicui18n \
 	libz
 
 LOCAL_STATIC_LIBRARIES := \
@@ -209,6 +211,8 @@ LOCAL_C_INCLUDES += \
 	external/giflib \
 	external/expat/lib \
 	external/jpeg \
+	external/icu4c/common \
+	external/icu4c/i18n \
     frameworks/opt/emoji
 
 LOCAL_CFLAGS += -fpic -fstrict-aliasing

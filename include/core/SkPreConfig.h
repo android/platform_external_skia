@@ -22,7 +22,7 @@
  *  If the directive is defined, Arabic is enabled in Skia. 
  *  If it is not defined, Arabic is enabled in Canvas.
  */
-//#define USE_ARABIC_SKIA
+#define USE_ARABIC_SKIA
 
 #ifndef SkPreConfig_DEFINED
 #define SkPreConfig_DEFINED
