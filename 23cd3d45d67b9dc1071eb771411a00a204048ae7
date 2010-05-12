@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyn///k8\u003d",
+        "filename": "src/core/SkPaint.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1001122
+      },
+      "writtenOn": "2010-05-12T18:00:44Z",
+      "side": 1,
+      "message": "SkScalarMulDiv() would be slightly better to call, but good catch/fix.",
+      "revId": "23cd3d45d67b9dc1071eb771411a00a204048ae7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
