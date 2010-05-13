@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH////w\u003d",
+        "filename": "include/core/SkPreConfig.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-13T16:10:00Z",
+      "side": 1,
+      "message": "Definitely none of this block should be included in any case.",
+      "revId": "2e176d26a16d0f15dffd486e71a2bcb26fee1ae8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
