@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH////g\u003d",
+        "filename": "src/core/SkDraw.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-13T16:14:45Z",
+      "side": 1,
+      "message": "Please remove this",
+      "revId": "d5a15be98ac54665986132fd9064944e58db5577",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH////U\u003d",
+        "filename": "src/core/SkDraw.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-13T16:14:45Z",
+      "side": 1,
+      "message": "Typo in variable name",
+      "revId": "d5a15be98ac54665986132fd9064944e58db5577",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH////c\u003d",
+        "filename": "src/core/SkDraw.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-13T16:14:45Z",
+      "side": 1,
+      "message": "Don\u0027t use hard-coded values",
+      "revId": "d5a15be98ac54665986132fd9064944e58db5577",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH////Y\u003d",
+        "filename": "src/core/SkDraw.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-13T16:14:45Z",
+      "side": 1,
+      "message": "Tabs, trailing spaces, bad indentation, missing spaces throughout your change. Please check  the android style guide.",
+      "revId": "d5a15be98ac54665986132fd9064944e58db5577",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
