@@ -20,7 +20,7 @@ SkImageRef_GlobalPool::~SkImageRef_GlobalPool() {
     gGlobalImageRefPool.detach(this);
     this->mutex()->release();
 }
-    
+
 bool SkImageRef_GlobalPool::onDecode(SkImageDecoder* codec, SkStream* stream,
                                      SkBitmap* bitmap, SkBitmap::Config config,
                                      SkImageDecoder::Mode mode) {
@@ -32,10 +32,10 @@ bool SkImageRef_GlobalPool::onDecode(SkImageDecoder* codec, SkStream* stream,
     }
     return true;
 }
-    
+
 void SkImageRef_GlobalPool::onUnlockPixels() {
     this->INHERITED::onUnlockPixels();
-    
+
     gGlobalImageRefPool.canLosePixels(this);
 }
 
@@ -50,8 +50,8 @@ SkPixelRef* SkImageRef_GlobalPool::Create(SkFlattenableReadBuffer& buffer) {
     return SkNEW_ARGS(SkImageRef_GlobalPool, (buffer));
 }
 
-static SkPixelRef::Registrar::Registrar reg("SkImageRef_GlobalPool",
-                                            SkImageRef_GlobalPool::Create);
+static SkPixelRef::Registrar reg("SkImageRef_GlobalPool",
+                                 SkImageRef_GlobalPool::Create);
 
 ///////////////////////////////////////////////////////////////////////////////
 // global imagerefpool wrappers
@@ -67,7 +67,7 @@ void SkImageRef_GlobalPool::SetRAMBudget(size_t size) {
 }
 
 size_t SkImageRef_GlobalPool::GetRAMUsed() {
-    SkAutoMutexAcquire ac(gImageRefMutex);    
+    SkAutoMutexAcquire ac(gImageRefMutex);
     return gGlobalImageRefPool.getRAMUsed();
 }
 

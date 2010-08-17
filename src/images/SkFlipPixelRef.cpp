@@ -55,7 +55,7 @@ void SkFlipPixelRef::swapPages() {
 
 void SkFlipPixelRef::flatten(SkFlattenableWriteBuffer& buffer) const {
     this->INHERITED::flatten(buffer);
-    
+
     buffer.write32(fSize);
     // only need to write page0
     buffer.writePad(fPage0, fSize);
@@ -74,8 +74,8 @@ SkPixelRef* SkFlipPixelRef::Create(SkFlattenableReadBuffer& buffer) {
     return SkNEW_ARGS(SkFlipPixelRef, (buffer));
 }
 
-static SkPixelRef::Registrar::Registrar reg("SkFlipPixelRef",
-                                            SkFlipPixelRef::Create);
+static SkPixelRef::Registrar reg("SkFlipPixelRef",
+                                 SkFlipPixelRef::Create);
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -86,7 +86,7 @@ static void copyRect(const SkBitmap& dst, const SkIRect& rect,
     const char* srcP = static_cast<const char*>(srcAddr) + offset;
     const size_t rb = dst.rowBytes();
     const size_t bytes = rect.width() << shift;
-    
+
     int height = rect.height();
     while (--height >= 0) {
         memcpy(dstP, srcP, bytes);
@@ -116,10 +116,10 @@ void SkFlipPixelRef::CopyBitsFromAddr(const SkBitmap& dst, const SkRegion& clip,
     if (shift < 0) {
         return;
     }
-    
+
     const SkIRect bounds = {0, 0, dst.width(), dst.height()};
     SkRegion::Cliperator iter(clip, bounds);
-    
+
     while (!iter.done()) {
         copyRect(dst, iter.rect(), srcAddr, shift);
         iter.next();
