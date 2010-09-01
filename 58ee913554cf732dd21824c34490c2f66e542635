@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7H///sQ\u003d",
+        "filename": "src/images/SkMovie_gif.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2010-09-01T21:08:30Z",
+      "side": 1,
+      "message": "What is the meaning of 0xF9? Could you use a define to make it easier to read? (looks like the graphics control block according to the RFC)",
+      "revId": "58ee913554cf732dd21824c34490c2f66e542635",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///sM\u003d",
+        "filename": "src/images/SkMovie_gif.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2010-09-01T21:08:30Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "58ee913554cf732dd21824c34490c2f66e542635",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
