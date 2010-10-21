@@ -639,3 +639,30 @@ size_t SkFontHost::ShouldPurgeFontCache(size_t sizeAllocatedSoFar) {
         return 0;   // nothing to do
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+size_t SkFontHost::GetFileName(int32_t fontID, char path[], size_t length,
+                               int32_t* index) {
+    SkAutoMutexAcquire  ac(gFamilyMutex);
+
+    FamilyTypeface* tf = (FamilyTypeface*)find_from_uniqueID(fontID);
+    const char* src = ((FamilyTypeface*)tf)->getUniqueString();
+
+    if (src) {
+        SkString fullpath;
+        GetFullPathForSysFonts(&fullpath, src);
+        src = fullpath.c_str();
+
+        size_t size = strlen(src);
+        if (path) {
+            memcpy(path, src, SkMin32(size, length));
+        }
+        if (index) {
+            *index = 0; // we don't have collections (yet)
+        }
+        return size;
+    } else {
+        return 0;
+    }
+}
+
