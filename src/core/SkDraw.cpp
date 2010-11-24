@@ -733,12 +733,12 @@ void SkDraw::drawDevMask(const SkMask& srcM, const SkPaint& paint) const {
     const SkMask*   mask = &srcM;
 
     dstM.fImage = NULL;
-    SkAutoMaskImage ami(&dstM, false);
 
     if (paint.getMaskFilter() &&
             paint.getMaskFilter()->filterMask(&dstM, srcM, *fMatrix, NULL)) {
         mask = &dstM;
     }
+    SkAutoMaskImage ami(&dstM, false);
 
     if (fBounder && !fBounder->doIRect(mask->fBounds)) {
         return;
