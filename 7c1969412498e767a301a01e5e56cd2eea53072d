@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA9H///7A\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "It would be nice to have a small comment that explains that this setting does, e.g. \"Enable usage of the FontEngineManager, which supports several font engine installations in the system\" or something like that.",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///68\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "How is this related to this change?",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///64\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "Can you name this libfem_freetype instead? just to make it a little clearer.",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///60\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "Good point, we should certainly benchmark the difference to optimize any bottleneck!",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///6s\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "Why is this needed? Android builds with -fpic by default, which should be sufficient.",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///6w\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "there is no libpthread.so on Android (included in the C library), so you can remove the line above.",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///6o\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "I would prefer if all module declarations where encapsulated in an ifeq..endif block.",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///6k\u003d",
+        "filename": "src/ports/FontEngineFT.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "remove this code if it is not being used",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///6g\u003d",
+        "filename": "src/ports/FontEngineFT.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "Again, FT_LOG(...) ... fprintf(fplog, __VA_ARGS__) should be sufficient. No need to distinguish between FT_LOG and FT_LOGS",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///6c\u003d",
+        "filename": "src/ports/FontEngineFT.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the code below. With recent GCC, __builtin_clz should always be available (whether this will translate to a CPU instruction or a call to a helper function is an implementation detail). No need to duplicate it here I believe.",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9H///6Y\u003d",
+        "filename": "src/ports/FontEngineFT.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2010-12-14T15:03:27Z",
+      "side": 1,
+      "message": "why isn\u0027t this inline?",
+      "revId": "7c1969412498e767a301a01e5e56cd2eea53072d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
