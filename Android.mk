@@ -9,6 +9,9 @@ include $(CLEAR_VARS)
 
 LOCAL_ARM_MODE := arm
 
+#Enables FontEngineManager component to support various Font Engines/Drivers.
+ENABLE_FEM := yes
+
 # need a flag to tell the C side when we're on devices with large memory
 # budgets (i.e. larger than the low-end devices that initially shipped)
 ifeq ($(ARCH_ARM_HAVE_VFP),true)
@@ -88,7 +91,6 @@ LOCAL_SRC_FILES:= \
 	src/images/SkImageEncoder_Factory.cpp \
 	src/ports/SkFontHost_android.cpp \
 	src/ports/SkFontHost_gamma.cpp \
-	src/ports/SkFontHost_FreeType.cpp \
 	src/ports/SkFontHost_tables.cpp \
 	src/ports/SkGlobals_global.cpp \
 	src/ports/SkImageRef_ashmem.cpp \
@@ -177,6 +179,14 @@ LOCAL_SRC_FILES:= \
 	src/utils/SkNinePatch.cpp \
 	src/utils/SkProxyCanvas.cpp
 
+ifeq ($(ENABLE_FEM),yes)
+LOCAL_SRC_FILES += \
+	src/ports/SkFontHost_FEM.cpp
+else
+LOCAL_SRC_FILES += \
+	src/ports/SkFontHost_FreeType.cpp
+endif
+
 ifeq ($(TARGET_ARCH),arm)
 LOCAL_SRC_FILES += \
 	src/opts/SkBlitRow_opts_arm.cpp \
@@ -199,9 +209,13 @@ LOCAL_SHARED_LIBRARIES := \
 	libz
 
 LOCAL_STATIC_LIBRARIES := \
-	libft2 \
 	libpng \
 	libgif
+
+ifneq ($(ENABLE_FEM),yes)
+LOCAL_STATIC_LIBRARIES += \
+	libft2
+endif
 
 LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/src/core \
@@ -210,12 +224,19 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/include/images \
 	$(LOCAL_PATH)/include/utils \
 	$(LOCAL_PATH)/include/xml \
-	external/freetype/include \
 	external/zlib \
 	external/libpng \
 	external/giflib \
 	external/jpeg \
     frameworks/opt/emoji
+
+ifeq ($(ENABLE_FEM),yes)
+LOCAL_C_INCLUDES += \
+	frameworks/base/include
+else
+LOCAL_C_INCLUDES += \
+	external/freetype/include
+endif
 
 ifeq ($(NO_FALLBACK_FONT),true)
 	LOCAL_CFLAGS += -DNO_FALLBACK_FONT
@@ -269,6 +290,58 @@ LOCAL_LDLIBS += -lpthread
 LOCAL_MODULE:= libskiagl
 
 include $(BUILD_SHARED_LIBRARY)
+
+#############################################################
+# Build the font engine manager freetype plugin
+#
+
+ifeq ($(ENABLE_FEM),yes)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE:= libfem_freetype
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_MODULE_PATH := $(TARGET_OUT)/lib/fontengines
+
+# compile in ARM mode, since the glyph loader/renderer is a hotspot
+# when loading complex pages in the browser
+#
+LOCAL_ARM_MODE := arm
+
+LOCAL_SRC_FILES := src/ports/FontEngineFT.cpp
+
+LOCAL_C_INCLUDES += \
+	external/freetype/include \
+	frameworks/base/include
+
+LOCAL_CFLAGS += -W -Wall
+
+ifeq ($(TARGET_BUILD_TYPE),release)
+	LOCAL_CFLAGS += -O2
+endif
+
+ifeq ($(TARGET_OS),linux)
+	LOCAL_LDLIBS += -ldl
+endif
+
+ifneq ($(TARGET_SIMULATOR),true)
+	LOCAL_SHARED_LIBRARIES += libdl
+endif
+
+LOCAL_SHARED_LIBRARIES += \
+	libskia \
+	libcutils \
+	libutils \
+	libz \
+	libdl
+
+LOCAL_STATIC_LIBRARIES += libft2
+
+# Don't prelink
+LOCAL_PRELINK_MODULE := false
+
+include $(BUILD_SHARED_LIBRARY)
+endif
 
 #############################################################
 # Build the skia tools
