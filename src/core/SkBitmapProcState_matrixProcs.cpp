@@ -6,9 +6,9 @@
 #include "SkUtils.h"
 
 /*  returns 0...(n-1) given any x (positive or negative).
-    
+
     As an example, if n (which is always positive) is 5...
- 
+
           x: -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8
     returns:  2  3  4  0  1  2  3  4  0  1  2  3  4  0  1  2  3
  */
@@ -35,6 +35,8 @@ void decal_filter_scale(uint32_t dst[], SkFixed fx, SkFixed dx, int count);
 #define CHECK_FOR_DECAL
 #if	defined(__ARM_HAVE_NEON)
     #include "SkBitmapProcState_matrix_clamp.h"
+#elif defined(__mips__) && __mips_isa_rev>=2
+    #include "SkBitmapProcState_matrix_mips_clamp.h"
 #else
     #include "SkBitmapProcState_matrix.h"
 #endif
@@ -46,6 +48,8 @@ void decal_filter_scale(uint32_t dst[], SkFixed fx, SkFixed dx, int count);
 #define TILEY_LOW_BITS(fy, max) ((((fy) & 0xFFFF) * ((max) + 1) >> 12) & 0xF)
 #if	defined(__ARM_HAVE_NEON)
     #include "SkBitmapProcState_matrix_repeat.h"
+#elif defined(__mips__) && __mips_isa_rev>=2
+    #include "SkBitmapProcState_matrix_mips_repeat.h"
 #else
     #include "SkBitmapProcState_matrix.h"
 #endif
@@ -156,7 +160,36 @@ static SkBitmapProcState::IntTileProc choose_int_tile_proc(unsigned tm) {
 void decal_nofilter_scale(uint32_t dst[], SkFixed fx, SkFixed dx, int count)
 {
     int i;
-
+#if defined( __mips_dsp)
+    register int t1, t2, t3, t4;
+    __asm__ __volatile__ (
+        "addu        %[t1], %[fx], %[dx]          \n\t"         // fx+dx
+        "addu        %[t2], %[dx], %[dx]          \n\t"         //
+        "srl         %[t3], %[count], 1           \n\t"         //
+        "blez        %[t3], 2f                    \n\t"         // check for count <= 0
+        "1:                                       \n\t"
+#ifdef SK_CPU_BENDIAN
+        "precrq.ph.w %[t4], %[fx], %[t1]          \n\t"         // fx || (fx+dx)
+#else
+        "precrq.ph.w %[t4], %[t1], %[fx]          \n\t"         // (fx+dx) || fx
+#endif
+        "sw          %[t4], 0(%[dst])             \n\t"         // store to dst[]
+        "addu        %[fx], %[fx], %[t2]          \n\t"         // fx += 2*dx
+        "addu        %[t1], %[t1], %[t2]          \n\t"         // (fx+dx) += 2*dx
+        "subu        %[t3], %[t3], 1              \n\t"         //
+        "addu        %[dst], %[dst], 4            \n\t"         // dst += 4
+        "bnez        %[t3], 1b                    \n\t"         //
+        "2:                                       \n\t"
+        "and         %[t4], %[count], 1           \n\t"         //
+        "beqz        %[t4], 3f                    \n\t"         //
+        "sra         %[fx], %[fx], 16             \n\t"         //
+        "sh          %[fx], 0(%[dst])             \n\t"         //
+        "3:                                       \n\t"
+        : [t1] "=&r" (t1), [t2] "=&r" (t2), [t3] "=&r" (t3), [t4] "=&r" (t4)
+        : [fx] "r" (fx), [dst] "r" (dst), [count] "r" (count), [dx] "r" (dx)
+        : "memory"
+  );
+#else
 #if	defined(__ARM_HAVE_NEON)
     if (count >= 8) {
         /* SkFixed is 16.16 fixed point */
@@ -217,6 +250,7 @@ void decal_nofilter_scale(uint32_t dst[], SkFixed fx, SkFixed dx, int count)
     for (i = count; i > 0; --i) {
         *xx++ = SkToU16(fx >> 16); fx += dx;
     }
+#endif // __mips_dsp
 }
 
 void decal_filter_scale(uint32_t dst[], SkFixed fx, SkFixed dx, int count)
@@ -258,7 +292,28 @@ void decal_filter_scale(uint32_t dst[], SkFixed fx, SkFixed dx, int count)
         }
     }
 #endif
-
+#if defined ( __mips_dsp)
+    register int t1, t2, t3;
+    __asm__ __volatile__ (
+        "sll    %[t1], %[count], 2        \n\t"         // count*sizeof(int)
+        "blez   %[count], 2f              \n\t"         // check for count <= 0
+        "addu   %[t1], %[dst], %[t1]      \n\t"         // final address of dst
+        "1:                               \n\t"
+        "sra    %[t2], %[fx], 12          \n\t"         //
+        "sll    %[t2], %[t2], 14          \n\t"         //
+        "sra    %[t3], %[fx], 16          \n\t"         //
+        "addu   %[t3], %[t3], 1           \n\t"         //
+        "addu   %[fx], %[fx], %[dx]       \n\t"         // fx += dx
+        "addu   %[dst], %[dst], 4         \n\t"         // dst += 4
+        "or     %[t3], %[t2], %[t3]       \n\t"         //
+        "sw     %[t3], -4(%[dst])         \n\t"         // store to dst[]
+        "bne    %[dst], %[t1], 1b         \n\t"         //
+        "2:                               \n\t"
+        : [t1] "=&r" (t1), [t2] "=&r" (t2), [t3] "=&r" (t3)
+        : [fx] "r" (fx), [dst] "r" (dst), [count] "r" (count), [dx] "r" (dx)
+        : "memory"
+    );
+#else
     if (count & 1)
     {
         SkASSERT((fx >> (16 + 14)) == 0);
@@ -274,6 +329,7 @@ void decal_filter_scale(uint32_t dst[], SkFixed fx, SkFixed dx, int count)
         *dst++ = (fx >> 12 << 14) | ((fx >> 16) + 1);
         fx += dx;
     }
+#endif // __mips_dsp
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -328,13 +384,13 @@ static void clampx_nofilter_trans(const SkBitmapProcState& s,
     SkASSERT((s.fInvType & ~SkMatrix::kTranslate_Mask) == 0);
 
     int xpos = nofilter_trans_preamble(s, &xy, x, y);
-    const int width = s.fBitmap->width();    
+    const int width = s.fBitmap->width();
     if (1 == width) {
         // all of the following X values must be 0
         memset(xy, 0, count * sizeof(uint16_t));
         return;
     }
-    
+
     uint16_t* xptr = reinterpret_cast<uint16_t*>(xy);
     int n;
 
@@ -376,7 +432,7 @@ static void repeatx_nofilter_trans(const SkBitmapProcState& s,
     SkASSERT((s.fInvType & ~SkMatrix::kTranslate_Mask) == 0);
 
     int xpos = nofilter_trans_preamble(s, &xy, x, y);
-    const int width = s.fBitmap->width();    
+    const int width = s.fBitmap->width();
     if (1 == width) {
         // all of the following X values must be 0
         memset(xy, 0, count * sizeof(uint16_t));
@@ -416,7 +472,7 @@ static void mirrorx_nofilter_trans(const SkBitmapProcState& s,
     SkASSERT((s.fInvType & ~SkMatrix::kTranslate_Mask) == 0);
 
     int xpos = nofilter_trans_preamble(s, &xy, x, y);
-    const int width = s.fBitmap->width();    
+    const int width = s.fBitmap->width();
     if (1 == width) {
         // all of the following X values must be 0
         memset(xy, 0, count * sizeof(uint16_t));
@@ -447,7 +503,7 @@ static void mirrorx_nofilter_trans(const SkBitmapProcState& s,
     forward = !forward;
     xptr += n;
     count -= n;
-    
+
     while (count >= width) {
         if (forward) {
             fill_sequential(xptr, 0, width);
@@ -458,7 +514,7 @@ static void mirrorx_nofilter_trans(const SkBitmapProcState& s,
         xptr += width;
         count -= width;
     }
-    
+
     if (count > 0) {
         if (forward) {
             fill_sequential(xptr, 0, count);
@@ -486,7 +542,7 @@ SkBitmapProcState::chooseMatrixProc(bool trivial_matrix) {
                 return mirrorx_nofilter_trans;
         }
     }
-    
+
     int index = 0;
     if (fDoFilter) {
         index = 1;
@@ -496,7 +552,7 @@ SkBitmapProcState::chooseMatrixProc(bool trivial_matrix) {
     } else if (fInvType & SkMatrix::kAffine_Mask) {
         index += 2;
     }
-    
+
     if (SkShader::kClamp_TileMode == fTileModeX &&
         SkShader::kClamp_TileMode == fTileModeY)
     {
@@ -505,17 +561,17 @@ SkBitmapProcState::chooseMatrixProc(bool trivial_matrix) {
         fFilterOneY = SK_Fixed1;
         return ClampX_ClampY_Procs[index];
     }
-    
+
     // all remaining procs use this form for filterOne
     fFilterOneX = SK_Fixed1 / fBitmap->width();
     fFilterOneY = SK_Fixed1 / fBitmap->height();
-    
+
     if (SkShader::kRepeat_TileMode == fTileModeX &&
         SkShader::kRepeat_TileMode == fTileModeY)
     {
         return RepeatX_RepeatY_Procs[index];
     }
-    
+
     fTileProcX = choose_tile_proc(fTileModeX);
     fTileProcY = choose_tile_proc(fTileModeY);
     return GeneralXY_Procs[index];

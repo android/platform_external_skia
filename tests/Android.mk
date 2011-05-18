@@ -16,10 +16,12 @@ LOCAL_SRC_FILES:= \
   DequeTest.cpp \
   DrawBitmapRectTest.cpp \
   FillPathTest.cpp \
+  Filter32_Tests.cpp \
   FlateTest.cpp \
   GeometryTest.cpp \
   InfRectTest.cpp \
   MathTest.cpp \
+  MatrixProcsTest.cpp \
   MatrixTest.cpp \
   MetaDataTest.cpp \
   PackBitsTest.cpp \
@@ -31,6 +33,7 @@ LOCAL_SRC_FILES:= \
   Reader32Test.cpp \
   RefDictTest.cpp \
   RegionTest.cpp \
+  S32_BlitRow_Tests.cpp \
   Sk64Test.cpp \
   SortTest.cpp \
   SrcOverTest.cpp \
@@ -55,7 +58,8 @@ LOCAL_C_INCLUDES := \
         external/skia/include/images \
         external/skia/include/ports \
         external/skia/include/utils \
-        external/skia/src/core
+        external/skia/src/core \
+        external/skia/src/opts
 
 LOCAL_SHARED_LIBRARIES := \
         libskia libcutils

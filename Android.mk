@@ -7,6 +7,8 @@ LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
+ifeq ($(TARGET_ARCH),arm)
+
 LOCAL_ARM_MODE := arm
 
 # need a flag to tell the C side when we're on devices with large memory
@@ -21,6 +23,13 @@ endif
 
 ifeq ($(ARCH_ARM_HAVE_NEON),true)
 	LOCAL_CFLAGS += -D__ARM_HAVE_NEON
+endif
+endif
+
+ifeq ($(TARGET_ARCH),mips)
+ifneq ($(ARCH_MIPS_HAVE_FPU),true)
+	LOCAL_CFLAGS += -DSK_SOFTWARE_FLOAT
+endif
 endif
 
 LOCAL_SRC_FILES:= \
@@ -207,9 +216,15 @@ LOCAL_SRC_FILES += \
 	src/opts/SkBitmapProcState_opts_arm.cpp \
 	src/opts/opts_check_arm.cpp \
 	src/opts/memset.arm.S
-else
+endif
+ifeq ($(TARGET_ARCH),x86)
 LOCAL_SRC_FILES += \
 	src/opts/SkBlitRow_opts_none.cpp \
+	src/opts/SkBitmapProcState_opts_none.cpp
+endif
+ifeq ($(TARGET_ARCH),mips)
+LOCAL_SRC_FILES += \
+	src/opts/SkBlitRow_opts_mips.cpp \
 	src/opts/SkBitmapProcState_opts_none.cpp
 endif
 
