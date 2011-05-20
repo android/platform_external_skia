@@ -1,0 +1,8 @@
+Change-Id: Ib70d56a2d4166c4e577018f34b77c718a435f11b
+Code-Review+2: Christopher Tate <ctate@android.com>
+Verified+1: Jean-Baptiste Queru <jbq@google.com>
+Submitted-by: Jean-Baptiste Queru <jbq@google.com>
+Submitted-at: Fri, 07 Aug 2009 16:49:38 -0700
+Reviewed-on: https://review.source.android.com/11018
+Project: platform/external/skia
+Branch: refs/heads/master

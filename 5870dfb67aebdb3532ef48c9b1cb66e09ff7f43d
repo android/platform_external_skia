@@ -1,0 +1,8 @@
+Change-Id: I5870dfb67aebdb3532ef48c9b1cb66e09ff7f43d
+Code-Review+2: Jean-Baptiste Queru <jbq@google.com>
+Verified+1: Jean-Baptiste Queru <jbq@google.com>
+Submitted-by: Jean-Baptiste Queru <jbq@google.com>
+Submitted-at: Fri, 28 Aug 2009 09:39:40 -0700
+Reviewed-on: https://review.source.android.com/9449
+Project: platform/external/skia
+Branch: refs/heads/master
