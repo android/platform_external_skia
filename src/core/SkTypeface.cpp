@@ -28,14 +28,11 @@ uint32_t SkTypeface::UniqueID(const SkTypeface* face) {
     // be zero.
     static uint32_t gDefaultFontID;
     
-    if (0 == gDefaultFontID) {
-        SkTypeface* defaultFace =
-                SkFontHost::CreateTypeface(NULL, NULL, NULL, 0,
-                                           SkTypeface::kNormal);
-        SkASSERT(defaultFace);
-        gDefaultFontID = defaultFace->uniqueID();
-        defaultFace->unref();
-    }
+    SkTypeface* defaultFace = SkFontHost::CreateTypeface(NULL, NULL, NULL, 0, SkTypeface::kNormal);
+    SkASSERT(defaultFace);
+    gDefaultFontID = defaultFace->uniqueID();
+    defaultFace->unref();
+
     return gDefaultFontID;
 }
 

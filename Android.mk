@@ -204,10 +204,12 @@ LOCAL_SRC_FILES += \
 
 LOCAL_SHARED_LIBRARIES := \
 	libcutils \
-  libemoji \
+	libemoji \
 	libjpeg \
 	libutils \
-	libz
+	libz \
+	libicuuc \
+	libskiafont
 
 LOCAL_STATIC_LIBRARIES := \
 	libft2 \
@@ -222,12 +224,14 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/include/images \
 	$(LOCAL_PATH)/include/utils \
 	$(LOCAL_PATH)/include/xml \
+	$(LOCAL_PATH)/font \
 	external/freetype/include \
 	external/zlib \
 	external/libpng \
 	external/giflib \
 	external/jpeg \
 	external/webp/include \
+	external/icu4c/common \
 	frameworks/opt/emoji
 
 ifeq ($(NO_FALLBACK_FONT),true)
@@ -317,6 +321,21 @@ LOCAL_MODULE:= libskiagpu
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_STATIC_LIBRARY)
+
+#############################################################
+# Build the skia font table library
+#
+include $(CLEAR_VARS)
+
+LOCAL_CFLAG := -Wall
+
+LOCAL_SRC_FILES := font/fontrec.c
+
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE := libskiafont
+LOCAL_PRELINK_MODULE := false
+
+include $(BUILD_SHARED_LIBRARY)
 
 #############################################################
 # Build the skia tools

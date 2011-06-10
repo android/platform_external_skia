@@ -19,6 +19,9 @@
 
 #include "SkScalerContext.h"
 #include "SkTypeface.h"
+#include "SkString.h"
+
+#define SKFONTLIST SkTDArray<SkFontManager::SkFontName*>
 
 class SkDescriptor;
 class SkStream;
@@ -26,6 +29,22 @@ class SkWStream;
 
 typedef uint32_t SkFontID;
 typedef uint32_t SkFontTableTag;
+
+class SkFontManager {
+public:
+    struct SkFontName {
+        SkString    name;             /** alias               */
+        SkString    displayName;      /** font name           */
+    };
+
+    static void getSelectableDefaultFonts(SKFONTLIST* names, SkString* language);
+
+    static void getSelectedDefaultFontName(SkString* name);
+
+    static bool setSelectedDefaultFontName(SkString* name);
+
+    static bool reset();
+};
 
 /** \class SkFontHost
 
@@ -70,6 +89,9 @@ public:
                                       const char familyName[],
                                       const void* data, size_t bytelength,
                                       SkTypeface::Style style);
+
+    static SkTypeface* CreateDefaultTypeface(const char familyName[],
+                                             SkTypeface::Style style);
 
     /** Return a new typeface given the data buffer. If the data does not
         represent a valid font, returns null.
@@ -289,6 +311,10 @@ public:
      * @return the number of font units per em or 0 on error.
      */
     static uint32_t GetUnitsPerEm(SkFontID fontID);
+
+    static bool getDisplayName(SkString*, SkString*, SkString*);
+
+    static void GetFontNameList(SKFONTLIST*, SkString*);
 #endif
 };
 
