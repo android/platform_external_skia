@@ -48,15 +48,15 @@ public:
 
     /** Returns the typeface's intrinsic style attributes
     */
-    Style style() const { return fStyle; }
+    virtual Style style() const { return fStyle; }
 
     /** Returns true if getStyle() has the kBold bit set.
     */
-    bool isBold() const { return (fStyle & kBold) != 0; }
+    virtual bool isBold() const { return (fStyle & kBold) != 0; }
 
     /** Returns true if getStyle() has the kItalic bit set.
     */
-    bool isItalic() const { return (fStyle & kItalic) != 0; }
+    virtual bool isItalic() const { return (fStyle & kItalic) != 0; }
 
     /** Returns true if the typeface is fixed-width
      */
@@ -65,7 +65,7 @@ public:
     /** Return a 32bit value for this typeface, unique for the underlying font
         data. Will never return 0.
      */
-    uint32_t uniqueID() const { return fUniqueID; }
+    virtual uint32_t uniqueID() const { return fUniqueID; }
 
     /** Return the uniqueID for the specified typeface. If the face is null,
         resolve it to the default font and return its uniqueID. Will never

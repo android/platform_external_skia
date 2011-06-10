@@ -207,7 +207,9 @@ LOCAL_SHARED_LIBRARIES := \
   libemoji \
 	libjpeg \
 	libutils \
-	libz
+	libz \
+	libicuuc \
+	libfontrec
 
 LOCAL_STATIC_LIBRARIES := \
 	libft2 \
@@ -228,6 +230,8 @@ LOCAL_C_INCLUDES += \
 	external/giflib \
 	external/jpeg \
 	external/webp/include \
+	external/icu4c/common \
+	external/fontrec \
 	frameworks/opt/emoji
 
 ifeq ($(NO_FALLBACK_FONT),true)

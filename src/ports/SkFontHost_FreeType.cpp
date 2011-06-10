@@ -57,6 +57,11 @@
 #include <freetype/ftsynth.h>
 #endif
 
+#include "freetype/ttnameid.h"
+#include "freetype/ftsnames.h"
+#include "unicode/ucnv.h"       /* C   Converter API          */
+#include "unicode/ustring.h"    /* some more string functions */
+
 //#define ENABLE_GLYPH_SPEW     // for tracing calls
 //#define DUMP_STRIKE_CREATION
 
@@ -71,6 +76,9 @@
 #endif
 
 using namespace skia_advanced_typeface_metrics_utils;
+
+#define SK_ENCODING_SHIFTJIS    "shift_jis"
+#define SK_ENCODING_UTF8        "UTF-8"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -1343,4 +1351,364 @@ SkTypeface::Style find_name_and_attributes(SkStream* stream, SkString* name,
     FT_Done_Face(face);
     FT_Done_FreeType(library);
     return (SkTypeface::Style)style;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+/** 
+ *  skconvert_open_converter()
+ *  
+ *  Converter open.
+ *  
+ *  @param  const char*         (IN) encoding
+ *  @return UConverter*         converter's pointer / NULL is failure.
+ */
+static UConverter* skconvert_open_converter(const char* encoding) {
+    UErrorCode  error = U_ZERO_ERROR;
+    
+    // converter open.
+    UConverter* converter = ucnv_open(encoding, &error);
+    if (U_FAILURE(error)) {
+        converter = NULL;
+    }
+    
+    return converter;
+}
+
+/** 
+ *  skconvert_close_converter()
+ *  
+ *  Converter close.
+ *  
+ *  @param  UConverter*         (IN) converter
+ *  @return -
+ */
+static void skconvert_close_converter(UConverter* converter) {
+    ucnv_close(converter);
+    converter = NULL;
+}
+
+/** 
+ *  skconvert_from_unicode_length()
+ *  
+ *  Get the encoding length.
+ *  
+ *  @param  size_t              (IN) sourceLength
+ *  @param  UConverter*         (IN) converter's pointer
+ *  @return size_t              targetLength
+ */
+static size_t skconvert_from_unicode_length(size_t sourceLength, UConverter* converter) {
+    return (sourceLength * ucnv_getMaxCharSize(converter));
+}
+
+/** 
+ *  skconvert_from_unicode()
+ *  
+ *  Convert from Unicode.
+ *  
+ *  @param  const UChar*        (IN) set_value
+ *  @param  size_t              (IN) sourceLength
+ *  @param  char*               (OUT)ret_value
+ *  @param  size_t              (IN) targetLength
+ *  @param  UConverter*         (IN) converter's pointer
+ *  @return bool                true - OK / false - NG
+ */
+static bool skconvert_from_unicode(const UChar* set_value, size_t sourceLength,
+                                   char* ret_value, size_t targetLength, UConverter* converter) {
+    bool        ret = false;
+    UErrorCode  error = U_ZERO_ERROR;
+
+    // parameter is set.
+    char        *target      = ret_value;
+    const char  *targetLimit = ret_value + targetLength;
+    const UChar *source      = set_value;
+    const UChar *sourceLimit = set_value + sourceLength;
+
+    // convert.
+    ucnv_fromUnicode(converter, &target, targetLimit, &source, sourceLimit, 0, TRUE, &error);
+    if (!U_FAILURE(error)) {
+        ret = true;
+    }
+
+    return ret;
+}
+
+/** 
+ *  skconvert_to_unicode_length()
+ *  
+ *  Get the Unicode length.
+ *  
+ *  @param  size_t              (IN) sourceLength
+ *  @param  UConverter*         (IN) converter's pointer
+ *  @return size_t              targetLength
+ */
+static size_t skconvert_to_unicode_length(size_t sourceLength, UConverter* converter) {
+    return (sourceLength / ucnv_getMinCharSize(converter));
+}
+
+/** 
+ *  skconvert_to_unicode()
+ *  
+ *  Convert to Unicode.
+ *  
+ *  @param  const char*         (IN) set_value
+ *  @param  size_t              (IN) sourceLength
+ *  @param  UChar*              (OUT)ret_value
+ *  @param  size_t              (IN) targetLength
+ *  @param  UConverter*         (IN) converter's pointer
+ *  @return bool                true - OK / false - NG
+ */
+static bool skconvert_to_unicode(const char* set_value, size_t sourceLength,
+                                 UChar* ret_value, size_t targetLength, UConverter* converter) {
+    bool        ret = false;
+    UErrorCode  error = U_ZERO_ERROR;
+
+    // parameter is set.
+    const char  *source      = set_value;
+    const char  *sourceLimit = set_value + sourceLength;
+    UChar       *target      = ret_value;
+    const UChar *targetLimit = ret_value + targetLength;
+
+    // convert.
+    ucnv_toUnicode(converter, &target, targetLimit, &source, sourceLimit, 0, TRUE, &error);
+    if (!U_FAILURE(error)) {
+        ret = true;
+    }
+
+    return ret;
+}
+
+/** 
+ *  skconvert_to_utf8_length()
+ *  
+ *  Get the UTF-8 length.
+ *  
+ *  @param  size_t              (IN) sourceLength
+ *  @param  UConverter*         (IN) converter's pointer
+ *  @return size_t              targetLength / 0 contains the failure of converter opened.
+ */
+static size_t skconvert_to_utf8_length(size_t sourceLength, UConverter* converter) {
+    size_t  bufLength = 0;
+    size_t  targetLength = 0;
+
+    /* get the Unicode length. */
+    bufLength = skconvert_to_unicode_length(sourceLength, converter);
+
+    /* UTF-8 converter open. */
+    UConverter* utf8_converter = skconvert_open_converter(SK_ENCODING_UTF8);
+
+    if (utf8_converter != NULL) {
+        /* get the UTF-8 length. */
+        targetLength = skconvert_from_unicode_length(bufLength, utf8_converter);
+        /* converter close. */
+        skconvert_close_converter(utf8_converter);
+    }
+
+    return targetLength;
+}
+
+/** 
+ *  skconvert_to_utf8()
+ *  
+ *  Convert To UTF-8.
+ *  
+ *  @param  const char*         (IN) source
+ *  @param  size_t              (IN) sourceLength
+ *  @param  char*               (OUT)target
+ *  @param  size_t              (IN) targetLength
+ *  @param  UConverter*         (IN) converter's pointer
+ *  @return bool                true - OK / false - NG
+ */
+static bool skconvert_to_utf8(const char* source, size_t sourceLength,
+                              char* target, size_t targetLength, UConverter* converter) {
+    bool    ret = false;
+
+    /* get the Unicode length. */
+    const size_t    bufLength = skconvert_to_unicode_length(sourceLength, converter);
+
+    UChar   buf[bufLength];
+    /* Convert : encoding -> Unicode */
+    if (skconvert_to_unicode(source, sourceLength, buf, bufLength, converter)) {
+        /* UTF-8 converter open. */
+        UConverter* utf8_converter = skconvert_open_converter(SK_ENCODING_UTF8);
+
+        /* Convert : Unicode -> UTF-8 */
+        if (utf8_converter != NULL) {
+            if (skconvert_from_unicode(buf, bufLength, target, targetLength, utf8_converter)) {
+                ret = true;
+            }
+            /* UTF-8 converter close. */
+            skconvert_close_converter(utf8_converter);
+        }
+    }
+
+    return ret;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+/* key structure */
+struct Namekey {
+    FT_UShort   platform_id;
+    FT_UShort   encoding_id;
+    FT_UShort   language_id;
+    FT_UShort   name_id;
+};
+
+/* key management structure */
+struct KeyManager{
+    const char*     langcode;
+    const Namekey*  const   keytable;
+    size_t          table_size;
+};
+
+/* language : "ja" */
+static const Namekey gKey_Japanese[] = {
+    {TT_PLATFORM_MACINTOSH,     TT_MAC_ID_ROMAN,        TT_MAC_LANGID_JAPANESE,             TT_NAME_ID_FULL_NAME    },
+    {TT_PLATFORM_MACINTOSH,     TT_MAC_ID_ROMAN,        TT_MAC_LANGID_JAPANESE,             TT_NAME_ID_FONT_FAMILY  },
+    {TT_PLATFORM_MACINTOSH,     TT_MAC_ID_ROMAN,        TT_MAC_LANGID_ENGLISH,              TT_NAME_ID_FULL_NAME    },
+    {TT_PLATFORM_MACINTOSH,     TT_MAC_ID_ROMAN,        TT_MAC_LANGID_ENGLISH,              TT_NAME_ID_FONT_FAMILY  }
+};
+
+/* language : "en" */
+static const Namekey gKey_English[] = {
+    {TT_PLATFORM_MACINTOSH,     TT_MAC_ID_ROMAN,        TT_MAC_LANGID_ENGLISH,              TT_NAME_ID_FULL_NAME    },
+    {TT_PLATFORM_MACINTOSH,     TT_MAC_ID_ROMAN,        TT_MAC_LANGID_ENGLISH,              TT_NAME_ID_FONT_FAMILY  }
+};
+
+/* key management table */
+static const KeyManager gKey_manager[] = {
+    /* the head is default. */
+    { "en",     gKey_English,    SK_ARRAY_COUNT(gKey_English) },
+    { "ja",     gKey_Japanese,   SK_ARRAY_COUNT(gKey_Japanese)}
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+/** 
+ *  access_name_table()
+ *  
+ *  Access the names embedded in TrueType and OpenType files.
+ *  set string is UTF-8.
+ *  
+ *  @param  SkString*           (OUT)sfnt name
+ *  @param  FT_Face*            (IN) face
+ *  @param  const Namekey*      (IN) key
+ *  @return -
+ */
+static void access_name_table(SkString* aname, FT_Face* face, const Namekey* key) {
+    /* set is NULL. */
+    aname->set(NULL);
+
+    /* retrieve the number of name strings. */
+    FT_UInt get_name_count;
+    get_name_count = (FT_UInt)FT_Get_Sfnt_Name_Count(*face);
+
+    /* retrieve a string of the font name. */
+    FT_SfntName get_name;
+    for (FT_UInt idx = 0; idx < get_name_count; idx++) {
+        if (FT_Get_Sfnt_Name(*face, idx, &get_name) != 0) {
+            continue;
+        }
+
+        if ((get_name.platform_id == key->platform_id)
+        &&  (get_name.encoding_id == key->encoding_id)
+        &&  (get_name.language_id == key->language_id)
+        &&  (get_name.name_id     == key->name_id    )
+           ) {
+
+            SkString    value;
+            value.set((char*)get_name.string, (size_t)get_name.string_len);
+            value.prepend('\0');
+            size_t      value_len = (size_t)get_name.string_len + 1;
+
+            if (get_name.platform_id == TT_PLATFORM_MACINTOSH) {
+                /* Convert : Shift-JIS -> UTF-8 */
+                /* converter open. */
+                UConverter* converter = skconvert_open_converter(SK_ENCODING_SHIFTJIS);
+                if (converter == NULL) {
+                    /* failed. */
+                    break;
+                }
+
+                /* get the targetLength. */
+                const size_t    bufLength = skconvert_to_utf8_length(value_len, converter);
+                if (bufLength == 0) {
+                    /* failed. */
+                    skconvert_close_converter(converter);
+                    break;
+                }
+
+                /* convert. */
+                bool    result = false;
+                char    buf[bufLength];
+                result = skconvert_to_utf8(value.c_str(), value_len, buf, bufLength, converter);
+
+                /* converter close. */
+                skconvert_close_converter(converter);
+
+                if (result) {
+                    /* success. */
+                    aname->set(buf);
+                }
+                break;
+            }
+        }
+    }
+
+}
+
+/** 
+ *  getDisplayName()
+ *  
+ *  Get the font display name.
+ *  
+ *  @param  SkString*           (OUT)display name
+ *  @param  SkString*           (IN) language
+ *  @param  SkString*           (IN) files fullpath
+ *  @return bool                true - OK / false - NG
+ */
+bool SkFontHost::getDisplayName(SkString* dispname, SkString* language, SkString* fullpath) {
+    bool    ret = false;
+
+    if ((dispname != NULL) && (fullpath != NULL)) {
+        dispname->set(NULL);
+
+        /* the table used is set. */
+        const KeyManager* rec = &gKey_manager[0];
+        if (language != NULL) {
+            for (size_t i = 0; i < SK_ARRAY_COUNT(gKey_manager); i++) {
+                if (language->equals(gKey_manager[i].langcode)) {
+                    rec = &gKey_manager[i];
+                    break;
+                }
+            }
+        }
+
+        FT_Library  library;
+        /* library is opened. */
+        if (FT_Init_FreeType(&library) == 0) {
+            FT_Face face;
+            FT_Long face_index = 0;
+            /* face is opened. */
+            if (!FT_New_Face(library, (const char*)fullpath->c_str(), face_index, &face)) {
+                for (size_t i = 0; i < rec->table_size; i++) {
+                    /* get name. */
+                    access_name_table(dispname, &face, (const Namekey*)((rec->keytable) + i));
+                    if (!dispname->isEmpty()) {
+                        /* success. */
+                        break;
+                    }
+                }
+                ret = true;
+
+                /* face is closed. */
+                FT_Done_Face(face);
+            }
+            /* library is closed. */
+            FT_Done_FreeType(library);
+        }
+    }
+
+    return ret;
 }

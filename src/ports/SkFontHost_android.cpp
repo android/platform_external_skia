@@ -24,19 +24,21 @@
 #include "SkThread.h"
 #include "SkTSearch.h"
 #include <stdio.h>
+#include "../../system/core/include/cutils/properties.h"
+#include "fontrec.h"
 
 #define FONT_CACHE_MEMORY_BUDGET    (768 * 1024)
 
-#ifndef SK_FONT_FILE_PREFIX
-    #define SK_FONT_FILE_PREFIX          "/fonts/"
-#endif
+#define SK_ANDROID_DEFAULT_FONT_SYSTEM_PROPERTY "persist.sys.font.dfont"
+
+#define DEFAULT_FALLBACK_NO 0
 
 SkTypeface::Style find_name_and_attributes(SkStream* stream, SkString* name,
                                            bool* isFixedWidth);
 
+static SkTypeface* gDefaultFont[4] = { NULL };
+
 static void GetFullPathForSysFonts(SkString* full, const char name[]) {
-    full->set(getenv("ANDROID_ROOT"));
-    full->append(SK_FONT_FILE_PREFIX);
     full->append(name);
 }
 
@@ -75,9 +77,12 @@ static SkTDArray<NameFamilyPair> gNameList;
 struct FamilyRec {
     FamilyRec*  fNext;
     SkTypeface* fFaces[4];
+    int fUseFallbackFontsEx;
 
-    FamilyRec()
+    FamilyRec(const int useFallbackFontsEx)
     {
+        fUseFallbackFontsEx = useFallbackFontsEx;
+
         fNext = gFamilyHead;
         memset(fFaces, 0, sizeof(fFaces));
         gFamilyHead = this;
@@ -116,6 +121,28 @@ static FamilyRec* find_family(const SkTypeface* member) {
     while (curr != NULL) {
         for (int i = 0; i < 4; i++) {
             if (curr->fFaces[i] == member) {
+                return curr;
+            }
+        }
+        curr = curr->fNext;
+    }
+    return NULL;
+}
+
+/**
+ *  setSelectedDefaultFontName()
+ *
+ *  Returns the matching FamilyRec, or NULL.
+ *
+ *  @param  uint32_t        (IN) uniqueID
+ *  @return FamilyRec*      matching FamilyRec, or NULL
+ */
+static FamilyRec* find_family_from_uniqueID(uint32_t uniqueID) {
+    FamilyRec* curr = gFamilyHead;
+    while (curr != NULL) {
+        for (int i = 0; i < 4; i++) {
+            SkTypeface* face = curr->fFaces[i];
+            if (face != NULL && face->uniqueID() == uniqueID) {
                 return curr;
             }
         }
@@ -234,12 +261,32 @@ static void remove_from_names(FamilyRec* emptyFamily)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class FamilyTypeface : public SkTypeface {
+class SkTypefaceEx : public SkTypeface {
+public:
+    SkTypefaceEx(Style style, uint32_t uniqueID, bool sysFont,
+                   bool isFixedWidth)
+    : SkTypeface(style, uniqueID, isFixedWidth) {
+        fIsSysFont = sysFont;
+    }
+
+    bool isSysFont() const { return fIsSysFont; }
+
+    virtual SkStream* openStream() = 0;
+    virtual const char* getUniqueString() const = 0;
+    virtual const char* getFilePath() const = 0;
+
+private:
+    bool    fIsSysFont;
+
+    typedef SkTypeface INHERITED;
+};
+
+class FamilyTypeface : public SkTypefaceEx {
 public:
     FamilyTypeface(Style style, bool sysFont, SkTypeface* familyMember,
-                   bool isFixedWidth)
-    : SkTypeface(style, sk_atomic_inc(&gUniqueFontID) + 1, isFixedWidth) {
-        fIsSysFont = sysFont;
+         bool isFixedWidth, const int useFallbackFontsEx
+         )
+    : SkTypefaceEx(style, sk_atomic_inc(&gUniqueFontID) + 1, sysFont, isFixedWidth) {
 
         SkAutoMutexAcquire  ac(gFamilyMutex);
 
@@ -248,7 +295,7 @@ public:
             rec = find_family(familyMember);
             SkASSERT(rec);
         } else {
-            rec = SkNEW(FamilyRec);
+            rec = SkNEW(FamilyRec(useFallbackFontsEx));
         }
         rec->fFaces[style] = this;
     }
@@ -264,17 +311,6 @@ public:
             detach_and_delete_family(family);
         }
     }
-
-    bool isSysFont() const { return fIsSysFont; }
-
-    virtual SkStream* openStream() = 0;
-    virtual const char* getUniqueString() const = 0;
-    virtual const char* getFilePath() const = 0;
-
-private:
-    bool    fIsSysFont;
-
-    typedef SkTypeface INHERITED;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -283,7 +319,7 @@ class StreamTypeface : public FamilyTypeface {
 public:
     StreamTypeface(Style style, bool sysFont, SkTypeface* familyMember,
                    SkStream* stream, bool isFixedWidth)
-    : INHERITED(style, sysFont, familyMember, isFixedWidth) {
+    : INHERITED(style, sysFont, familyMember, DEFAULT_FALLBACK_NO, isFixedWidth) {
         SkASSERT(stream);
         stream->ref();
         fStream = stream;
@@ -313,8 +349,8 @@ private:
 class FileTypeface : public FamilyTypeface {
 public:
     FileTypeface(Style style, bool sysFont, SkTypeface* familyMember,
-                 const char path[], bool isFixedWidth)
-    : INHERITED(style, sysFont, familyMember, isFixedWidth) {
+                 const char path[], bool isFixedWidth, const int useFallbackFontsEx)
+    : INHERITED(style, sysFont, familyMember, isFixedWidth, useFallbackFontsEx) {
         SkString fullpath;
 
         if (sysFont) {
@@ -358,6 +394,73 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+
+class SkDefaultTypeface : public SkTypefaceEx {
+private:
+    /** 
+     *  @return SkTypeface of the default font.
+     */
+    SkTypeface* createTargetTypeface() const {
+        SkString name;
+        SkFontManager::getSelectedDefaultFontName(&name);
+
+        return SkFontHost::CreateDefaultTypeface(name.c_str(), SkTypeface::style());
+    }
+
+public:
+    /** 
+     *  constructor
+     */
+    SkDefaultTypeface(Style style)
+    : SkTypefaceEx(style, 0, true, true) { } // Yasu!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
+    /** 
+     *  destructor
+     */
+    ~SkDefaultTypeface() {
+        if (gDefaultFont[SkTypeface::style()] == this) {
+            gDefaultFont[SkTypeface::style()] = NULL;
+        }
+    }
+
+    /** 
+     *  @return font style
+     */
+    Style style() const {
+        const SkTypeface* tf = createTargetTypeface();
+        return tf->style();
+    }
+
+    /** 
+     *  @return true - style is Bold / false - style is not Bold
+     */
+    bool isBold() const {
+        SkTypeface* tf = createTargetTypeface();
+        return tf->isBold();
+    }
+    
+    /** 
+     *  @return true - style is Italic / false - style is not Italic
+     */
+    bool isItalic() const {
+        SkTypeface* tf = createTargetTypeface();
+        return tf->isItalic();
+    }
+
+    /** 
+     *  @return fontID
+     */
+    uint32_t uniqueID() const {
+        SkTypeface* tf = createTargetTypeface();
+        return tf->uniqueID();
+    }
+
+    virtual SkStream* openStream() { return NULL; }
+    virtual const char* getUniqueString() const { return NULL; }
+    virtual const char* getFilePath() const { return NULL; }
+};
+
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 static bool get_name_and_style(const char path[], SkString* name,
@@ -385,67 +488,13 @@ static bool get_name_and_style(const char path[], SkString* name,
     return false;
 }
 
-// used to record our notion of the pre-existing fonts
-struct FontInitRec {
-    const char*         fFileName;
-    const char* const*  fNames;     // null-terminated list
-};
-
-static const char* gSansNames[] = {
-    "sans-serif", "arial", "helvetica", "tahoma", "verdana", NULL
-};
-
-static const char* gSerifNames[] = {
-    "serif", "times", "times new roman", "palatino", "georgia", "baskerville",
-    "goudy", "fantasy", "cursive", "ITC Stone Serif", NULL
-};
-
-static const char* gMonoNames[] = {
-    "monospace", "courier", "courier new", "monaco", NULL
-};
-
-// deliberately empty, but we use the address to identify fallback fonts
-static const char* gFBNames[] = { NULL };
-
-/*  Fonts must be grouped by family, with the first font in a family having the
-    list of names (even if that list is empty), and the following members having
-    null for the list. The names list must be NULL-terminated
-*/
-static const FontInitRec gSystemFonts[] = {
-    { "DroidSans.ttf",              gSansNames  },
-    { "DroidSans-Bold.ttf",         NULL        },
-    { "DroidSerif-Regular.ttf",     gSerifNames },
-    { "DroidSerif-Bold.ttf",        NULL        },
-    { "DroidSerif-Italic.ttf",      NULL        },
-    { "DroidSerif-BoldItalic.ttf",  NULL        },
-    { "DroidSansMono.ttf",          gMonoNames  },
-    /*  These are optional, and can be ignored if not found in the file system.
-        These are appended to gFallbackFonts[] as they are seen, so we list
-        them in the order we want them to be accessed by NextLogicalFont().
-     */
-    { "DroidSansArabic.ttf",        gFBNames    },
-    { "DroidSansHebrew.ttf",        gFBNames    },
-    { "DroidSansThai.ttf",          gFBNames    },
-    { "MTLmr3m.ttf",                gFBNames    }, // Motoya Japanese Font
-    { "MTLc3m.ttf",                 gFBNames    }, // Motoya Japanese Font
-    { "DroidSansJapanese.ttf",      gFBNames    },
-    { "DroidSansFallback.ttf",      gFBNames    }
-};
-
 #define DEFAULT_NAMES   gSansNames
 
 // these globals are assigned (once) by load_system_fonts()
 static FamilyRec* gDefaultFamily;
 static SkTypeface* gDefaultNormal;
 
-/*  This is sized conservatively, assuming that it will never be a size issue.
-    It will be initialized in load_system_fonts(), and will be filled with the
-    fontIDs that can be used for fallback consideration, in sorted order (sorted
-    meaning element[0] should be used first, then element[1], etc. When we hit
-    a fontID==0 in the array, the list is done, hence our allocation size is
-    +1 the total number of possible system fonts. Also see NextLogicalFont().
- */
-static uint32_t gFallbackFonts[SK_ARRAY_COUNT(gSystemFonts)+1];
+static FallbackIdArray* gFallbackFonts;
 
 /*  Called once (ensured by the sentinel check at the beginning of our body).
     Initializes all the globals, and register the system fonts.
@@ -456,11 +505,16 @@ static void load_system_fonts() {
         return;
     }
 
-    const FontInitRec* rec = gSystemFonts;
-    SkTypeface* firstInFamily = NULL;
-    int fallbackCount = 0;
+    gFallbackFonts = getFallBackFonts();
 
-    for (size_t i = 0; i < SK_ARRAY_COUNT(gSystemFonts); i++) {
+    const FontInitRec* rec = getFontInitRec();
+    SkTypeface* firstInFamily = NULL;
+    int fallbackCount[INIT_REC_COUNT];
+    for (unsigned int i = 0; i < INIT_REC_COUNT; i++) {
+        fallbackCount[i] = 0;
+    }
+
+    for (size_t i = 0; i < INIT_REC_COUNT; i++) {
         // if we're the first in a new family, clear firstInFamily
         if (rec[i].fNames != NULL) {
             firstInFamily = NULL;
@@ -482,7 +536,8 @@ static void load_system_fonts() {
                                      true,  // system-font (cannot delete)
                                      firstInFamily, // what family to join
                                      rec[i].fFileName,
-                                     isFixedWidth) // filename
+                                     isFixedWidth, // filename
+                                     rec[i].fUseFallbackFontsEx) // use fallback fonts ex
                                     );
 
         if (rec[i].fNames != NULL) {
@@ -490,7 +545,8 @@ static void load_system_fonts() {
             if (rec[i].fNames == gFBNames) {
             //    SkDebugf("---- adding %s as fallback[%d] fontID %d\n",
             //             rec[i].fFileName, fallbackCount, tf->uniqueID());
-                gFallbackFonts[fallbackCount++] = tf->uniqueID();
+                gFallbackFonts[rec[i].fUseFallbackFontsEx][fallbackCount[rec[i].fUseFallbackFontsEx]++] = tf->uniqueID();
+                gFallbackFonts[rec[i].fUseFallbackFontsEx][fallbackCount[rec[i].fUseFallbackFontsEx]] = 0;
             }
 
             firstInFamily = tf;
@@ -513,13 +569,13 @@ static void load_system_fonts() {
     // acts as a sentinel so we only execute load_system_fonts() once
     gDefaultNormal = find_best_face(gDefaultFamily, SkTypeface::kNormal);
     // now terminate our fallback list with the sentinel value
-    gFallbackFonts[fallbackCount] = 0;
+//    gFallbackFonts[fallbackCount] = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void SkFontHost::Serialize(const SkTypeface* face, SkWStream* stream) {
-    const char* name = ((FamilyTypeface*)face)->getUniqueString();
+    const char* name = ((SkTypefaceEx*)face)->getUniqueString();
 
     stream->write8((uint8_t)face->style());
 
@@ -545,9 +601,17 @@ SkTypeface* SkFontHost::Deserialize(SkStream* stream) {
         str.resize(len);
         stream->read(str.writable_str(), len);
 
-        const FontInitRec* rec = gSystemFonts;
-        for (size_t i = 0; i < SK_ARRAY_COUNT(gSystemFonts); i++) {
-            if (strcmp(rec[i].fFileName, str.c_str()) == 0) {
+        const FontInitRec* rec = getFontInitRec();
+        const char* fn;
+
+        for (size_t i = 0; i < INIT_REC_COUNT; i++) {
+            fn = strrchr(rec[i].fFileName, '/');
+            if (fn) {
+                fn += 1;   // skip the '/'
+            } else {
+                fn = rec[i].fFileName;
+            }
+            if (strcmp(fn, str.c_str()) == 0) {
                 // backup until we hit the fNames
                 for (int j = i; j >= 0; --j) {
                     if (rec[j].fNames != NULL) {
@@ -558,7 +622,7 @@ SkTypeface* SkFontHost::Deserialize(SkStream* stream) {
             }
         }
     }
-    return NULL;
+    return SkFontHost::CreateTypeface(NULL, NULL, NULL, 0, (SkTypeface::Style)style);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -584,7 +648,12 @@ SkTypeface* SkFontHost::CreateTypeface(const SkTypeface* familyFace,
     }
 
     if (NULL == tf) {
-        tf = find_best_face(gDefaultFamily, style);
+        if (gDefaultFont[style] == NULL) {
+            tf = SkNEW_ARGS(SkDefaultTypeface, (style));
+            gDefaultFont[style] = tf;
+        } else {
+            tf = gDefaultFont[style];
+        }
     }
 
     // we ref(), since the symantic is to return a new instance
@@ -601,7 +670,7 @@ bool SkFontHost::ValidFontID(uint32_t fontID) {
 SkStream* SkFontHost::OpenStream(uint32_t fontID) {
     SkAutoMutexAcquire  ac(gFamilyMutex);
 
-    FamilyTypeface* tf = (FamilyTypeface*)find_from_uniqueID(fontID);
+    SkTypefaceEx* tf = (SkTypefaceEx*)find_from_uniqueID(fontID);
     SkStream* stream = tf ? tf->openStream() : NULL;
 
     if (stream && stream->getLength() == 0) {
@@ -615,7 +684,7 @@ size_t SkFontHost::GetFileName(SkFontID fontID, char path[], size_t length,
                                int32_t* index) {
     SkAutoMutexAcquire  ac(gFamilyMutex);
 
-    FamilyTypeface* tf = (FamilyTypeface*)find_from_uniqueID(fontID);
+    SkTypefaceEx* tf = (SkTypefaceEx*)find_from_uniqueID(fontID);
     const char* src = tf ? tf->getFilePath() : NULL;
 
     if (src) {
@@ -640,13 +709,25 @@ uint32_t SkFontHost::NextLogicalFont(uint32_t fontID) {
         in our list. Note: list is zero-terminated, and returning zero means
         we have no more fonts to use for fallbacks.
      */
-    const uint32_t* list = gFallbackFonts;
+    uint32_t nextLogicalFontID = gFallbackFonts[0][0];
+    uint32_t* list = gFallbackFonts[0];
+
+    FamilyRec* family = find_family_from_uniqueID(fontID);
+
+    if (family != NULL) {
+        nextLogicalFontID = gFallbackFonts[family->fUseFallbackFontsEx][0];
+        list = gFallbackFonts[family->fUseFallbackFontsEx];
+    }
+
     for (int i = 0; list[i] != 0; i++) {
         if (list[i] == fontID) {
-            return list[i+1];
+            nextLogicalFontID = list[i+1];
         }
     }
-    return list[0];
+
+//    SkDebugf("--- fonthost NextLogicalFont fontID = %d nextLogicalFontID = %d\n", fontID, nextLogicalFontID);
+
+    return nextLogicalFontID;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -684,3 +765,163 @@ size_t SkFontHost::ShouldPurgeFontCache(size_t sizeAllocatedSoFar) {
         return 0;   // nothing to do
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+/** 
+ *  CreateDefaultTypeface()
+ *  
+ *  SkTypeface set to default is acquired.
+ *  
+ *  @param  const char*     (IN) default familyname
+ *  @param  style           (IN) font style
+ *  @return SkTypeface*     default SkTypeface pointer
+ */
+SkTypeface* SkFontHost::CreateDefaultTypeface(const char familyName[],
+                                              SkTypeface::Style style) {
+    load_system_fonts();
+
+    SkAutoMutexAcquire  ac(gFamilyMutex);
+
+    // clip to legal style bits
+    style = (SkTypeface::Style)(style & SkTypeface::kBoldItalic);
+
+    SkTypeface* tf = NULL;
+
+    if (NULL != familyName) {
+        tf = find_typeface(familyName, style);
+    }
+
+    if (NULL == tf) {
+        tf = find_best_face(gDefaultFamily, style);
+    }
+
+    return tf;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+/** 
+ *  GetFontNameList()
+ *  
+ *  The font name and the alias that can be used as a default font are acquired.
+ *  
+ *  @param  SKFONTLIST*     (OUT)font name list
+ *  @param  SkString*       (IN) language code
+ *  @return -
+ */
+void SkFontHost::GetFontNameList(SKFONTLIST* names, SkString* language) {
+    if (names != NULL) {
+        const FontInitRec* rec = getFontInitRec();
+        for (size_t i = 0; i < INIT_REC_COUNT; i++) {
+            /* sub font files and fallback font files are off the subject. */
+            if ((rec[i].fNames == NULL)
+            ||  (rec[i].fNames == gFBNames)
+            ||  (rec[i].fHide  == true)) {
+                continue;
+            }
+
+            /* full path of font file. */
+            SkString fullpath;
+            GetFullPathForSysFonts(&fullpath, rec[i].fFileName);
+
+            SkFontManager::SkFontName* fontname = SkNEW(SkFontManager::SkFontName);
+
+            fontname->displayName.set(NULL);
+            if (SkFontHost::getDisplayName(&(fontname->displayName), language, &fullpath)) {
+                fontname->name.set(rec[i].fNames[0]);
+                /* font name is not set. */
+                if (fontname->displayName.isEmpty()) {
+                    /* alias is set. */
+                    fontname->displayName.set(fontname->name.c_str());
+                }
+                names->append(1, &fontname);
+            }
+            else {
+                SkDELETE(fontname);
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+/** 
+ *  getSelectableDefaultFonts()
+ *  
+ *  Get the selectable fonts infomation.
+ *  
+ *  @param  SKFONTLIST*     (OUT)font name list
+ *  @param  SkString*       (IN) language
+ *  @return -
+ */
+void SkFontManager::getSelectableDefaultFonts(SKFONTLIST* names, SkString* language) {
+    if (names != NULL) {
+        SkFontHost::GetFontNameList(names, language);
+    }
+}
+
+/** 
+ *  getSelectedDefaultFontName()
+ *  
+ *  Get the selected font name.
+ *  
+ *  @param  SkString*       (OUT)default font name
+ *  @return -
+ */
+void SkFontManager::getSelectedDefaultFontName(SkString* name) {
+    if (name != NULL) {
+        char c_name[PROPERTY_VALUE_MAX];
+        property_get(SK_ANDROID_DEFAULT_FONT_SYSTEM_PROPERTY, c_name, "");
+
+        if (!strcmp(c_name, "")) {
+            strcpy(c_name, DEFAULT_NAMES[0]);
+        }
+        name->set(c_name);
+    }
+}
+
+/** 
+ *  setSelectedDefaultFontName()
+ *  
+ *  Set the selected font name.
+ *  
+ *  @param  SkString*       (IN) name
+ *  @return bool            true - OK / false - NG
+ */
+bool SkFontManager::setSelectedDefaultFontName(SkString* name) {
+    bool ret = false;
+    
+    if (name != NULL) {
+        SKFONTLIST names;
+        SkFontHost::GetFontNameList(&names, NULL);
+
+        SkFontManager::SkFontName** list = names.begin();
+        int count = names.count();
+
+        for (int i = 0; i < count; i++) {
+            if (list[i]->name.equals(name->c_str())) {
+                ret = !(static_cast<bool>(property_set(SK_ANDROID_DEFAULT_FONT_SYSTEM_PROPERTY, name->c_str())));
+                break;
+            }
+        }
+        names.deleteAll();
+        list = NULL;
+    }
+
+    return ret;
+}
+
+/** 
+ *  reset()
+ *
+ *  Reset.
+ *  
+ *  @param  -
+ *  @return bool            true - OK / false - NG
+ */
+bool SkFontManager::reset() {
+    bool ret = false;
+    ret = !(static_cast<bool>(property_set(SK_ANDROID_DEFAULT_FONT_SYSTEM_PROPERTY, "")));
+
+    return ret;
+}
