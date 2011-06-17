@@ -34,6 +34,23 @@
       "revId": "77af27d7ab1f35bc5606d7efb0af1d7f5bc11ab2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///+c\u003d",
+        "filename": "src/ports/SkFontHost_FreeType.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004338
+      },
+      "writtenOn": "2011-06-17T04:04:30Z",
+      "side": 1,
+      "message": "This file should be as generic as possible.  There should not be language specific logic.",
+      "revId": "77af27d7ab1f35bc5606d7efb0af1d7f5bc11ab2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
