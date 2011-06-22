@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX///GA\u003d",
+        "filename": "src/images/SkImageDecoder_libwebp.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1006719
+      },
+      "writtenOn": "2011-06-22T19:14:12Z",
+      "side": 1,
+      "message": "is stream-\u003ewrite() ok when data_size is 0? (this can happen)",
+      "revId": "a059123d8eb75302b13a7fd831478413d124d618",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
