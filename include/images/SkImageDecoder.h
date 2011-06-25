@@ -46,8 +46,8 @@ public:
         kJPEG_Format,
         kPNG_Format,
         kWBMP_Format,
-
-        kLastKnownFormat = kWBMP_Format
+        KWEBP_Format,
+        kLastKnownFormat = KWEBP_Format
     };
 
     /** Contains the image format name.
