@@ -12,7 +12,7 @@ public:
     double endCpu();
     double endWall();
 private:
-    clock_t start_cpu;
+    clock_t fStartCpu;
     time_t fStartWall;
 };
 
