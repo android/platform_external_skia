@@ -10,6 +10,12 @@
 #include "SkBitmapProcState.h"
 #include "SkColorPriv.h"
 #include "SkUtils.h"
+#include "SkShader.h"
+
+#if defined(__ARM_HAVE_NEON)
+#include "SkBitmapProcState_filter.h"
+#endif
+
 
 #if __ARM_ARCH__ >= 6 && !defined(SK_CPU_BENDIAN)
 void SI8_D16_nofilter_DX_arm(
@@ -184,6 +190,177 @@ void SI8_opaque_D32_nofilter_DX_arm(const SkBitmapProcState& s,
 }
 #endif //__ARM_ARCH__ >= 6 && !defined(SK_CPU_BENDIAN)
 
+
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+void Clamp_S32_opaque_D32_filter_DX_shaderproc(const SkBitmapProcState& s, int x, int y,
+                                               SkPMColor* SK_RESTRICT colors, int count) {
+    SkASSERT((s.fInvType & ~(SkMatrix::kTranslate_Mask |
+                             SkMatrix::kScale_Mask)) == 0);
+    SkASSERT(s.fInvKy == 0);
+    SkASSERT(count > 0 && colors != NULL);
+    SkASSERT(s.fDoFilter);
+    SkDEBUGCODE(SkASSERT(s.fBitmap->config() == SkBitmap::kARGB_8888_Config); SkASSERT(s.fAlphaScale == 256);)
+
+    const unsigned maxX = s.fBitmap->width() - 1;
+    const SkFixed oneX = s.fFilterOneX;
+    const SkFixed dx = s.fInvSx;
+    SkFixed fx;
+    const SkPMColor* SK_RESTRICT row0;
+    const SkPMColor* SK_RESTRICT row1;
+    unsigned subY;
+
+    {
+        SkPoint pt;
+        s.fInvProc(*s.fInvMatrix, SkIntToScalar(x) + SK_ScalarHalf,
+                   SkIntToScalar(y) + SK_ScalarHalf, &pt);
+        SkFixed fy = SkScalarToFixed(pt.fY) - (s.fFilterOneY >> 1);
+        const unsigned maxY = s.fBitmap->height() - 1;
+        // compute our two Y values up front
+        subY = (((fy) >> 12) & 0xF);
+        int y0 = SkClampMax((fy) >> 16, maxY);
+        int y1 = SkClampMax((fy + s.fFilterOneY) >> 16, maxY);
+
+        const char* SK_RESTRICT srcAddr = (const char*)s.fBitmap->getPixels();
+        unsigned rb = s.fBitmap->rowBytes();
+        row0 = (const SkPMColor*)(srcAddr + y0 * rb);
+        row1 = (const SkPMColor*)(srcAddr + y1 * rb);
+        // now initialize fx
+        fx = SkScalarToFixed(pt.fX) - (oneX >> 1);
+    }
+
+    do {
+        // Check if we can do the next four pixels using ARM NEON asm
+        if ((count >= 4) &&
+            (((dx >= 0) && (fx >= 0) && (((fx + 3 * dx) >> 16) < (const signed)maxX)) ||
+             ((dx < 0) && ((fx >> 16) < (const signed)maxX) && (((fx + 3 * dx) >> 16) >= 0)))) {
+            int asm_count;
+
+            // How many iterations can we do while still clamped?
+            if (dx >= 0) {
+                asm_count = (((((const signed)maxX - 1) << 16) - fx) / dx) >> 2;
+            } else {
+                asm_count = ((0 - fx) / dx) >> 2;
+            }
+
+            if (asm_count <= 0) {
+                asm_count = 1;
+            } else if ((asm_count << 2) > count) {
+                asm_count = count >> 2;
+            }
+
+            count -= asm_count << 2;
+
+            // We know that oneX is 1.0 since we are running clamped.
+            // This means that we can load both x0 and x1 pixels in one go.
+            asm volatile (
+                // Setup constants
+                "rsb            r8, %[subY], #16                \n\t"   // 16 - subY
+                "vdup.8         d30, %[subY]                    \n\t"   // Create constant for subY
+                "vdup.8         d31, r8                         \n\t"   // Create constant for 16 - subY
+                "vmov.u16       d29, #16                        \n\t"   // Create constant for 16
+                "1:                                             \n\t"   // Loop start
+                // Pre-load pixel #1
+                "asr            r7, %[fx], #16                  \n\t"   // Calculate offset fx >> 16
+                "lsl            r7, r7, #2                      \n\t"   // Adjust offset for 32-bit RGBA values
+                "add            r8, %[row0], r7                 \n\t"   // Calculate address for row0
+                "vld1.32        {d0}, [r8]                      \n\t"   // Load two RGBA pixels from row0
+                "add            r7, %[row1], r7                 \n\t"   // Calculate address for row1
+                "vld1.32        {d1}, [r7]                      \n\t"   // Load two RGBA pixels from row1
+                "subs           %[cnt], %[cnt], #1              \n\t"   // Decrement loop counter
+                // Calculate pixel #1 and pre-load #2
+                "lsr            r8, %[fx], #12                  \n\t"   // Calculate subX = ((fx >> 12) & 0xF)
+                "and            r8, r8, #0xF                    \n\t"   //
+                "add            %[fx], %[fx], %[dx]             \n\t"   // Move fx to next position
+                "vdup.16        d28, r8                         \n\t"   // subX
+                "vmull.u8       q1, d0, d31                     \n\t"   // q1 = [a00|a01] * (16 - y)
+                "vmull.u8       q2, d1, d30                     \n\t"   // q2 = [a10|a11] * y
+                "asr            r7, %[fx], #16                  \n\t"   // Calculate offset fx >> 16
+                "lsl            r7, r7, #2                      \n\t"   // Adjust offset for 32-bit RGBA values
+                "add            r8, %[row0], r7                 \n\t"   // Calculate next address for row0
+                "add            r7, %[row1], r7                 \n\t"   // Calculate next address for row1
+                "vld1.32        {d0}, [r8]                      \n\t"   // Load next two RGBA pixels from row0
+                "vmul.i16       d16, d3, d28                    \n\t"   // d16  = a01 * x
+                "vmla.i16       d16, d5, d28                    \n\t"   // d16 += a11 * x
+                "vld1.32        {d1}, [r7]                      \n\t"   // Load next two RGBA pixels from row1
+                "vsub.i16       d27, d29, d28                   \n\t"   // 16 - subX
+                "vmla.i16       d16, d2, d27                    \n\t"   // d16 += a00 * (16 - x)
+                "vmla.i16       d16, d4, d27                    \n\t"   // d16 += a10 * (16 - x)
+                // Calculate pixel #2 and pre-load #3
+                "lsr            r8, %[fx], #12                  \n\t"   // Calculate subX = ((fx >> 12) & 0xF)
+                "and            r8, r8, #0xF                    \n\t"   //
+                "add            %[fx], %[fx], %[dx]             \n\t"   // Move fx to next position
+                "vdup.16        d28, r8                         \n\t"   // subX
+                "vmull.u8       q1, d0, d31                     \n\t"   // q1 = [a00|a01] * (16 - y)
+                "vmull.u8       q2, d1, d30                     \n\t"   // q2 = [a10|a11] * y
+                "asr            r7, %[fx], #16                  \n\t"   // Calculate offset fx >> 16
+                "lsl            r7, r7, #2                      \n\t"   // Adjust offset for 32-bit RGBA values
+                "add            r8, %[row0], r7                 \n\t"   // Calculate next address for row0
+                "add            r7, %[row1], r7                 \n\t"   // Calculate next address for row1
+                "vld1.32        {d0}, [r8]                      \n\t"   // Load next two RGBA pixels from row0
+                "vmul.i16       d17, d3, d28                    \n\t"   // d17  = a01 * x
+                "vmla.i16       d17, d5, d28                    \n\t"   // d17 += a11 * x
+                "vld1.32        {d1}, [r7]                      \n\t"   // Load next two RGBA pixels from row1
+                "vsub.i16       d27, d29, d28                   \n\t"   // 16 - subX
+                "vmla.i16       d17, d2, d27                    \n\t"   // d17 += a00 * (16 - x)
+                "vmla.i16       d17, d4, d27                    \n\t"   // d17 += a10 * (16 - x)
+                // Calculate pixel #3 and pre-load #4
+                "lsr            r8, %[fx], #12                  \n\t"   // Calculate subX = ((fx >> 12) & 0xF)
+                "and            r8, r8, #0xF                    \n\t"   //
+                "add            %[fx], %[fx], %[dx]             \n\t"   // Move fx to next position
+                "vdup.16        d28, r8                         \n\t"   // subX
+                "vmull.u8       q1, d0, d31                     \n\t"   // q1 = [a00|a01] * (16 - y)
+                "vmull.u8       q2, d1, d30                     \n\t"   // q2 = [a10|a11] * y
+                "vshrn.i16      d16, q8, #8                     \n\t"   // shift down result by 8
+                "asr            r7, %[fx], #16                  \n\t"   // Calculate offset fx >> 16
+                "lsl            r7, r7, #2                      \n\t"   // Adjust offset for 32-bit RGBA values
+                "add            r8, %[row0], r7                 \n\t"   // Calculate next address for row0
+                "add            r7, %[row1], r7                 \n\t"   // Calculate next address for row1
+                "vld1.32        {d0}, [r8]                      \n\t"   // Load next two RGBA pixels from row0
+                "vmul.i16       d18, d3, d28                    \n\t"   // d18  = a01 * x
+                "vmla.i16       d18, d5, d28                    \n\t"   // d18 += a11 * x
+                "vld1.32        {d1}, [r7]                      \n\t"   // Load next two RGBA pixels from row1
+                "vsub.i16       d27, d29, d28                   \n\t"   // 16 - subX
+                "vmla.i16       d18, d2, d27                    \n\t"   // d18 += a00 * (16 - x)
+                "vmla.i16       d18, d4, d27                    \n\t"   // d18 += a10 * (16 - x)
+                // Calculate pixel #4
+                "vmull.u8       q1, d0, d31                     \n\t"   // q1 = [a00|a01] * (16 - y)
+                "vmull.u8       q2, d1, d30                     \n\t"   // q2 = [a10|a11] * y
+                "lsr            r8, %[fx], #12                  \n\t"   // Calculate subX = ((fx >> 12) & 0xF)
+                "and            r8, r8, #0xF                    \n\t"   //
+                "add            %[fx], %[fx], %[dx]             \n\t"   // Move fx to next position
+                "vdup.16        d28, r8                         \n\t"   // subX
+                "vmul.i16       d19, d3, d28                    \n\t"   // d19  = a01 * x
+                "vmla.i16       d19, d5, d28                    \n\t"   // d19 += a11 * x
+                "vsub.i16       d27, d29, d28                   \n\t"   // 16 - subX
+                "vmla.i16       d19, d2, d27                    \n\t"   // d19 += a00 * (16 - x)
+                "vmla.i16       d19, d4, d27                    \n\t"   // d19 += a10 * (16 - x)
+                "vshrn.i16      d17, q9, #8                     \n\t"   // shift down result by 8
+                "vst1.32        {d16-d17}, [%[colors]]!         \n\t"   // Write result to memory
+                "bne            1b                              \n\t"
+                : [fx] "+r" (fx), [colors] "+r" (colors), [cnt] "+r" (asm_count)
+                : [row0] "r" (row0), [row1] "r" (row1), [subY] "r" (subY), [dx] "r" (dx)
+                : "cc", "memory", "r7", "r8", "d0", "d1", "d2", "d3", "d4", "d5", "d16", "d17", "d18", "d19", "d27", "d28", "d29", "d30", "d31"
+                );
+        } else {
+            unsigned subX = (((fx) >> 12) & 0xF);
+            unsigned x0 = SkClampMax((fx) >> 16, maxX);
+            unsigned x1 = SkClampMax((fx + oneX) >> 16, maxX);
+
+            Filter_32_opaque(subX, subY,
+                            row0[x0],
+                            row0[x1],
+                            row1[x0],
+                            row1[x1],
+                            colors);
+            colors += 1;
+            fx += dx;
+            count--;
+        }
+    } while (count != 0);
+}
+#endif
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 /*  If we replace a sampleproc, then we null-out the associated shaderproc,
@@ -192,11 +369,9 @@ void SI8_opaque_D32_nofilter_DX_arm(const SkBitmapProcState& s,
 void SkBitmapProcState::platformProcs() {
     bool doFilter = fDoFilter;
     bool isOpaque = 256 == fAlphaScale;
-    bool justDx = false;
-
-    if (fInvType <= (SkMatrix::kTranslate_Mask | SkMatrix::kScale_Mask)) {
-        justDx = true;
-    }
+    bool justDx = (fInvType <= (SkMatrix::kTranslate_Mask | SkMatrix::kScale_Mask));
+    bool clamp_clamp = ((SkShader::kClamp_TileMode == fTileModeX) &&
+                       (SkShader::kClamp_TileMode == fTileModeY));
 
     switch (fBitmap->config()) {
         case SkBitmap::kIndex8_Config:
@@ -211,6 +386,13 @@ void SkBitmapProcState::platformProcs() {
                     fSampleProc32 = SI8_opaque_D32_nofilter_DX_arm;
                     fShaderProc32 = NULL;
                 }
+            }
+#endif
+            break;
+        case SkBitmap::kARGB_8888_Config:
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+            if (S32_opaque_D32_filter_DX == fSampleProc32 && clamp_clamp) {
+                fShaderProc32 = Clamp_S32_opaque_D32_filter_DX_shaderproc;
             }
 #endif
             break;
