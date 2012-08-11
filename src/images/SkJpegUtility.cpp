@@ -163,9 +163,7 @@ static void sk_init_destination(j_compress_ptr cinfo) {
 static boolean sk_empty_output_buffer(j_compress_ptr cinfo) {
     skjpeg_destination_mgr* dest = (skjpeg_destination_mgr*)cinfo->dest;
 
-//  if (!dest->fStream->write(dest->fBuffer, skjpeg_destination_mgr::kBufferSize - dest->free_in_buffer))
-    if (!dest->fStream->write(dest->fBuffer,
-            skjpeg_destination_mgr::kBufferSize)) {
+    if (!dest->fStream->write(dest->fBuffer, skjpeg_destination_mgr::kBufferSize - dest->free_in_buffer)){
         ERREXIT(cinfo, JERR_FILE_WRITE);
         return false;
     }
