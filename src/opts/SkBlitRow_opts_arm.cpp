@@ -487,7 +487,16 @@ static void S32A_D565_Opaque_v7(uint16_t* SK_RESTRICT dst,
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN) && defined(TEST_SRC_ALPHA)
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN) && defined(ENABLE_OPTIMIZED_S32A_BLITTERS)
+
+/* External function in file S32A_Opaque_BlitRow32_neon.S */
+extern "C" void S32A_Opaque_BlitRow32_neon(SkPMColor* SK_RESTRICT dst,
+                                           const SkPMColor* SK_RESTRICT src,
+                                           int count, U8CPU alpha);
+
+#define S32A_Opaque_BlitRow32_PROC  S32A_Opaque_BlitRow32_neon
+
+#elif defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN) && defined(TEST_SRC_ALPHA)
 
 static void S32A_Opaque_BlitRow32_neon_test_alpha(SkPMColor* SK_RESTRICT dst,
                                   const SkPMColor* SK_RESTRICT src,
