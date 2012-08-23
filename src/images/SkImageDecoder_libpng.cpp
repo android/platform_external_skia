@@ -1094,6 +1094,11 @@ bool SkPNGImageEncoder::doEncode(SkWStream* stream, const SkBitmap& bitmap,
                   int bitDepth, SkBitmap::Config config,
                   png_color_8& sig_bit) {
 
+    const char* srcImage = (const char*)bitmap.getPixels();
+    if (NULL == srcImage) {
+        return false;
+    }
+
     png_structp png_ptr;
     png_infop info_ptr;
 
@@ -1148,7 +1153,6 @@ bool SkPNGImageEncoder::doEncode(SkWStream* stream, const SkBitmap& bitmap,
     png_set_sBIT(png_ptr, info_ptr, &sig_bit);
     png_write_info(png_ptr, info_ptr);
 
-    const char* srcImage = (const char*)bitmap.getPixels();
     SkAutoSMalloc<1024> rowStorage(bitmap.width() << 2);
     char* storage = (char*)rowStorage.get();
     transform_scanline_proc proc = choose_proc(config, hasAlpha);
