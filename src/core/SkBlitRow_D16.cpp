@@ -44,6 +44,91 @@ static void S32_D565_Blend(uint16_t* SK_RESTRICT dst,
     }
 }
 
+#if defined(__mips__)
+/*the optimization version for big&little endian
+ *
+ *  SRC: A B G R (8 8 8 8) (LE)
+ *       R G B A (8 8 8 8) (BE)
+ *  DST: R G B  (5 6 6)
+ *  In fact, we can get the result of dst(R,B)*isa
+ *  in one 32 bit multiply operation. This reduce 
+ *  the multipy times from 3 to 2 for one pixel.
+ *
+ * The improvement of performance is about 20%.
+ *
+ */
+static void S32A_D565_Opaque(uint16_t* SK_RESTRICT dst,
+                               const SkPMColor* SK_RESTRICT src, int count,
+                               U8CPU alpha, int x, int y) {
+
+    uint32_t t0,t1;
+    uint32_t s0,s1;
+    uint32_t isa;
+    uint32_t d;
+
+    SkASSERT(255 == alpha);
+    
+    if (count > 0) {
+        do {
+        SkPMColor c = *src++;
+        SkPMColorAssert(c);
+        //if (__builtin_expect(c!=0, 1))
+        if (c) {
+            d = (uint32_t)(*dst);
+            isa = 255 - SkGetPackedA32(c);
+
+            /* t0 0R 0B
+             * t1 00 0G
+             */
+            t0 = (d&0xf800)<<5;
+            t0 |= (d&0x1f);
+            t1 = (d&0x7e0)>>5;
+
+            t0 *= isa;
+
+            /*
+             * S0: 0R 0B
+             * S1: 00 0G
+             */
+#if defined(__MIPSEL__)	
+            s0 = (c&0xff)<<16;
+            s0 |= ((c&0xff0000)>>16);
+            s1 = (c&0xff00)>>8;
+#elif defined(__MIPSEB__)	
+            s0 = (c>>8)&0xff00ff;
+            s1 = (c>>16)&0xff;
+#endif
+            t1 *= isa;
+
+            /* add (1 << (shift - 1)) */
+            t0 += 0x100010;
+            t1 += 0x20;
+
+            /* (prod + (prod >> shift)) >> shift */
+            t0 += (t0>>5)&0xff00ff;
+            t0 = (t0>>5)&0xff00ff;
+            t1 += (t1>>6);
+            t1 = t1>>6;
+
+            /* add src */
+            t0 += s0;
+            t1 += s1;
+
+            /* >>(8 - SK_R(GB)16_BITS) */
+            t0 = (t0>>3)&0xff00ff;
+            t1 = (t1>>2)&0xff;
+
+            /*pack to RGB 565 */
+            t0 = (((t0&0xff0000)>>5) | (t1<<5) | (t0));
+
+            *dst = (uint16_t)t0;
+        }
+        dst += 1;
+        } while (--count != 0);
+    }
+}
+
+#else // __mips__
 static void S32A_D565_Opaque(uint16_t* SK_RESTRICT dst,
                                const SkPMColor* SK_RESTRICT src, int count,
                                U8CPU alpha, int /*x*/, int /*y*/) {
@@ -61,6 +146,7 @@ static void S32A_D565_Opaque(uint16_t* SK_RESTRICT dst,
         } while (--count != 0);
     }
 }
+#endif // __mips__
 
 static void S32A_D565_Blend(uint16_t* SK_RESTRICT dst,
                               const SkPMColor* SK_RESTRICT src, int count,
