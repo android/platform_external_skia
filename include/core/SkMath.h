@@ -108,7 +108,7 @@ static inline unsigned SkClampUMax(unsigned value, unsigned max) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if defined(__arm__)
+#if defined(__arm__) || defined(__mips__)
     #define SkCLZ(x)    __builtin_clz(x)
 #endif
 
@@ -164,6 +164,18 @@ static inline bool SkIsPow2(int value) {
         asm("smulbb %0, %1, %2 \n"
             : "=r"(product)
             : "r"(x), "r"(y)
+            );
+        return product;
+    }
+#elif defined(__mips__)
+	static inline int32_t SkMulS16(S16CPU x, S16CPU y) {
+        SkASSERT((int16_t)x == x);
+        SkASSERT((int16_t)y == y);
+        int32_t product;
+        asm("mul %0, %1, %2 \n"
+            : "=r"(product)
+            : "r"(x), "r"(y)
+	    : "hi", "lo"
             );
         return product;
     }
