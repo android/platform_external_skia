@@ -195,7 +195,7 @@ static void TestSk64(skiatest::Reporter* reporter) {
 	 * The ARM optimised SkFloatToFixed is not as accurate
 	 * as the portable version.
 	 */
-#if defined(__arm__) && !defined(__thumb__)
+#if (defined(__arm__) && !defined(__thumb__)) || defined(__mips__)
 #define MAXDIFF 52		/* Empirical observation */
 #else
 #define MAXDIFF 1

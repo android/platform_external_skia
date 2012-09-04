@@ -7,6 +7,8 @@ LOCAL_SRC_FILES:= \
   AAClipTest.cpp \
   BitmapCopyTest.cpp \
   BitmapGetColorTest.cpp \
+  BitmapProcStateTest.cpp \
+  Blitter_RGB16Test.cpp \
   BlitRowTest.cpp \
   BlurTest.cpp \
   CanvasTest.cpp \
@@ -23,6 +25,7 @@ LOCAL_SRC_FILES:= \
   DrawTextTest.cpp \
   EmptyPathTest.cpp \
   FillPathTest.cpp \
+  Filter32_Tests.cpp \
   FlateTest.cpp \
   FontHostTest.cpp \
   GeometryTest.cpp \
@@ -30,6 +33,7 @@ LOCAL_SRC_FILES:= \
   GLProgramsTest.cpp \
   InfRectTest.cpp \
   MathTest.cpp \
+  MatrixProcsTest.cpp \
   MatrixTest.cpp \
   Matrix44Test.cpp \
   MemsetTest.cpp \
@@ -47,6 +51,7 @@ LOCAL_SRC_FILES:= \
   ReadPixelsTest.cpp \
   RefDictTest.cpp \
   RegionTest.cpp \
+  S32_BlitRow_Tests.cpp \
   ScalarTest.cpp \
   ShaderOpacityTest.cpp \
   Sk64Test.cpp \
