@@ -465,7 +465,118 @@ void SkRGB16_Opaque_Blitter::blitMask(const SkMask& mask,
         alpha += maskRB;
     } while (--height != 0);
 #undef	UNROLL
-#else   // non-neon code
+#elif defined __mips_dsp
+    register uint32_t s0 = 0, s1 = 0, s2 = 0, s3 = 0;
+    asm volatile (
+        ".set noreorder                               \n\t"
+        ".set noat                                    \n\t"
+
+        "li        $t9, 0x7E0F81F                     \n\t"
+
+        "1:                                           \n\t"
+        "move      $t8, %[width]                      \n\t"
+        "addiu     %[height], %[height], -1           \n\t"
+
+        "2:                                           \n\t"
+        "beqz      $t8, 4f                            \n\t"
+        " addiu     $t0, $t8, -4                      \n\t"
+        "bltz      $t0, 3f                            \n\t"
+        " nop                                         \n\t"
+        "addiu     $t8, $t8, -4                       \n\t"
+        "lhu       $t0, 0(%[device])                  \n\t"
+        "lhu       $t1, 2(%[device])                  \n\t"
+        "lhu       $t2, 4(%[device])                  \n\t"
+        "lhu       $t3, 6(%[device])                  \n\t"
+        "lbu       $t4, 0(%[alpha])                   \n\t"
+        "lbu       $t5, 1(%[alpha])                   \n\t"
+        "lbu       $t6, 2(%[alpha])                   \n\t"
+        "lbu       $t7, 3(%[alpha])                   \n\t"
+        "replv.ph  $t0, $t0                           \n\t"
+        "replv.ph  $t1, $t1                           \n\t"
+        "replv.ph  $t2, $t2                           \n\t"
+        "replv.ph  $t3, $t3                           \n\t"
+        "addiu     %[s0], $t4, 1                      \n\t"
+        "addiu     %[s1], $t5, 1                      \n\t"
+        "addiu     %[s2], $t6, 1                      \n\t"
+        "addiu     %[s3], $t7, 1                      \n\t"
+        "srl       %[s0], %[s0], 3                    \n\t"
+        "srl       %[s1], %[s1], 3                    \n\t"
+        "srl       %[s2], %[s2], 3                    \n\t"
+        "srl       %[s3], %[s3], 3                    \n\t"
+        "and       $t0, $t0, $t9                      \n\t"
+        "and       $t1, $t1, $t9                      \n\t"
+        "and       $t2, $t2, $t9                      \n\t"
+        "and       $t3, $t3, $t9                      \n\t"
+        "subu      $t4, %[expanded32], $t0            \n\t"
+        "subu      $t5, %[expanded32], $t1            \n\t"
+        "subu      $t6, %[expanded32], $t2            \n\t"
+        "subu      $t7, %[expanded32], $t3            \n\t"
+        "mul       $t4, $t4, %[s0]                    \n\t"
+        "mul       $t5, $t5, %[s1]                    \n\t"
+        "mul       $t6, $t6, %[s2]                    \n\t"
+        "mul       $t7, $t7, %[s3]                    \n\t"
+        "addiu     %[alpha], %[alpha], 4              \n\t"
+        "srl       $t4, $t4, 5                        \n\t"
+        "srl       $t5, $t5, 5                        \n\t"
+        "srl       $t6, $t6, 5                        \n\t"
+        "srl       $t7, $t7, 5                        \n\t"
+        "addu      $t4, $t0, $t4                      \n\t"
+        "addu      $t5, $t1, $t5                      \n\t"
+        "addu      $t6, $t2, $t6                      \n\t"
+        "addu      $t7, $t3, $t7                      \n\t"
+        "and       $t4, $t4, $t9                      \n\t"
+        "and       $t5, $t5, $t9                      \n\t"
+        "and       $t6, $t6, $t9                      \n\t"
+        "and       $t7, $t7, $t9                      \n\t"
+        "srl       $t0, $t4, 16                       \n\t"
+        "srl       $t1, $t5, 16                       \n\t"
+        "srl       $t2, $t6, 16                       \n\t"
+        "srl       $t3, $t7, 16                       \n\t"
+        "or        %[s0], $t0, $t4                    \n\t"
+        "or        %[s1], $t1, $t5                    \n\t"
+        "or        %[s2], $t2, $t6                    \n\t"
+        "or        %[s3], $t3, $t7                    \n\t"
+        "sh        %[s0], 0(%[device])                \n\t"
+        "sh        %[s1], 2(%[device])                \n\t"
+        "sh        %[s2], 4(%[device])                \n\t"
+        "sh        %[s3], 6(%[device])                \n\t"
+        " addiu     %[device], %[device], 8           \n\t"
+        "b         2b                                 \n\t"
+        " nop                                         \n\t"
+        "3:                                           \n\t"
+        "lhu       $t0, 0(%[device])                  \n\t"
+        "lbu       $t1, 0(%[alpha])                   \n\t"
+        "addiu     $t8, $t8, -1                       \n\t"
+        "replv.ph  $t2, $t0                           \n\t"
+        "and       $t2, $t2, $t9                      \n\t"
+        "addiu     $t0, $t1, 1                        \n\t"
+        "srl       $t0, $t0, 3                        \n\t"
+        "subu      $t3, %[expanded32], $t2            \n\t"
+        "mul       $t3, $t3, $t0                      \n\t"
+        "addiu     %[alpha], %[alpha], 1              \n\t"
+        "srl       $t3, $t3, 5                        \n\t"
+        "addu      $t3, $t2, $t3                      \n\t"
+        "and       $t3, $t3, $t9                      \n\t"
+        "srl       $t4, $t3, 16                       \n\t"
+        "or        %[s0], $t4, $t3                    \n\t"
+        "sh        %[s0], 0(%[device])                \n\t"
+        "bnez      $t8, 3b                            \n\t"
+         "addiu     %[device], %[device], 2           \n\t"
+        "4:                                           \n\t"
+        "addu      %[device], %[device], %[deviceRB]  \n\t"
+        "bgtz      %[height], 1b                      \n\t"
+        " addu      %[alpha], %[alpha], %[maskRB]     \n\t"
+
+        ".set at                                      \n\t"
+        ".set reorder                                 \n\t"
+
+        : [height] "+r" (height), [alpha] "+r" (alpha), [device] "+r" (device),
+          [s0] "+r" (s0), [s1] "+r" (s1), [s2] "+r" (s2), [s3] "+r" (s3)
+        : [deviceRB] "r" (deviceRB), [maskRB] "r" (maskRB), [expanded32] "r" (expanded32), [width] "r" (width)
+        : "memory", "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"
+    );
+
+#else   // portable code
     do {
         int w = width;
         do {
@@ -476,7 +587,7 @@ void SkRGB16_Opaque_Blitter::blitMask(const SkMask& mask,
         device = (uint16_t*)((char*)device + deviceRB);
         alpha += maskRB;
     } while (--height != 0);
-#endif
+#endif // SK_USE_NEON, __mips_dsp, or portable
 }
 
 void SkRGB16_Opaque_Blitter::blitV(int x, int y, int height, SkAlpha alpha) {
