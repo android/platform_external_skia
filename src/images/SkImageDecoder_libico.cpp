@@ -80,6 +80,10 @@ bool SkICOImageDecoder::onDecode(SkStream* stream, SkBitmap* bm, Mode mode)
     size_t length = stream->read(NULL, 0);
     SkAutoMalloc autoMal(length);
     unsigned char* buf = (unsigned char*)autoMal.get();
+    if (NULL == buf) {
+        return false;
+    }
+
     if (stream->read((void*)buf, length) != length) {
         return false;
     }
