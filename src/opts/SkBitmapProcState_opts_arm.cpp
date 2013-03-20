@@ -776,6 +776,144 @@ void Repeat_SI8_opaque_D32_filter_DX_shaderproc(const SkBitmapProcState& s, int 
 
     s.fBitmap->getColorTable()->unlockColors(false);
 }
+
+
+void Clamp_S32_opaque_D32_nofilter_DX_shaderproc(const SkBitmapProcState& s, int x, int y,
+                                                 SkPMColor* SK_RESTRICT colors, int count) {
+    SkASSERT((s.fInvType & ~(SkMatrix::kTranslate_Mask |
+                             SkMatrix::kScale_Mask)) == 0);
+    SkASSERT(s.fInvKy == 0);
+    SkASSERT(count > 0 && colors != NULL);
+    SkASSERT(!s.fDoFilter);
+    SkDEBUGCODE(SkASSERT(s.fBitmap->config() == SkBitmap::kARGB_8888_Config); SkASSERT(s.fAlphaScale == 256);)
+
+    const register unsigned maxX = s.fBitmap->width() - 1;
+    const SkFixed dx = s.fInvSx;
+    register SkFixed fx;
+    const SkPMColor* SK_RESTRICT row;
+    int num;
+
+    {
+        SkPoint pt;
+        s.fInvProc(*s.fInvMatrix, SkIntToScalar(x) + SK_ScalarHalf,
+                   SkIntToScalar(y) + SK_ScalarHalf, &pt);
+        SkFixed fy = SkScalarToFixed(pt.fY);
+        const unsigned maxY = s.fBitmap->height() - 1;
+        int yy = SkClampMax(SkFixedFloorToInt(fy), maxY);
+        const char* SK_RESTRICT srcAddr = (const char*)s.fBitmap->getPixels();
+        unsigned rb = s.fBitmap->rowBytes();
+        row = (const SkPMColor*)(srcAddr + yy * rb);
+        // now initialize fx
+        fx = SkScalarToFixed(pt.fX);
+    }
+
+    // Single pixel left in source?
+    if (maxX == 0) {
+        sk_memset32(colors, row[0], count);
+        return;
+    }
+
+    // Special case if unscaled.
+    if (dx == SK_Fixed1) {
+        fx = SkFixedFloorToInt(fx);
+
+        // Any clamped pixels at the beginning?
+        if (fx < 0) {
+            num = SkMin32(-fx, count);
+            sk_memset32(colors, row[0], num);
+            count -= num;
+            fx += num;
+            colors += num;
+        }
+
+        // Copy pixels
+        num = SkMin32(SkMax32(maxX + 1 - fx, 0), count);
+        memcpy(colors, row + fx, num * sizeof(SkPMColor));
+        count -= num;
+
+        if (count > 0) {
+            colors += num;
+            sk_memset32(colors, row[maxX], count);
+        }
+
+        return;
+    }
+
+    // Can we run unclamped case?
+    if (((dx >= 0) && (((fx + (count - 1) * dx) >> 16) <= (const signed)maxX) && (fx >= 0)) ||
+        ((dx < 0) && ((fx >> 16) <= (const signed)maxX) && (((fx + (count - 1) * dx) >> 16) >= 0))) {
+
+        asm volatile (
+            // Setup constants
+            "pld            [%[row]]                        \n\t"   // Pre-load source
+            "subs           %[count], #4                    \n\t"   // Decrease loop counter
+            "bmi            2f                              \n\t"   //
+            "pld            [%[row], #32]                   \n\t"   // Pre-load source
+            "1:                                             \n\t"   // Loop start
+            // Load pixels
+            "lsr            r1, %[fx], #16                  \n\t"   // Calculate SkFixedFloorToInt(fx)
+            "add            %[fx], %[fx], %[dx]             \n\t"   // Increment to next position
+            "add            r1, %[row], r1, lsl #2          \n\t"   // Calculate row[SkFixedFloorToInt(fx)];
+            "vldr.32        s0, [r1]                        \n\t"   // Load pixel #1
+
+            "lsr            r2, %[fx], #16                  \n\t"   // Calculate SkFixedFloorToInt(fx)
+            "add            %[fx], %[fx], %[dx]             \n\t"   // Increment to next position
+            "add            r2, %[row], r2, lsl #2          \n\t"   // Calculate row[SkFixedFloorToInt(fx)];
+            "vldr.32        s1, [r2]                        \n\t"   // Load pixel #2
+
+            "lsr            r1, %[fx], #16                  \n\t"   // Calculate SkFixedFloorToInt(fx)
+            "add            %[fx], %[fx], %[dx]             \n\t"   // Increment to next position
+            "add            r1, %[row], r1, lsl #2          \n\t"   // Calculate row[SkFixedFloorToInt(fx)];
+            "vldr.32        s2, [r1]                        \n\t"   // Load pixel #3
+
+            "lsr            r2, %[fx], #16                  \n\t"   // Calculate SkFixedFloorToInt(fx)
+            "add            r2, %[row], r2, lsl #2          \n\t"   // Calculate row[SkFixedFloorToInt(fx)];
+            "vldr.32        s3, [r2]                        \n\t"   // Load pixel #4
+            // Write pixels
+            "subs           %[count], #4                    \n\t"   // Decrease loop counter
+            "pld            [r2, #52]                       \n\t"   // Pre-load source
+            "add            %[fx], %[fx], %[dx]             \n\t"   // Increment to next position
+            "vstm           %[colors]!, {s0-s3}             \n\t"   // Write result to memory
+
+            "bpl            1b                              \n\t"
+            "2:                                             \n\t"   // Loop start
+            "add            %[count], #4                    \n\t"   // Restore loop counter
+            : [fx] "+r" (fx), [colors] "+r" (colors), [count] "+r" (count)
+            : [row] "r" (row), [dx] "r" (dx)
+            : "cc", "memory", "r1", "r2", "s0", "s1", "s2", "s3"
+            );
+
+        for (num = (count & 3); num > 0; --num) {
+            *colors++ = row[SkFixedFloorToInt(fx)];
+            fx += dx;
+        }
+
+        return;
+    }
+
+    // Fallback case
+    for (num = (count >> 2); num > 0; --num) {
+        SkPMColor p0, p1, p2, p3;
+
+        p0 = row[SkClampMax(SkFixedFloorToInt(fx), maxX)];
+        fx += dx;
+        p1 = row[SkClampMax(SkFixedFloorToInt(fx), maxX)];
+        fx += dx;
+        p2 = row[SkClampMax(SkFixedFloorToInt(fx), maxX)];
+        fx += dx;
+        p3 = row[SkClampMax(SkFixedFloorToInt(fx), maxX)];
+        *colors++ = p0;
+        *colors++ = p1;
+        *colors++ = p2;
+        *colors++ = p3;
+        fx += dx;
+    }
+
+    for (num = (count & 3); num > 0; --num) {
+        *colors++ = row[SkClampMax(SkFixedFloorToInt(fx), maxX)];
+        fx += dx;
+    }
+}
 #endif
 
 
@@ -821,6 +959,8 @@ void SkBitmapProcState::platformProcs() {
 #if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
             if (S32_opaque_D32_filter_DX == fSampleProc32 && clamp_clamp) {
                 fShaderProc32 = Clamp_S32_opaque_D32_filter_DX_shaderproc;
+            } else if (S32_opaque_D32_nofilter_DX == fSampleProc32 && clamp_clamp) {
+                fShaderProc32 = Clamp_S32_opaque_D32_nofilter_DX_shaderproc;
             }
 #endif
             break;

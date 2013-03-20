@@ -146,5 +146,7 @@ void ClampX_ClampY_nofilter_affine(const SkBitmapProcState& s,
                                    uint32_t xy[], int count, int x, int y);
 void SI8_opaque_D32_filter_DX(const SkBitmapProcState& s, const uint32_t xy[],
                               int count, SkPMColor colors[]);
+void S32_opaque_D32_nofilter_DX(const SkBitmapProcState& s, const uint32_t xy[],
+                                int count, SkPMColor colors[]);
 
 #endif
