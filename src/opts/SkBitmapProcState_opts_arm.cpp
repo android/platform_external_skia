@@ -914,6 +914,121 @@ void Clamp_S32_opaque_D32_nofilter_DX_shaderproc(const SkBitmapProcState& s, int
         fx += dx;
     }
 }
+
+
+void S16_opaque_D32_nofilter_DX_arm(const SkBitmapProcState& s,
+                                    const uint32_t* SK_RESTRICT xy,
+                                    int count, uint32_t* SK_RESTRICT colors) {
+    const uint16_t* SK_RESTRICT srcAddr = (const uint16_t*)s.fBitmap->getPixels();
+    uint16_t* index;
+    uint16_t src;
+    int i;
+
+    srcAddr = (const uint16_t*)((const char*)srcAddr + xy[0] * s.fBitmap->rowBytes());
+    const uint16_t* SK_RESTRICT xx = (const uint16_t*)(++xy);
+
+    if (1 == s.fBitmap->width()) {
+        src = srcAddr[0];
+        sk_memset32(colors, SkPixel16ToPixel32(src), count);
+    } else if ((xx[count - 1] - xx[0]) == (count - 1)) {
+        // No scaling
+        const uint16_t* src_data = (const uint16_t*)(srcAddr + xx[0]);
+        asm volatile (
+            "pld            [%[src_data]]                   \n\t"   // Pre-load source
+            "subs           %[count], %[count], #24         \n\t"   // Do we have at least 24 pixels for main loop?
+            "blt            2f                              \n\t"   //
+            "vld1.16        {q0}, [%[src_data]]!            \n\t"   // Load eight RGB565 pixels
+            "pld            [%[src_data]]                   \n\t"   // Pre-load source
+            "pld            [%[src_data], #32]              \n\t"   // Pre-load source
+            "vmov.u16       q8, #0xFF00                     \n\t"   // Load alpha value for later use
+            "1:                                             \n\t"
+            // Handle 16 pixels in main loop.
+            "vshl.u16       q1, q0, #5                      \n\t"   // Split green into q1
+            "vshl.u16       q3, q0, #11                     \n\t"   // Split blue into q3
+            "vmov.u16       q2, q8                          \n\t"   // Copy alpha to q2
+            "vld1.16        {q9}, [%[src_data]]!            \n\t"   // Pre-load next eight RGB565 pixels
+            "vsri.u16       q1, q1, #6                      \n\t"   // Insert two high bits green as LSBs green in q1
+            "vsri.u16       q2, q3, #8                      \n\t"   // Merge blue with alpha in q2
+            "vsri.u16       q1, q0, #8                      \n\t"   // Merge red with green in q1
+            "vsri.u16       q2, q3, #13                     \n\t"   // Merge three high bits blue as LSBs blue in q2
+            "vsri.u16       q1, q0, #13                     \n\t"   // Merge three high bits red as LSBs red in q1
+            "subs           %[count], %[count], #16         \n\t"   // Decrease count
+            "vst2.16        {q1 - q2}, [%[colors]]!         \n\t"   // Store q1-q2 to destination
+            "vshl.u16       q10, q9, #5                     \n\t"   // Split green into q10
+            "vshl.u16       q12, q9, #11                    \n\t"   // Split blue into q12
+            "vmov.u16       q11, q8                         \n\t"   // Copy alpha to q11
+            "vld1.16        {q0}, [%[src_data]]!            \n\t"   // Pre-load next eight RGB565 pixels
+            "vsri.u16       q10, q10, #6                    \n\t"   // Insert two high bits green as LSBs green in q10
+            "vsri.u16       q11, q12, #8                    \n\t"   // Merge blue with alpha in q11
+            "vsri.u16       q10, q9, #8                     \n\t"   // Merge red with green in q10
+            "pld            [%[src_data], #32]              \n\t"   // Pre-load source
+            "vsri.u16       q11, q12, #13                   \n\t"   // Merge three high bits blue as LSBs blue in q11
+            "vsri.u16       q10, q9, #13                    \n\t"   // Merge three high bits red as LSBs red in q10
+            "vst2.16        {q10 - q11}, [%[colors]]!       \n\t"   // Store q10-q11 to destination
+            "bge            1b                              \n\t"   // Loop if count >= 0
+            // Handle last 8 pixels from main loop.
+            "vshl.u16       q1, q0, #5                      \n\t"   // Split green into q1
+            "vshl.u16       q3, q0, #11                     \n\t"   // Split blue into q3
+            "vmov.u16       q2, q8                          \n\t"   // Copy alpha to q2
+            "vsri.u16       q1, q1, #6                      \n\t"   // Insert two high bits green as LSBs green in q1
+            "vsri.u16       q2, q3, #8                      \n\t"   // Merge blue with alpha in q2
+            "vsri.u16       q1, q0, #8                      \n\t"   // Merge red with green in q1
+            "vsri.u16       q2, q3, #13                     \n\t"   // Merge three high bits blue as LSBs blue in q2
+            "vsri.u16       q1, q0, #13                     \n\t"   // Merge three high bits red as LSBs red in q1
+            "sub            %[count], %[count], #8          \n\t"   // Decrease count
+            "vst2.16        {q1 - q2}, [%[colors]]!         \n\t"   // Store q1-q2 to destination
+            "2:                                             \n\t"
+            "adds           %[count], %[count], #20         \n\t"   // Add 20 (24 - 4) to see if a 4 loop is needed
+            "blt            4f                              \n\t"   //
+            // Handle 4 pixels in slow loop
+            "3:                                             \n\t"
+            "vld1.u16       {d0}, [%[src_data]]!            \n\t"   // Load four RGB565 pixels
+            "vshl.u16       d2, d0, #5                      \n\t"   // Split green into d2
+            "vshl.u16       d1, d0, #11                     \n\t"   // Split blue into d1
+            "vmov.u16       d3, d16                         \n\t"   // Copy alpha to d3
+            "subs           %[count], %[count], #4          \n\t"   // Decrease count
+            "vsri.u16       d2, d2, #6                      \n\t"   // Insert two high bits green as LSBs green in d2
+            "vsri.u16       d3, d1, #8                      \n\t"   // Merge blue with alpha in d3
+            "vsri.u16       d2, d0, #8                      \n\t"   // Merge red with green in d2
+            "vsri.u16       d3, d1, #13                     \n\t"   // Merge three high bits blue as LSBs blue in d3
+            "vsri.u16       d2, d0, #13                     \n\t"   // Merge three high bits red as LSBs red in d2
+            "vst2.16        {d2, d3}, [%[colors]]!          \n\t"   // Store d2 and d3 to destination
+            "bge            3b                              \n\t"   //
+            "4:                                             \n\t"
+            "add            %[count], %[count], #4          \n\t"   // Add 4 to count
+            : [src_data] "+r" (src_data), [colors] "+r" (colors), [count] "+r" (count)
+            :
+            : "cc", "memory", "d0", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d16", "d17", "d18", "d19", "d20", "d21", "d22", "d23", "d24", "d25"
+            );
+
+        for (i = (count & 3); i > 0; --i) {
+            *colors++ = SkPixel16ToPixel32(*src_data++);
+        }
+    } else {
+        // Scaling case
+        int i;
+
+        for (i = (count >> 2); i > 0; --i) {
+            uint32_t xx0 = *xy++;
+            uint32_t xx1 = *xy++;
+            uint16_t x0 = srcAddr[UNPACK_PRIMARY_SHORT(xx0)];
+            uint16_t x1 = srcAddr[UNPACK_SECONDARY_SHORT(xx0)];
+            uint16_t x2 = srcAddr[UNPACK_PRIMARY_SHORT(xx1)];
+            uint16_t x3 = srcAddr[UNPACK_SECONDARY_SHORT(xx1)];
+
+            *colors++ = SkPixel16ToPixel32(x0);
+            *colors++ = SkPixel16ToPixel32(x1);
+            *colors++ = SkPixel16ToPixel32(x2);
+            *colors++ = SkPixel16ToPixel32(x3);
+        }
+        const uint16_t* SK_RESTRICT xx = (const uint16_t*)(xy);
+        for (i = (count & 3); i > 0; --i) {
+            SkASSERT(*xx < (unsigned)s.fBitmap->width());
+            src = srcAddr[*xx++];
+            *colors++ = SkPixel16ToPixel32(src);
+        }
+    }
+}
 #endif
 
 
@@ -952,6 +1067,14 @@ void SkBitmapProcState::platformProcs() {
                     fSampleProc32 = SI8_opaque_D32_nofilter_DX_arm;
                     fShaderProc32 = NULL;
                 }
+            }
+#endif
+            break;
+        case SkBitmap::kRGB_565_Config:
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+            if (justDx && !doFilter && isOpaque) {
+                fSampleProc32 = S16_opaque_D32_nofilter_DX_arm;
+                fShaderProc32 = NULL;
             }
 #endif
             break;
