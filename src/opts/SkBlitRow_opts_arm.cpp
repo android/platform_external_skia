@@ -1432,7 +1432,135 @@ static void S32_Blend_BlitRow32_neon(SkPMColor* SK_RESTRICT dst,
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN) && defined(ENABLE_OPTIMIZED_S32A_BLITTERS)
+
+/* This function was broken out to keep GCC from storing all registers on the stack
+   even though they would not be used in the assembler code */
+static __attribute__ ((noinline)) void S32A_D565_Opaque_Dither_Handle8(uint16_t * SK_RESTRICT dst,
+                                                                       const SkPMColor* SK_RESTRICT src,
+                                                                       int count, U8CPU alpha, int x, int y) {
+    DITHER_565_SCAN(y);
+    do {
+        SkPMColor c = *src++;
+        SkPMColorAssert(c);
+        if (c) {
+            unsigned a = SkGetPackedA32(c);
+
+            // dither and alpha are just temporary variables to work-around
+            // an ICE in debug.
+            unsigned dither = DITHER_VALUE(x);
+            unsigned alpha = SkAlpha255To256(a);
+            int d = SkAlphaMul(dither, alpha);
+
+            unsigned sr = SkGetPackedR32(c);
+            unsigned sg = SkGetPackedG32(c);
+            unsigned sb = SkGetPackedB32(c);
+            sr = SkDITHER_R32_FOR_565(sr, d);
+            sg = SkDITHER_G32_FOR_565(sg, d);
+            sb = SkDITHER_B32_FOR_565(sb, d);
+
+            uint32_t src_expanded = (sg << 24) | (sr << 13) | (sb << 2);
+            uint32_t dst_expanded = SkExpand_rgb_16(*dst);
+            dst_expanded = dst_expanded * (SkAlpha255To256(255 - a) >> 3);
+            // now src and dst expanded are in g:11 r:10 x:1 b:10
+            *dst = SkCompact_rgb_16((src_expanded + dst_expanded) >> 5);
+        }
+        dst += 1;
+        DITHER_INC_X(x);
+    } while (--count != 0);
+}
+
+
+static void S32A_D565_Opaque_Dither_neon(uint16_t * SK_RESTRICT dst,
+                                         const SkPMColor* SK_RESTRICT src,
+                                         int count, U8CPU alpha, int x, int y) {
+    SkASSERT(255 == alpha);
+
+    if (count >= 8) {
+        asm volatile (
+                    "pld            [%[src]]                        \n\t"   // Preload source
+                    "pld            [%[dst]]                        \n\t"   // Preload destination pixels
+                    "and            %[y], %[y], #0x03               \n\t"   // Mask y by 3
+                    "vmov.i8        d31, #0x01                      \n\t"   // Set up alpha constant
+                    "add            %[y], %[y], lsl #1              \n\t"   // and multiply with 12 to get the row offset
+                    "and            %[x], %[x], #0x03               \n\t"   // Mask x by 3
+                    "vmov.i16       q12, #256                       \n\t"   // Set up alpha constant
+                    "add            %[y], %[matrix], %[y], lsl #2   \n\t"   //
+                    "add            r7, %[x], %[y]                  \n\t"   //
+                    "vld1.8         {d26}, [r7]                     \n\t"   // Load dither values
+                    "add            %[x], %[count]                  \n\t"   //
+                    "vmov.i16       q11, #0x3F                      \n\t"   // Set up green mask constant
+                    "and            %[x], %[x], #0x03               \n\t"   // Mask x by 3
+                    "vmovl.u8       q13, d26                        \n\t"   // Expand dither to 16-bit
+                    "add            r7, %[x], %[y]                  \n\t"   //
+                    "vmov.i16       q10, #0x1F                      \n\t"   // Set up blue mask constant
+                    "vld1.8         {d28}, [r7]                     \n\t"   // Load iteration 2+ dither values
+                    "ands           r7, %[count], #7                \n\t"   // Calculate first iteration increment
+                    "moveq          r7, #8                          \n\t"   // Do full iteration?
+                    "vmovl.u8       q14, d28                        \n\t"   // Expand dither to 16-bit
+                    "vld4.8         {d0-d3}, [%[src]]               \n\t"   // Load eight source pixels
+                    "vld1.16        {q3}, [%[dst]]                  \n\t"   // Load destination 565 pixels
+                    "add            %[src], r7, lsl #2              \n\t"   // Increment source pointer
+                    "add            %[dst], r7, lsl #1              \n\t"   // Increment destination buffer pointer
+                    "subs           %[count], r7                    \n\t"   // Decrement loop counter
+                    "sub            r7, %[dst], r7, lsl #1          \n\t"   // Save original destination pointer
+                    "b              2f                              \n\t"
+                    "1:                                             \n\t"
+                    "vld4.8         {d0-d3}, [%[src]]!              \n\t"   // Load eight source pixels
+                    "vld1.16        {q3}, [%[dst]]!                 \n\t"   // Load destination 565 pixels
+                    "vst1.16        {q2}, [r7]                      \n\t"   // Write result to memory
+                    "sub            r7, %[dst], #8*2                \n\t"   // Calculate next loop's destination pointer
+                    "subs           %[count], #8                    \n\t"   // Decrement loop counter
+                    "2:                                             \n\t"
+                    "pld            [%[src]]                        \n\t"   // Preload destination pixels
+                    "pld            [%[dst]]                        \n\t"   // Preload destination pixels
+                    "vaddl.u8       q2, d3, d31                     \n\t"   // Add 1 to alpha to get 0-256
+                    "vshr.u8        d16, d0, #5                     \n\t"   // Calculate source red subpixel
+                    "vmul.u16       q2, q2, q13                     \n\t"   // Multiply alpha with dither value
+                    "vsub.i8        d0, d16                         \n\t"   // red = (red - (red >> 5) + dither)
+                    "vshrn.i16      d30, q2, #8                     \n\t"   // Shift and narrow result to 0-7
+                    "vadd.i8        d0, d30                         \n\t"   //
+                    "vshr.u8        d16, d2, #5                     \n\t"   // Calculate source blue subpixel
+                    "vsub.i8        d2, d16                         \n\t"   // blue = (blue - (blue >> 5) + dither)
+                    "vshr.u8        d16, d1, #6                     \n\t"   // Calculate source green subpixel
+                    "vadd.i8        d2, d30                         \n\t"   //
+                    "vsub.i8        d1, d16                         \n\t"   // green = (green - (green >> 6) + (dither >> 1))
+                    "vshr.u8        d30, #1                         \n\t"   //
+                    "vadd.i8        d1, d30                         \n\t"   //
+                    "vsubw.u8       q2, q12, d3                     \n\t"   // Calculate inverse alpha 256-1
+                    "vshr.u16       q8, q3, #5                      \n\t"   // Extract destination green pixel
+                    "vshr.u16       q9, q3, #11                     \n\t"   // Extract destination red pixel
+                    "vand           q8, q11                         \n\t"   // Shift green
+                    "vand           q3, q10                         \n\t"   // Extract destination blue pixel
+                    "vshr.u16       q2, #3                          \n\t"   // Shift alpha
+                    "vshll.u8       q1, d2, #2                      \n\t"   // Calculate destination blue pixel
+                    "vmla.i16       q1, q3, q2                      \n\t"   // ...and add to source pixel
+                    "vshll.u8       q3, d1, #3                      \n\t"   // Calculate destination green pixel
+                    "vmov.u8        q13, q14                        \n\t"   // Set dither matrix to iteration 2+ values
+                    "vmla.i16       q3, q8, q2                      \n\t"   // ...and add to source pixel
+                    "vshll.u8       q8, d0, #2                      \n\t"   // Calculate destination red pixel
+                    "vmla.i16       q8, q9, q2                      \n\t"   // ...and add to source pixel
+                    "vshr.u16       q1, #5                          \n\t"   // Pack blue pixel
+                    "vand           q2, q1, q10                     \n\t"   //
+                    "vshr.u16       q3, #5                          \n\t"   // Pack green pixel
+                    "vsli.16        q2, q3, #5                      \n\t"   // ...and insert
+                    "vshr.u16       q8, #5                          \n\t"   // Pack red pixel
+                    "vsli.16        q2, q8, #11                     \n\t"   // ...and insert
+                    "bne            1b                              \n\t"   // If inner loop counter != 0, loop
+                    "vst1.16        {q2}, [r7]                      \n\t"   // Write result to memory
+                    : [src] "+r" (src), [dst] "+r" (dst), [count] "+r" (count), [x] "+r" (x), [y] "+r" (y)
+                    : [matrix] "r" (gDitherMatrix_Neon)
+                    : "cc", "memory", "r7", "d0", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d16", "d17", "d18", "d19", "d20", "d21", "d22", "d23", "d24", "d25", "d26", "d27", "d28", "d29", "d30", "d31"
+                    );
+    }
+    else {
+        S32A_D565_Opaque_Dither_Handle8(dst, src, count, alpha, x, y);
+    }
+}
+
+#define	S32A_D565_Opaque_Dither_PROC S32A_D565_Opaque_Dither_neon
+
+#elif defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
 
 #undef	DEBUG_OPAQUE_DITHER
 
