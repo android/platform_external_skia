@@ -155,8 +155,8 @@ private:
         int32_t     fRefCnt;
         char        fBeginningOfData;
 
-        char* data() { return &fBeginningOfData; }
-        const char* data() const { return &fBeginningOfData; }
+        char* data() { return ((char *) this) + offsetof(Rec, fBeginningOfData); }
+        const char* data() const { return ((const char *) this) + offsetof(Rec, fBeginningOfData); }
     };
     Rec* fRec;
 
