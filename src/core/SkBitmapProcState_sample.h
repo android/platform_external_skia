@@ -86,11 +86,17 @@ void MAKENAME(_nofilter_DX)(const SkBitmapProcState& s,
     xy += 1;
     
     SRCTYPE src;
-    
+    const uint16_t* SK_RESTRICT xx = (const uint16_t*)(xy);
+
     if (1 == s.fBitmap->width()) {
         src = srcAddr[0];
         DSTTYPE dstValue = RETURNDST(src);
         BITMAPPROC_MEMSET(colors, dstValue, count);
+#ifdef ENABLEMEMCPYOPT
+    // Check if scaled or not
+    } else if ((xx[count - 1] - xx[0]) == (count - 1)) {
+        memcpy(colors, srcAddr + xx[0], count * sizeof(SRCTYPE));
+#endif
     } else {
         int i;
         for (i = (count >> 2); i > 0; --i) {

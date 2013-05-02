@@ -93,7 +93,9 @@ static inline U8CPU Filter_8(unsigned x, unsigned y,
                                 SkASSERT(state.fAlphaScale == 256)
 #define RETURNDST(src)          src
 #define SRC_TO_FILTER(src)      src
+#define ENABLEMEMCPYOPT
 #include "SkBitmapProcState_sample.h"
+#undef ENABLEMEMCPYOPT
 
 #undef FILTER_PROC
 #define FILTER_PROC(x, y, a, b, c, d, dst)   Filter_32_alpha(x, y, a, b, c, d, dst, alphaScale)
@@ -264,7 +266,9 @@ static inline U8CPU Filter_8(unsigned x, unsigned y,
 #define CHECKSTATE(state)       SkASSERT(state.fBitmap->config() == SkBitmap::kRGB_565_Config)
 #define RETURNDST(src)          src
 #define SRC_TO_FILTER(src)      src
+#define ENABLEMEMCPYOPT
 #include "SkBitmapProcState_sample.h"
+#undef ENABLEMEMCPYOPT
 
 // SRC == Index8
 
