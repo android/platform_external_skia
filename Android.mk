@@ -51,6 +51,11 @@ ifeq ($(ARCH_ARM_HAVE_NEON),true)
 	LOCAL_CFLAGS += -D__ARM_HAVE_NEON
 endif
 
+# On Cortex-A9, a memset not using Neon is much faster.
+ifeq ($(strip $(TARGET_CPU_VARIANT)),cortex-a9)
+	LOCAL_CFLAGS += -DANDROID_USE_EXTERNAL_MEMSETX
+endif
+
 # special checks for alpha == 0 and alpha == 255 in S32A_Opaque_BlitRow32
 # procedures (C and assembly) seriously improve skia performance
 LOCAL_CFLAGS += -DTEST_SRC_ALPHA

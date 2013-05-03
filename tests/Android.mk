@@ -1,6 +1,10 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
+# On Cortex-A9, a memset not using Neon is much faster.
+ifeq ($(strip $(TARGET_CPU_VARIANT)),cortex-a9)
+	LOCAL_CFLAGS += -DANDROID_USE_EXTERNAL_MEMSETX
+endif
 
 LOCAL_SRC_FILES:= \
   AAClipTest.cpp \
