@@ -17,6 +17,10 @@
 struct FontFileInfo {
     FontFileInfo() : fFileName(NULL) {}
 
+    ~FontFileInfo() {
+        free((char*)fFileName);
+    }
+
     const char*           fFileName;
     SkPaintOptionsAndroid fPaintOptions;
 };
@@ -31,6 +35,19 @@ struct FontFileInfo {
  */
 struct FontFamily {
     FontFamily() : fIsFallbackFont(false), order(-1) {}
+
+    ~FontFamily() {
+        fFontFiles.deleteAll();
+
+        const char** iter = fNames.begin();
+        const char** stop = fNames.end();
+
+        while (iter < stop) {
+            sk_free((char *)*iter);
+            iter++;
+        }
+        fNames.reset();
+    }
 
     SkTDArray<const char*>   fNames;
     SkTDArray<FontFileInfo*> fFontFiles;
