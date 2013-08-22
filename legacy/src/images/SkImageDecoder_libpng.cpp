@@ -22,6 +22,23 @@ extern "C" {
 #include "png.h"
 }
 
+/* These were dropped in libpng >= 1.4 */
+#ifndef png_infopp_NULL
+#define png_infopp_NULL NULL
+#endif
+
+#ifndef png_bytepp_NULL
+#define png_bytepp_NULL NULL
+#endif
+
+#ifndef int_p_NULL
+#define int_p_NULL NULL
+#endif
+
+#ifndef png_flush_ptr_NULL
+#define png_flush_ptr_NULL NULL
+#endif
+
 class SkPNGImageIndex {
 public:
     SkPNGImageIndex() {
@@ -90,7 +107,11 @@ private:
 };
 
 static void sk_read_fn(png_structp png_ptr, png_bytep data, png_size_t length) {
-    SkStream* sk_stream = (SkStream*) png_ptr->io_ptr;
+#   if (PNG_LIBPNG_VER > 10400)
+        SkStream* sk_stream = (SkStream*) png_get_io_ptr(png_ptr);
+#   else
+        SkStream* sk_stream = (SkStream*) png_ptr->io_ptr;
+#   endif
     size_t bytes = sk_stream->read(data, length);
     if (bytes != length) {
         png_error(png_ptr, "Read Error!");
@@ -98,7 +119,11 @@ static void sk_read_fn(png_structp png_ptr, png_bytep data, png_size_t length) {
 }
 
 static void sk_seek_fn(png_structp png_ptr, png_uint_32 offset) {
+#   if (PNG_LIBPNG_VER > 10400)
+        SkStream* sk_stream = (SkStream*) png_get_io_ptr(png_ptr);
+#   else
     SkStream* sk_stream = (SkStream*) png_ptr->io_ptr;
+#   endif
     sk_stream->rewind();
     (void)sk_stream->skip(offset);
 }
@@ -209,7 +234,9 @@ bool SkPNGImageDecoder::onDecodeInit(SkStream* sk_stream,
     * png_init_io() here you would call:
     */
     png_set_read_fn(png_ptr, (void *)sk_stream, sk_read_fn);
-    png_set_seek_fn(png_ptr, sk_seek_fn);
+#   if (PNG_LIBPNG_VER < 10600)
+        png_set_seek_fn(png_ptr, sk_seek_fn);
+#   endif
     /* where user_io_ptr is a structure you want available to the callbacks */
     /* If we have already read some of the signature */
     // png_set_sig_bytes(png_ptr, 0 /* sig_read */ );
@@ -239,7 +266,11 @@ bool SkPNGImageDecoder::onDecodeInit(SkStream* sk_stream,
     }
     /* Expand grayscale images to the full 8 bits from 1, 2, or 4 bits/pixel */
     if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) {
-        png_set_gray_1_2_4_to_8(png_ptr);
+#       if (PNG_LIBPNG_VER > 10400)
+            png_set_expand_gray_1_2_4_to_8(png_ptr);
+#       else
+            png_set_gray_1_2_4_to_8(png_ptr);
+#       endif
     }
 
     /* Make a grayscale image into RGB. */
@@ -447,7 +478,9 @@ bool SkPNGImageDecoder::onBuildTileIndex(SkStream* sk_stream, int *width,
     *width = origWidth;
     *height = origHeight;
 
+#   if (PNG_LIBPNG_VER < 10600)
     png_build_index(png_ptr);
+#   endif
     this->index->png_ptr = png_ptr;
     this->index->info_ptr = info_ptr;
     return true;
@@ -463,16 +496,26 @@ bool SkPNGImageDecoder::getBitmapConfig(png_structp png_ptr, png_infop info_ptr,
 
     // check for sBIT chunk data, in case we should disable dithering because
     // our data is not truely 8bits per component
-    if (*doDitherp) {
+    png_color_8p sig_bit;
+#   if (PNG_LIBPNG_VER > 10400)
+        if (*doDitherp && png_get_sBIT(png_ptr, info_ptr, &sig_bit)) {
+#   else
+        if (*doDitherp) {
+#   endif
 #if 0
-        SkDebugf("----- sBIT %d %d %d %d\n", info_ptr->sig_bit.red,
-                 info_ptr->sig_bit.green, info_ptr->sig_bit.blue,
-                 info_ptr->sig_bit.alpha);
+        SkDebugf("----- sBIT %d %d %d %d\n", sig_bit->red, sig_bit->green,
+                 sig_bit->blue, sig_bit->alpha);
 #endif
         // 0 seems to indicate no information available
-        if (pos_le(info_ptr->sig_bit.red, SK_R16_BITS) &&
+#       if (PNG_LIBPNG_VER > 10400)
+            if (pos_le(sig_bit->red, SK_R16_BITS) &&
+                pos_le(sig_bit->green, SK_G16_BITS) &&
+                pos_le(sig_bit->blue, SK_B16_BITS)) {
+#       else
+            if (pos_le(info_ptr->sig_bit.red, SK_R16_BITS) &&
                 pos_le(info_ptr->sig_bit.green, SK_G16_BITS) &&
                 pos_le(info_ptr->sig_bit.blue, SK_B16_BITS)) {
+#       endif
             *doDitherp = false;
         }
     }
@@ -708,14 +751,26 @@ bool SkPNGImageDecoder::onDecodeRegion(SkBitmap* bm, SkIRect region) {
     * and update info structure.  REQUIRED if you are expecting libpng to
     * update the palette for you (ie you selected such a transform above).
     */
+
+    // Direct access to png_ptr fields is deprecated in libpng > 1.2.
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
     png_ptr->pass = 0;
+#else
+    // FIXME: Figure out what (if anything) to do when Android moves to
+    // libpng > 1.2.
+#endif
     png_read_update_info(png_ptr, info_ptr);
 
     int actualTop = rect.fTop;
 
     if (SkBitmap::kIndex8_Config == config && 1 == sampleSize) {
-        for (int i = 0; i < number_passes; i++) {
+#       if (PNG_LIBPNG_VER < 10600)
             png_configure_decoder(png_ptr, &actualTop, i);
+#       endif
+        for (int i = 0; i < number_passes; i++) {
+#           if (PNG_LIBPNG_VER < 10600)
+                png_configure_decoder(png_ptr, &actualTop, i);
+#           endif
             for (int j = 0; j < rect.fTop - actualTop; j++) {
                 uint8_t* bmRow = decodedBitmap->getAddr8(0, 0);
                 png_read_rows(png_ptr, &bmRow, png_bytepp_NULL, 1);
@@ -754,7 +809,9 @@ bool SkPNGImageDecoder::onDecodeRegion(SkBitmap* bm, SkIRect region) {
             size_t rb = origWidth * srcBytesPerPixel;
 
             for (int i = 0; i < number_passes; i++) {
-                png_configure_decoder(png_ptr, &actualTop, i);
+#               if (PNG_LIBPNG_VER < 10600)
+                    png_configure_decoder(png_ptr, &actualTop, i);
+#               endif
                 for (int j = 0; j < rect.fTop - actualTop; j++) {
                     uint8_t* bmRow = decodedBitmap->getAddr8(0, 0);
                     png_read_rows(png_ptr, &bmRow, png_bytepp_NULL, 1);
@@ -776,7 +833,9 @@ bool SkPNGImageDecoder::onDecodeRegion(SkBitmap* bm, SkIRect region) {
             SkAutoMalloc storage(origWidth * srcBytesPerPixel);
             uint8_t* srcRow = (uint8_t*)storage.get();
 
-            png_configure_decoder(png_ptr, &actualTop, 0);
+#           if (PNG_LIBPNG_VER < 10600)
+                png_configure_decoder(png_ptr, &actualTop, 0);
+#           endif
             skip_src_rows(png_ptr, srcRow, sampler.srcY0());
 
             for (int i = 0; i < rect.fTop - actualTop; i++) {
@@ -813,10 +872,14 @@ bool SkPNGImageDecoder::onDecodeRegion(SkBitmap* bm, SkIRect region) {
 #include "SkUnPreMultiply.h"
 
 static void sk_write_fn(png_structp png_ptr, png_bytep data, png_size_t len) {
-    SkWStream* sk_stream = (SkWStream*)png_ptr->io_ptr;
-    if (!sk_stream->write(data, len)) {
-        png_error(png_ptr, "sk_write_fn Error!");
-    }
+#   if (PNG_LIBPNG_VER > 10400)
+        SkStream* sk_stream = (SkStream*) png_get_io_ptr(png_ptr);
+#   else
+        SkWStream* sk_stream = (SkWStream*)png_ptr->io_ptr;
+        if (!sk_stream->write(data, len)) {
+            png_error(png_ptr, "sk_write_fn Error!");
+        }
+#   endif
 }
 
 typedef void (*transform_scanline_proc)(const char* SK_RESTRICT src,
@@ -1059,7 +1122,7 @@ bool SkPNGImageEncoder::onEncode(SkWStream* stream, const SkBitmap& bitmap,
         default:
             return false;
     }
-    
+
     if (hasAlpha) {
         // don't specify alpha if we're a palette, even if our ctable has alpha
         if (!(colorType & PNG_COLOR_MASK_PALETTE)) {
@@ -1068,7 +1131,7 @@ bool SkPNGImageEncoder::onEncode(SkWStream* stream, const SkBitmap& bitmap,
     } else {
         sig_bit.alpha = 0;
     }
-    
+
     SkAutoLockPixels alp(bitmap);
     // readyToDraw checks for pixels (and colortable if that is required)
     if (!bitmap.readyToDraw()) {
