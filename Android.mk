@@ -466,8 +466,7 @@ LOCAL_STATIC_LIBRARIES := \
 	libft2 \
 	libpng \
 	libgif \
-	libwebp-decode \
-	libwebp-encode
+	webp
 
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/include/core \
@@ -488,7 +487,7 @@ LOCAL_C_INCLUDES := \
 	external/libpng \
 	external/giflib \
 	external/jpeg \
-	external/webp/include \
+	external/webp/src \
 	frameworks/base/opengl/include \
 	frameworks/opt/emoji \
 	external/expat/lib
