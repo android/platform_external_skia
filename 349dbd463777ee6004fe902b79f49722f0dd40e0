@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7468540_89a7aee2",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1006707
+      },
+      "writtenOn": "2013-09-17T16:45:39Z",
+      "side": 1,
+      "message": "The Android version of WebP creates libwebp-decode \u0026 libwebp-encode and not \u0027webp\u0027. Refer Android.mk files:\nexternal/webp/src/dec/Android.mk \u0026\nexternal/webp/src/enc/Android.mk",
+      "revId": "349dbd463777ee6004fe902b79f49722f0dd40e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7468540_2966bac2",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1006707
+      },
+      "writtenOn": "2013-09-17T16:45:39Z",
+      "side": 1,
+      "message": "The Android version of WebP have header files organised under \u0027external/webp/include/\u0027 and not under \u0027external/webp/src/\u0027",
+      "revId": "349dbd463777ee6004fe902b79f49722f0dd40e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
