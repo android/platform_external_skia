@@ -170,6 +170,7 @@ void parseConfigFile(const char *filename, SkTDArray<FontFamily*> &families) {
     // Some of the files we attempt to parse (in particular, /vendor/etc/fallback_fonts.xml)
     // are optional - failure here is okay because one of these optional files may not exist.
     if (file == NULL) {
+        XML_ParserFree(parser);
         return;
     }
     char buffer[512];
@@ -183,6 +184,7 @@ void parseConfigFile(const char *filename, SkTDArray<FontFamily*> &families) {
         XML_Parse(parser, buffer, len, done);
     }
     fclose(file);
+    XML_ParserFree(parser);
 }
 
 void getSystemFontFamilies(SkTDArray<FontFamily*> &fontFamilies) {
