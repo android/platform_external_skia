@@ -1131,7 +1131,7 @@ struct HB_UnicodeMapping {
  * HB_Script_Inherited
  */
 
-static HB_UnicodeMapping HB_UnicodeMappingArray[] {
+static HB_UnicodeMapping HB_UnicodeMappingArray[] = {
     {HB_Script_Armenian,      0x0531},
     {HB_Script_Hebrew,        0x0591},
     {HB_Script_Arabic,        0x0600},
