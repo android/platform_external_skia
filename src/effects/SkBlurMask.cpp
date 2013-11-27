@@ -771,29 +771,36 @@ bool SkBlurMask::BlurRect(SkMask *dst, const SkRect &src,
 
     SkAutoTMalloc<uint8_t> horizontalScanline(dstWidth);
 
-    for (int x = 0 ; x < dstWidth ; ++x) {
-        if (profile_size <= sw) {
+    float span_x = float(sw)/radius;
+    if (profile_size <= sw) {
+        for (int x = 0 ; x < dstWidth ; ++x) {
             horizontalScanline[x] = profile_lookup(profile, x, dstWidth, w);
-        } else {
-            float span = float(sw)/radius;
+        }
+    } else {
+        for (int x = 0 ; x < dstWidth ; ++x) {
             float giX = 1.5f - (x+.5f)/radius;
-            horizontalScanline[x] = (uint8_t) (255 * (gaussianIntegral(giX) - gaussianIntegral(giX + span)));
+            horizontalScanline[x] = (uint8_t) (255 * (gaussianIntegral(giX) - gaussianIntegral(giX + span_x)));
         }
     }
 
-    for (int y = 0 ; y < dstHeight ; ++y) {
-        unsigned int profile_y;
-        if (profile_size <= sh) {
+    float span_y = float(sh)/radius;
+    unsigned int profile_y;
+    if (profile_size <= sh) {
+        for (int y = 0 ; y < dstHeight ; ++y) {
             profile_y = profile_lookup(profile, y, dstHeight, h);
-        } else {
-            float span = float(sh)/radius;
-            float giY = 1.5f - (y+.5f)/radius;
-            profile_y = (uint8_t) (255 * (gaussianIntegral(giY) - gaussianIntegral(giY + span)));
+            for (int x = 0 ; x < dstWidth ; x++) {
+                unsigned int maskval = SkMulDiv255Round(horizontalScanline[x], profile_y);
+                *(outptr++) = maskval;
+            }
         }
-
-        for (int x = 0 ; x < dstWidth ; x++) {
-            unsigned int maskval = SkMulDiv255Round(horizontalScanline[x], profile_y);
-            *(outptr++) = maskval;
+    } else {
+        for (int y = 0 ; y < dstHeight ; ++y) {
+            float giY = 1.5f - (y+.5f)/radius;
+            profile_y = (uint8_t) (255 * (gaussianIntegral(giY) - gaussianIntegral(giY + span_y)));
+            for (int x = 0 ; x < dstWidth ; x++) {
+                unsigned int maskval = SkMulDiv255Round(horizontalScanline[x], profile_y);
+                *(outptr++) = maskval;
+            }
         }
     }
 
