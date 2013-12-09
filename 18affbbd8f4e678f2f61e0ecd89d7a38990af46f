@@ -16,6 +16,24 @@
       "revId": "18affbbd8f4e678f2f61e0ecd89d7a38990af46f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83e41a52_0a0bbab4",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1014994
+      },
+      "writtenOn": "2013-12-09T23:21:00Z",
+      "side": 1,
+      "message": "There is one warning:\nexternal/skia/src/sfnt/SkOTTable_name.cpp:71:94: warning: array subscript is above array bounds [-Warray-bounds]\n         utf8.appendUnichar(macRoman[i] \u003c 0x80 ? macRoman[i] : UnicodeFromMacRoman[macRoman[i]]);\n\nIt looks like the condition should be reversed to me?",
+      "parentUuid": "03f02a0e_1d2af3a9",
+      "revId": "18affbbd8f4e678f2f61e0ecd89d7a38990af46f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
