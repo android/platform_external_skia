@@ -34,6 +34,24 @@
       "revId": "18affbbd8f4e678f2f61e0ecd89d7a38990af46f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f02a0e_e69054c4",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2013-12-10T15:41:39Z",
+      "side": 1,
+      "message": "This has already been fixed upstream in Skia so this warning will go away when I do the next skia merge.",
+      "parentUuid": "83e41a52_0a0bbab4",
+      "revId": "18affbbd8f4e678f2f61e0ecd89d7a38990af46f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
