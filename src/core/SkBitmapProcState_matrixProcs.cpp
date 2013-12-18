@@ -9,6 +9,7 @@
 #include "SkShader.h"
 #include "SkUtils.h"
 #include "SkUtilsArm.h"
+#include "SkUtilsMips.h"
 
 // Helper to ensure that when we shift down, we do it w/o sign-extension
 // so the caller doesn't have to manually mask off the top 16 bits
@@ -77,8 +78,15 @@ extern const SkBitmapProcState::MatrixProc RepeatX_RepeatY_Procs_neon[];
 
 #endif // !SK_ARM_NEON_IS_NONE
 
+#if !SK_MIPS_DSP_IS_NONE
+
+// These are defined in src/opts/SkBitmapProcState_matrixProcs_mips_dsp.cpp
+extern const SkBitmapProcState::MatrixProc ClampX_ClampY_Procs_mips_dsp[];
+extern const SkBitmapProcState::MatrixProc RepeatX_RepeatY_Procs_mips_dsp[];
+
+#endif // !SK_MIPS_DSP_IS_NONE
 // Compile non-neon code path if needed
-#if !SK_ARM_NEON_IS_ALWAYS
+#if !SK_ARM_NEON_IS_ALWAYS && !SK_MIPS_DSP_IS_ALWAYS
 #define MAKENAME(suffix)        ClampX_ClampY ## suffix
 #define TILEX_PROCF(fx, max)    SkClampMax((fx) >> 16, max)
 #define TILEY_PROCF(fy, max)    SkClampMax((fy) >> 16, max)
@@ -480,7 +488,11 @@ SkBitmapProcState::chooseMatrixProc(bool trivial_matrix) {
         // clamp gets special version of filterOne
         fFilterOneX = SK_Fixed1;
         fFilterOneY = SK_Fixed1;
+#if !SK_MIPS_DSP_IS_NONE
+        return SK_MIPS_DSP_WRAP(ClampX_ClampY_Procs)[index];
+#else
         return SK_ARM_NEON_WRAP(ClampX_ClampY_Procs)[index];
+#endif
     }
 
     // all remaining procs use this form for filterOne
@@ -490,7 +502,11 @@ SkBitmapProcState::chooseMatrixProc(bool trivial_matrix) {
     if (SkShader::kRepeat_TileMode == fTileModeX &&
         SkShader::kRepeat_TileMode == fTileModeY)
     {
+#if !SK_MIPS_DSP_IS_NONE
+        return SK_MIPS_DSP_WRAP(RepeatX_RepeatY_Procs)[index];
+#else
         return SK_ARM_NEON_WRAP(RepeatX_RepeatY_Procs)[index];
+#endif
     }
 
     fTileProcX = choose_tile_proc(fTileModeX);

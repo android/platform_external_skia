@@ -138,6 +138,18 @@ static inline bool SkIsPow2(int value) {
             );
         return product;
     }
+#elif defined(SK_CPU_MIPS)
+    static inline int32_t SkMulS16(S16CPU x, S16CPU y) {
+        SkASSERT((int16_t)x == x);
+        SkASSERT((int16_t)y == y);
+        int32_t product;
+        asm("mul %0, %1, %2 \n"
+            : "=r"(product)
+            : "r"(x), "r"(y)
+            : "hi", "lo"
+            );
+        return product;
+    }
 #else
     #ifdef SK_DEBUG
         static inline int32_t SkMulS16(S16CPU x, S16CPU y) {

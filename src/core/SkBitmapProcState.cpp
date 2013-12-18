@@ -11,6 +11,7 @@
 #include "SkPaint.h"
 #include "SkShader.h"   // for tilemodes
 #include "SkUtilsArm.h"
+#include "SkUtilsMips.h"
 #include "SkBitmapScaler.h"
 #include "SkMipMap.h"
 #include "SkScaledImageCache.h"
@@ -25,6 +26,18 @@ extern void  Repeat_S16_D16_filter_DX_shaderproc_neon(const SkBitmapProcState&, 
 extern void  SI8_opaque_D32_filter_DX_neon(const SkBitmapProcState&, const uint32_t*, int, SkPMColor*);
 extern void  SI8_opaque_D32_filter_DX_shaderproc_neon(const SkBitmapProcState&, int, int, uint32_t*, int);
 extern void  Clamp_SI8_opaque_D32_filter_DX_shaderproc_neon(const SkBitmapProcState&, int, int, uint32_t*, int);
+#endif
+
+#if  !SK_MIPS_DSP_IS_NONE
+// These are defined in src/opts/SkBitmapProcState_mips_dsp.cpp
+extern const SkBitmapProcState::SampleProc16 gSkBitmapProcStateSample16_mips_dsp[];
+extern const SkBitmapProcState::SampleProc32 gSkBitmapProcStateSample32_mips_dsp[];
+extern void  S16_D16_filter_DX(const SkBitmapProcState&, const uint32_t*, int, uint16_t*);
+extern void  Clamp_S16_D16_filter_DX_shaderproc(const SkBitmapProcState&, int, int, uint16_t*, int);
+extern void  Repeat_S16_D16_filter_DX_shaderproc(const SkBitmapProcState&, int, int, uint16_t*, int);
+extern void  SI8_opaque_D32_filter_DX(const SkBitmapProcState&, const uint32_t*, int, SkPMColor*);
+extern void  SI8_opaque_D32_filter_DX_shaderproc(const SkBitmapProcState&, int, int, uint32_t*, int);
+extern void  Clamp_SI8_opaque_D32_filter_DX_shaderproc(const SkBitmapProcState&, int, int, uint32_t*, int);
 #endif
 
 #define   NAME_WRAP(x)  x
@@ -440,7 +453,7 @@ bool SkBitmapProcState::chooseProcs(const SkMatrix& inv, const SkPaint& paint) {
                 return false;
         }
 
-    #if !SK_ARM_NEON_IS_ALWAYS
+#if !SK_ARM_NEON_IS_ALWAYS && !SK_MIPS_DSP_IS_ALWAYS
         static const SampleProc32 gSkBitmapProcStateSample32[] = {
             S32_opaque_D32_nofilter_DXDY,
             S32_alpha_D32_nofilter_DXDY,
@@ -512,6 +525,11 @@ bool SkBitmapProcState::chooseProcs(const SkMatrix& inv, const SkPaint& paint) {
         };
     #endif
 
+#if !SK_MIPS_DSP_IS_NONE
+        fSampleProc32 = SK_MIPS_DSP_WRAP(gSkBitmapProcStateSample32)[index];
+        index >>= 1;    // shift away any opaque/alpha distinction
+        fSampleProc16 = SK_MIPS_DSP_WRAP(gSkBitmapProcStateSample16)[index];
+#else
         fSampleProc32 = SK_ARM_NEON_WRAP(gSkBitmapProcStateSample32)[index];
         index >>= 1;    // shift away any opaque/alpha distinction
         fSampleProc16 = SK_ARM_NEON_WRAP(gSkBitmapProcStateSample16)[index];
@@ -531,6 +549,7 @@ bool SkBitmapProcState::chooseProcs(const SkMatrix& inv, const SkPaint& paint) {
         if (NULL == fShaderProc32) {
             fShaderProc32 = this->chooseShaderProc32();
         }
+#endif
     }
 
     // see if our platform has any accelerated overrides
