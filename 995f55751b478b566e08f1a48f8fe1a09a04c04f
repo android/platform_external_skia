@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "886997a4_ff68f77f",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2013-12-20T16:12:18Z",
+      "side": 1,
+      "message": "why is a MIPS patch changing ARM code?",
+      "range": {
+        "startLine": 38,
+        "startChar": 18,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "995f55751b478b566e08f1a48f8fe1a09a04c04f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8954fbe_21db2a3d",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2013-12-20T16:12:18Z",
+      "side": 1,
+      "message": "This is no longer needed as SK_SOFTWARE_FLOAT is no longer used within Skia library.  Do you have MIPS devices that don\u0027t support hardware float?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "995f55751b478b566e08f1a48f8fe1a09a04c04f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
