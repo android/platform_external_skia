@@ -26,8 +26,46 @@ LOCAL_PATH:= $(call my-dir)
 ###############################################################################
 
 
+# ===========================================================
+# libskia_ssse3.a - SSSE3 support for IA
+# ===========================================================
+#
+# The SSSE3 code need to be compiled with -mssse3, but we don't want to
+# spread this option to the whole project.
+#
+
+ifeq ($(TARGET_ARCH),x86)
+    include $(CLEAR_VARS)
+
+    LOCAL_SRC_FILES := \
+		src/opts/SkBitmapProcState_opts_SSSE3.cpp
+
+    LOCAL_C_INCLUDES := \
+		$(LOCAL_PATH)/include/core \
+		$(LOCAL_PATH)/src/core
+
+    LOCAL_CFLAGS += -mssse3
+
+    # keep all other compilation options exactly the same with libskia
+    # to avoid potential errors.
+    LOCAL_CFLAGS += -DDCT_IFAST_SUPPORTED
+    LOCAL_CFLAGS += -DANDROID_LARGE_MEMORY_DEVICE
+    LOCAL_CFLAGS += -DSK_USE_FREETYPE_EMBOLDEN
+    LOCAL_CFLAGS += -DSK_FONTHOST_FREETYPE_RUNTIME_VERSION=0x020400
+    LOCAL_CFLAGS += -DSK_CAN_USE_DLOPEN=0
+    ifeq ($(NO_FALLBACK_FONT),true)
+		LOCAL_CFLAGS += -DNO_FALLBACK_FONT
+    endif
+    LOCAL_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1
+    LOCAL_CFLAGS += -Wno-unused-parameter
+
+    LOCAL_MODULE:= libskia_ssse3
+
+    include $(BUILD_STATIC_LIBRARY)
+endif
+
 #############################################################
-#   build the skia+fretype+png+jpeg+zlib+gif+webp library
+#   build the skia+freetype+png+jpeg+zlib+gif+webp library
 #
 
 include $(CLEAR_VARS)
@@ -514,14 +552,14 @@ LOCAL_SRC_FILES += \
 
 ifeq ($(TARGET_ARCH),arm)
 
-ifeq ($(ARCH_ARM_HAVE_NEON),true)
-LOCAL_SRC_FILES += \
-	src/opts/memset16_neon.S \
-	src/opts/memset32_neon.S \
-	src/opts/SkBitmapProcState_arm_neon.cpp \
-	src/opts/SkBitmapProcState_matrixProcs_neon.cpp \
-	src/opts/SkBlitRow_opts_arm_neon.cpp
-endif
+    ifeq ($(ARCH_ARM_HAVE_NEON),true)
+    LOCAL_SRC_FILES += \
+		src/opts/memset16_neon.S \
+		src/opts/memset32_neon.S \
+		src/opts/SkBitmapProcState_arm_neon.cpp \
+		src/opts/SkBitmapProcState_matrixProcs_neon.cpp \
+		src/opts/SkBlitRow_opts_arm_neon.cpp
+    endif
 
 LOCAL_SRC_FILES += \
 	src/core/SkUtilsArm.cpp \
@@ -531,10 +569,24 @@ LOCAL_SRC_FILES += \
 	src/opts/SkBlitRow_opts_arm.cpp
 
 else
-LOCAL_SRC_FILES += \
-	src/opts/SkBlitRow_opts_none.cpp \
-	src/opts/SkBitmapProcState_opts_none.cpp \
-	src/opts/SkUtils_opts_none.cpp
+
+    ifeq ($(TARGET_ARCH),x86)
+    LOCAL_SRC_FILES += \
+		src/opts/opts_check_SSE2.cpp \
+		src/opts/SkBitmapProcState_opts_SSE2.cpp \
+		src/opts/SkBitmapFilter_opts_SSE2.cpp \
+		src/opts/SkBlitRow_opts_SSE2.cpp \
+		src/opts/SkBlitRect_opts_SSE2.cpp \
+		src/opts/SkUtils_opts_SSE2.cpp
+
+    LOCAL_WHOLE_STATIC_LIBRARIES := libskia_ssse3
+
+    else
+    LOCAL_SRC_FILES += \
+		src/opts/SkBlitRow_opts_none.cpp \
+		src/opts/SkBitmapProcState_opts_none.cpp \
+		src/opts/SkUtils_opts_none.cpp
+    endif
 endif
 
 LOCAL_SHARED_LIBRARIES := \
