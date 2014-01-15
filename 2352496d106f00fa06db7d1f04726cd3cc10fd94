@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf9e1ff_3b2ff7bd",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-01-15T14:03:22Z",
+      "side": 1,
+      "message": "can you indent this 4 spaces to make it clear that it is embedded within a conditional block?",
+      "range": {
+        "startLine": 535,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 25
+      },
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d0d29ec_3c8c1d6b",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-01-15T14:03:22Z",
+      "side": 1,
+      "message": "The framework (and subsequently the NDK) promises that we will have SSE2 and SSE3.  However SSSE3 may or may not be present on those devices so we need to have additional guards and/or runtime checks before we can include this file.",
+      "range": {
+        "startLine": 539,
+        "startChar": 10,
+        "endLine": 539,
+        "endChar": 38
+      },
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf9e1ff_1b2cbbc5",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-01-15T14:03:22Z",
+      "side": 1,
+      "message": "same as above. We don\u0027t promise that all devices support SSSE3.",
+      "range": {
+        "startLine": 543,
+        "startChar": 1,
+        "endLine": 544,
+        "endChar": 23
+      },
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
