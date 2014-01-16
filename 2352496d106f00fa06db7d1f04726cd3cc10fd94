@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6dd0f588_8eb7df05",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1039104
+      },
+      "writtenOn": "2014-01-16T03:20:41Z",
+      "side": 1,
+      "message": "Done.\nI indent all inner if-else 4 spaces and all others one more tab in this if-else block.\n\nseems that code in AOSP doesn\u0027t strictly follow the coding style like that in chrome, where indent every inner block 4 spaces for c/c++ code, and 2 spaces for script.",
+      "parentUuid": "cdf9e1ff_3b2ff7bd",
+      "range": {
+        "startLine": 535,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 25
+      },
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d0d29ec_3c8c1d6b",
         "filename": "Android.mk",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-15T14:03:22Z",
       "side": 1,
       "message": "The framework (and subsequently the NDK) promises that we will have SSE2 and SSE3.  However SSSE3 may or may not be present on those devices so we need to have additional guards and/or runtime checks before we can include this file.",
+      "range": {
+        "startLine": 539,
+        "startChar": 10,
+        "endLine": 539,
+        "endChar": 38
+      },
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd5f177_cd5f1d1e",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1039104
+      },
+      "writtenOn": "2014-01-16T03:20:41Z",
+      "side": 1,
+      "message": "Hi Derek, I think SIMD are handled in different way between ARM and IA in Skia. \n\nFor ARM, The decision to use NEON or ARM assembly without NEON is made at compile time. So, in this if-else code block in Android.mk, It can check ARCH_ARM_HAVE_NEON for a specific arm architecture to decide use NEON or not at compile time. Also, in src/opt/opts_check_arm.cpp and other impl files, It checked a predefined condition to decide use NEON or not at compile time.\n\nFor IA, The decision to use SSSE3 or SSE2(or others, like SSE4) is made at run-time(sometimes, at compile-time). We don\u0027t have something like ARCH_X86_HAVE_SSSE3 to handle all cases at compile-time. Moreover, we compile the code on one machine(say, desktop/server) and run it on another machine(say, mobile) in most cases, so we can\u0027t check whether the target can support SSSE3 at compile time.   \n\nSo we can add -mssse3 to compile all variants implemented by SSE2/SSSE3/... for the same function at compile time on desktop, and select the correct one at run-time on mobile device(see platformProcs() in src/opt/opts_check_SSE2.cpp). I think this is OK.\n\nWhat about your oponion?",
+      "parentUuid": "8d0d29ec_3c8c1d6b",
       "range": {
         "startLine": 539,
         "startChar": 10,
@@ -65,6 +113,24 @@
         "endLine": 544,
         "endChar": 23
       },
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd0f588_ce69d782",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1039104
+      },
+      "writtenOn": "2014-01-16T03:20:41Z",
+      "side": 1,
+      "message": "same as above. Compile all variants with SSE2/SSSE3, and checked at run-time to select a correct one.",
+      "parentUuid": "cdf9e1ff_1b2cbbc5",
       "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
