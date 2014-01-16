@@ -134,6 +134,24 @@
       "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad7bcd5e_05f554ab",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-01-16T15:46:05Z",
+      "side": 1,
+      "message": "I think I understand what your getting at.  However, I believe having it here is still too broad of scope.  This flag gives the compiler freedom to include SSSE3 instructions (for auto vectorization, etc.) anywhere in the Skia library.\n\nThis is a framework build so we know exactly what device we are building for before we build it so I would suggest that we should add something like ARCH_X86_HAVE_SSSE3.  However, even if we don\u0027t do that we still need to compile just the *_SSSE3.cpp code with the -mssse3 flag and not the entire project.",
+      "parentUuid": "6dd0f588_ce69d782",
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
