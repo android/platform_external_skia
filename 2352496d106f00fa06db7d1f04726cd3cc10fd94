@@ -152,6 +152,24 @@
       "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5244b256_d8c8c1eb",
+        "filename": "Android.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1039104
+      },
+      "writtenOn": "2014-01-21T08:30:49Z",
+      "side": 1,
+      "message": "Agree. How to compile just the *_SSSE3.cpp code with -mssse3 option in AOSP, do you have some suggestions or instructions? In upstream Skia, the project will use gyp to build different files into different targets. Each target has its own compilation options.",
+      "parentUuid": "ad7bcd5e_05f554ab",
+      "revId": "2352496d106f00fa06db7d1f04726cd3cc10fd94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
