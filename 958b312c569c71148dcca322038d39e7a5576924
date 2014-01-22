@@ -16,6 +16,47 @@
       "revId": "958b312c569c71148dcca322038d39e7a5576924",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23206f0_c071ee22",
+        "filename": "Android.mk",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-01-22T20:34:05Z",
+      "side": 1,
+      "message": "The problem is that that cpp file includes SkPaint.h and SkBitmapProcState.h which in turn pull in almost all the header files in the project.  If any of those header files change based on the CFLAGS you can potentially get errors, such as incorrect struct sizes.",
+      "parentUuid": "f27926b6_140394a1",
+      "revId": "958b312c569c71148dcca322038d39e7a5576924",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b25ece29_33601adf",
+        "filename": "Android.mk",
+        "patchSetId": 9
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-01-22T20:34:05Z",
+      "side": 1,
+      "message": "I would move this up with your other optimizations near line 563",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 5
+      },
+      "revId": "958b312c569c71148dcca322038d39e7a5576924",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
