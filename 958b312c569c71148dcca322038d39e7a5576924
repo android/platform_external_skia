@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f27926b6_140394a1",
+        "filename": "Android.mk",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1039104
+      },
+      "writtenOn": "2014-01-22T09:34:58Z",
+      "side": 1,
+      "message": "Other CFLAGS about memory allocation, font...are irrelevant to compile this simple file,  so I don\u0027t add these CFLAGS to generate this small static lib. Please correct me  if you think some other CFLAGSes are necessary.",
+      "revId": "958b312c569c71148dcca322038d39e7a5576924",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
