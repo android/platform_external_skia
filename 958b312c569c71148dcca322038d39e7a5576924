@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "32ae5e66_29c68958",
+        "filename": "Android.mk",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2014-01-23T15:57:46Z",
+      "side": 1,
+      "message": "I agree with Derek\u0027s concern about the included header files.\n\nWhat if the LOCAL_CFLAGS included all the flags that are defined below? If the only difference in the flags was mssse3, is it possible that that our struct sizes would not match?\n\nThis would require defining this below the other LOCAL_CFLAGS, or creating some temporary variable (though I think that is discouraged because all variables are global?)",
+      "parentUuid": "92bf0a8c_ac6e0b3f",
+      "revId": "958b312c569c71148dcca322038d39e7a5576924",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b25ece29_33601adf",
         "filename": "Android.mk",
         "patchSetId": 9
