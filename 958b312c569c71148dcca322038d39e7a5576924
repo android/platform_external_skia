@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "f265a62a_430890f6",
+        "filename": "Android.mk",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1039104
+      },
+      "writtenOn": "2014-01-24T07:31:50Z",
+      "side": 1,
+      "message": "Indeed, It is safer to keep these compilation options the same to avoid potential errors.",
+      "parentUuid": "32ae5e66_29c68958",
+      "revId": "958b312c569c71148dcca322038d39e7a5576924",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b25ece29_33601adf",
         "filename": "Android.mk",
         "patchSetId": 9
