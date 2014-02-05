@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12195a30_b828359c",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-02-05T13:26:05Z",
+      "side": 1,
+      "message": "This used to be in an ifneq branch so putting it here is wrong.  It also happens that we don\u0027t need this flag anymore so feel free to remove it entirely.",
+      "range": {
+        "startLine": 41,
+        "startChar": 22,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "36f226196b3ea2da0be426b270044d1f8d500de9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
