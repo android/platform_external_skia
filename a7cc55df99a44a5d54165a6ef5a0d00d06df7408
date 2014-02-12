@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef65bd2a_1459b47a",
+        "filename": "Android.mk",
+        "patchSetId": 13
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-02-12T15:29:18Z",
+      "side": 1,
+      "message": "be consistent and use either tabs or spaces, not both.",
+      "revId": "a7cc55df99a44a5d54165a6ef5a0d00d06df7408",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
