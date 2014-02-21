@@ -522,6 +522,11 @@ LOCAL_SRC_FILES_arm += \
 	src/opts/SkBitmapProcState_opts_arm.cpp \
 	src/opts/SkBlitRow_opts_arm.cpp
 
+LOCAL_SRC_FILES_arm64 += \
+	src/opts/SkBlitRow_opts_none.cpp \
+	src/opts/SkBitmapProcState_opts_none.cpp \
+	src/opts/SkUtils_opts_none.cpp
+
 LOCAL_SRC_FILES_mips += \
 	src/opts/SkBlitRow_opts_none.cpp \
 	src/opts/SkBitmapProcState_opts_none.cpp \
