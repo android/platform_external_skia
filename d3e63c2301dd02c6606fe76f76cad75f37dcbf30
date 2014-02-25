@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0f6924_5a439183",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-02-25T15:42:36Z",
+      "side": 1,
+      "message": "why not just dup the LOCAL_SRC_FILES_arm block above? That way you at least get the std ARM/NEON opts.",
+      "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
