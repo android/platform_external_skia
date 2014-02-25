@@ -52,6 +52,24 @@
       "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc0199f4_be73b527",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1040609
+      },
+      "writtenOn": "2014-02-25T16:43:52Z",
+      "side": 1,
+      "message": "No. ARMv8 processors have two execution states (aarch64 and aarch32). aarch32 should be backwards compatible with armv7 but we\u0027re explicitly building for aarch64 here.\n\nThat\u0027s one of the reasons I\u0027ve been submitting intrinsics (which are compatible) to upstream Skia over the past few months. This version of Skia doesn\u0027t have all these changes. For this to work, it would need parts of the aarch64 change currently being reviewed on chromium.org. I was hoping we could merge everything into upstream Skia first and then pull it from there.\n\nDo you have a plan for merging the updated ARM backend into Android?\n\nThis is just meant to be a simple build-fix.",
+      "parentUuid": "5c0f6924_5ddeeb83",
+      "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
