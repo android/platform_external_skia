@@ -16,6 +16,24 @@
       "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc0199f4_5e395154",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1040609
+      },
+      "writtenOn": "2014-02-25T16:11:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand, the arm files won\u0027t build for arm64...",
+      "parentUuid": "5c0f6924_5a439183",
+      "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
