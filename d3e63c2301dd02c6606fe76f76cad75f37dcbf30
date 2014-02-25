@@ -70,6 +70,24 @@
       "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c2475a3_3cd9f968",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-02-25T16:59:42Z",
+      "side": 1,
+      "message": "Just for my reference, it is just the armv7 instructions that are not back compatible?  Will the NEON code play nicely?\n\nMerging everything into upstream Skia is the right way to go and me and my team will ensure it gets into all the right places (including the WebView and Chrome).",
+      "parentUuid": "dc0199f4_be73b527",
+      "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
