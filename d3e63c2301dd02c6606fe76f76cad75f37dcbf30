@@ -34,6 +34,24 @@
       "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0f6924_5ddeeb83",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-02-25T16:24:52Z",
+      "side": 1,
+      "message": "So aarch64 compilers are not backwards compatible with armv7 instructions?",
+      "parentUuid": "dc0199f4_5e395154",
+      "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
