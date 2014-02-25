@@ -88,6 +88,24 @@
       "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c0a6d15_fba6eb3b",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1040609
+      },
+      "writtenOn": "2014-02-25T17:22:11Z",
+      "side": 1,
+      "message": "If written in intrinsics yes.",
+      "parentUuid": "3c2475a3_3cd9f968",
+      "revId": "d3e63c2301dd02c6606fe76f76cad75f37dcbf30",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
