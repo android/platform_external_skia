@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "658813e3_36cb2e87",
+        "filename": "src/opts/opts_check_SSE2.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-04-21T18:25:22Z",
+      "side": 1,
+      "message": "Do we have any idea why this function crashes on the emulator?  Is getcpuid(...) not properly implemented?",
+      "revId": "d9c386d92bff4c0755682a695ef0a8a96b35fc88",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
