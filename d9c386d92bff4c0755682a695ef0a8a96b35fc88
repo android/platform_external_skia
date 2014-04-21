@@ -16,6 +16,24 @@
       "revId": "d9c386d92bff4c0755682a695ef0a8a96b35fc88",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "658813e3_16df0aea",
+        "filename": "src/opts/opts_check_SSE2.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010712
+      },
+      "writtenOn": "2014-04-21T18:47:43Z",
+      "side": 1,
+      "message": "The crash is due to that sk_throw() is called in S32_*_SSE3() for the x86 emulator build that doesn\u0027t supply -mssse3.  Thanks!",
+      "parentUuid": "658813e3_36cb2e87",
+      "revId": "d9c386d92bff4c0755682a695ef0a8a96b35fc88",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
