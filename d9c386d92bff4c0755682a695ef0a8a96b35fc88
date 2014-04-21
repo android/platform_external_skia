@@ -34,6 +34,24 @@
       "revId": "d9c386d92bff4c0755682a695ef0a8a96b35fc88",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a59dab27_1e1089b0",
+        "filename": "src/opts/opts_check_SSE2.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-04-21T19:09:17Z",
+      "side": 1,
+      "message": "That would indicate that the getcpuid function is returning true when it should return false.  Could it be possible that the x86 emulator mistakenly sets the 0x200 bit when we call the cpuid instruction?",
+      "parentUuid": "658813e3_16df0aea",
+      "revId": "d9c386d92bff4c0755682a695ef0a8a96b35fc88",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
