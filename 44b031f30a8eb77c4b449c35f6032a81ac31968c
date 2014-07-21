@@ -22,6 +22,30 @@
       "revId": "44b031f30a8eb77c4b449c35f6032a81ac31968c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f918342e_f8574d04",
+        "filename": "src/utils/SkCanvasStateUtils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2014-07-21T15:48:37Z",
+      "side": 1,
+      "message": "yes as long as you have the setPixels below like you do. The newer API just combines these 2 calls into 1.",
+      "parentUuid": "d957f0b2_ed147d1c",
+      "range": {
+        "startLine": 302,
+        "startChar": 21,
+        "endLine": 302,
+        "endChar": 30
+      },
+      "revId": "44b031f30a8eb77c4b449c35f6032a81ac31968c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
