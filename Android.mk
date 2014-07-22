@@ -589,6 +589,7 @@ LOCAL_SRC_FILES_x86_64 += \
 
 LOCAL_SHARED_LIBRARIES := \
 	liblog \
+	libdl \
 	libcutils \
 	libft2 \
 	libjpeg \

@@ -450,6 +450,8 @@ protected:
         width/height/rowbytes/config. Returns true on success. This method handles checking
         for an optional Allocator.
     */
+
+public:
     bool allocPixelRef(SkBitmap*, SkColorTable*) const;
 
     /**
