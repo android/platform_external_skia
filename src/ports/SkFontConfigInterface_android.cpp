@@ -113,6 +113,7 @@ private:
     SkTypeface* getTypefaceForFontRec(FontRecID fontRecID);
     FallbackFontList* getCurrentLocaleFallbackFontList();
     FallbackFontList* findFallbackFontList(const SkLanguage& lang, bool isOriginal = true);
+    FallbackFontList* findFallbackFontListLocked(const SkLanguage& lang, bool isOriginal);
 
     SkTArray<FontRec> fFonts;
     SkTArray<FamilyRec> fFontFamilies;
@@ -585,6 +586,13 @@ FallbackFontList* SkFontConfigInterfaceAndroid::getCurrentLocaleFallbackFontList
 
 FallbackFontList* SkFontConfigInterfaceAndroid::findFallbackFontList(const SkLanguage& lang,
                                                                      bool isOriginal) {
+    SK_DECLARE_STATIC_MUTEX(gDictMutex);
+    SkAutoMutexAcquire ac(gDictMutex);
+
+    return findFallbackFontListLocked(lang, isOriginal);
+}
+
+FallbackFontList* SkFontConfigInterfaceAndroid::findFallbackFontListLocked(const SkLanguage& lang, bool isOriginal) {
     const SkString& langTag = lang.getTag();
     if (langTag.isEmpty()) {
         return &fDefaultFallbackList;
@@ -598,7 +606,7 @@ FallbackFontList* SkFontConfigInterfaceAndroid::findFallbackFontList(const SkLan
 
     // attempt a recursive fuzzy match
     SkLanguage parent = lang.getParent();
-    fallbackFontList = findFallbackFontList(parent, false);
+    fallbackFontList = findFallbackFontListLocked(parent, false);
 
     // cache the original lang so we don't have to do the recursion again.
     if (isOriginal) {
