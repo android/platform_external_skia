@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "531681dd_0794402f",
+        "filename": "src/utils/SkCanvasStateUtils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1040283
+      },
+      "writtenOn": "2014-08-28T12:57:36Z",
+      "side": 1,
+      "message": "The change in line 63 above makes the SkCanvasLayerState::raster::rowBytes a \"uint64_t\" regardless of the target platform and this type conversion changes the value down to a platform dependant type - which could be 32-bits.\n\nThe setConfig() function, however, attempts to convert this input to a U32 [again] but this time using an assertion in SkToU32():\n\n    fRowBytes   \u003d SkToU32(rowBytes);\n\nThis assertion seems reasonable but are we safe to convert the value on this line without the assert on a 64-bit platform?",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 21
+      },
+      "revId": "8acebe69095767013dca65028cba8409931519f7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
