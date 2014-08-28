@@ -22,6 +22,30 @@
       "revId": "8acebe69095767013dca65028cba8409931519f7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "531681dd_a798f465",
+        "filename": "src/utils/SkCanvasStateUtils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1040283
+      },
+      "writtenOn": "2014-08-28T13:00:21Z",
+      "side": 1,
+      "message": "I meant to write \"without the assert on a 32-bit platform\".",
+      "parentUuid": "531681dd_0794402f",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 21
+      },
+      "revId": "8acebe69095767013dca65028cba8409931519f7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
