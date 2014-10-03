@@ -445,7 +445,11 @@ private:
 
 // Use the below macro (SkNEW_APPEND_TO_TARRAY) rather than calling this directly
 template <typename T, bool MEM_COPY>
-void* operator new(size_t, SkTArray<T, MEM_COPY>* array, int atIndex) {
+void* operator new(size_t, SkTArray<T, MEM_COPY>* array, int
+#ifdef SK_DEBUG
+    atIndex
+#endif
+    ) {
     // Currently, we only support adding to the end of the array. When the array class itself
     // supports random insertion then this should be updated.
     // SkASSERT(atIndex >= 0 && atIndex <= array->count());
