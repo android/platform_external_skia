@@ -201,7 +201,7 @@ public:
      *          not be created with the given config), or this PixelRef does not support deep
      *          copies.
      */
-    virtual SkPixelRef* deepCopy(SkBitmap::Config config, const SkIRect* subset = NULL) {
+    virtual SkPixelRef* deepCopy(SkBitmap::Config, const SkIRect*) {
         return NULL;
     }
 

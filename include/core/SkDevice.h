@@ -284,8 +284,8 @@ protected:
                             const SkPaint&) = 0;
 
     // DEPRECATED -- will remove this once the subclass stop overriding it
-    virtual void drawPosTextOnPath(const SkDraw&, const void* text, size_t len,
-                                   const SkPoint pos[], const SkPaint&,
+    virtual void drawPosTextOnPath(const SkDraw&, const void*, size_t,
+                                   const SkPoint*, const SkPaint&,
                                    const SkPath&, const SkMatrix*) {}
 
     /**
