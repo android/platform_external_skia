@@ -457,7 +457,7 @@ void* operator new(size_t, SkTArray<T, MEM_COPY>* array, int atIndex) {
 // to match the op new silences warnings about missing op delete when a constructor throws an
 // exception.
 template <typename T, bool MEM_COPY>
-void operator delete(void*, SkTArray<T, MEM_COPY>* array, int atIndex) {
+void operator delete(void*, SkTArray<T, MEM_COPY>*, int) {
     SK_CRASH();
 }
 

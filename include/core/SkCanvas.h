@@ -865,7 +865,7 @@ public:
         subclasses like SkPicture's recording canvas, that can store the data
         and then play it back later (via another call to drawData).
      */
-    virtual void drawData(const void* data, size_t length) {
+    virtual void drawData(const void*, size_t) {
         // do nothing. Subclasses may do something with the data
     }
 
@@ -873,10 +873,10 @@ public:
         Each comment added via addComment is notionally attached to its
         enclosing group. Top-level comments simply belong to no group.
      */
-    virtual void beginCommentGroup(const char* description) {
+    virtual void beginCommentGroup(const char*) {
         // do nothing. Subclasses may do something
     }
-    virtual void addComment(const char* kywd, const char* value) {
+    virtual void addComment(const char*, const char*) {
         // do nothing. Subclasses may do something
     }
     virtual void endCommentGroup() {
