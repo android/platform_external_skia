@@ -16,6 +16,24 @@
       "revId": "a5b968cf6e7ea296c1370d346cd10d7318d09250",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0b988d9_4efb6fdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1052399
+      },
+      "writtenOn": "2014-10-07T20:34:43Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "90b390f9_d778fc34",
+      "revId": "a5b968cf6e7ea296c1370d346cd10d7318d09250",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
