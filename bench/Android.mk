@@ -5,6 +5,7 @@
 #
 ###############################################################################
 
+local_target_dir := $(TARGET_OUT_DATA)/local/tmp
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_CFLAGS += \
@@ -155,6 +156,7 @@ LOCAL_SRC_FILES := \
 	../gm/drrect.cpp \
 	../gm/etc1bitmap.cpp \
 	../gm/extractbitmap.cpp \
+	../gm/emboss.cpp \
 	../gm/emptypath.cpp \
 	../gm/fatpathfill.cpp \
 	../gm/factory.cpp \
@@ -313,5 +315,6 @@ LOCAL_MODULE_TAGS := \
 
 LOCAL_MODULE := \
 	skia_bench
-include external/stlport/libstlport.mk
-include $(BUILD_NATIVE_TEST)
+
+LOCAL_MODULE_PATH := $(local_target_dir)
+include $(BUILD_EXECUTABLE)
