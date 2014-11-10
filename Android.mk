@@ -33,9 +33,6 @@ LOCAL_PATH:= $(call my-dir)
 ###############################################################################
 
 include $(CLEAR_VARS)
-
-LOCAL_FDO_SUPPORT := true
-
 LOCAL_ARM_MODE := thumb
 ifeq ($(TARGET_ARCH),arm)
 	ifeq ($(ARCH_ARM_HAVE_VFP),true)
@@ -50,11 +47,6 @@ endif
 
 ifeq ($(NO_FALLBACK_FONT),true)
 	LOCAL_CFLAGS += -DNO_FALLBACK_FONT
-endif
-
-ifneq ($(strip $(TARGET_FDO_CFLAGS)),)
-	# This should be the last -Oxxx specified in LOCAL_CFLAGS
-	LOCAL_CFLAGS += -O2
 endif
 
 LOCAL_CFLAGS += \
@@ -573,7 +565,6 @@ LOCAL_EXPORT_C_INCLUDE_DIRS := \
 	$(LOCAL_PATH)/include/pipe \
 	$(LOCAL_PATH)/include/effects \
 	$(LOCAL_PATH)/include/images \
-	$(LOCAL_PATH)/include/pathops \
 	$(LOCAL_PATH)/include/pdf \
 	$(LOCAL_PATH)/include/ports \
 	$(LOCAL_PATH)/include/utils \
@@ -663,6 +654,9 @@ LOCAL_SRC_FILES_mips64 += \
 	src/opts/SkUtils_opts_none.cpp \
 	src/opts/SkXfermode_opts_none.cpp
 
+LOCAL_CFLAGS_arm64 += \
+	-ffp-contract=off
+
 LOCAL_SRC_FILES_arm64 += \
 	src/opts/SkBitmapProcState_arm_neon.cpp \
 	src/opts/SkBitmapProcState_matrixProcs_neon.cpp \
@@ -679,7 +673,6 @@ LOCAL_SRC_FILES_arm64 += \
 	src/opts/SkXfermode_opts_arm.cpp \
 	src/opts/SkXfermode_opts_arm_neon.cpp
 
-include external/stlport/libstlport.mk
 include $(BUILD_SHARED_LIBRARY)
 
 #############################################################
@@ -688,7 +681,6 @@ include $(BUILD_SHARED_LIBRARY)
 
 # benchmark (timings)
 include $(BASE_PATH)/bench/Android.mk
-include $(BASE_PATH)/tools/Android.mk
 
 # golden-master (fidelity / regression test)
 include $(BASE_PATH)/gm/Android.mk

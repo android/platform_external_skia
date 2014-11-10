@@ -74,6 +74,7 @@ LOCAL_SRC_FILES := \
 	drrect.cpp \
 	etc1bitmap.cpp \
 	extractbitmap.cpp \
+	emboss.cpp \
 	emptypath.cpp \
 	fatpathfill.cpp \
 	factory.cpp \
@@ -232,5 +233,4 @@ LOCAL_MODULE_TAGS := \
 LOCAL_MODULE := \
 	skia_gm
 
-include external/stlport/libstlport.mk
 include $(BUILD_EXECUTABLE)
