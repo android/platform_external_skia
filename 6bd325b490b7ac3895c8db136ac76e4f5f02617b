@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3aa8035b_edff1d39",
+        "filename": "README.android",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1043845
+      },
+      "writtenOn": "2014-11-12T17:33:04Z",
+      "side": 1,
+      "message": "It is _extremely_ helpful for us.",
+      "parentUuid": "3acf2349_3b680365",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "6bd325b490b7ac3895c8db136ac76e4f5f02617b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3e4fe9_1f2423da",
         "filename": "README.android",
         "patchSetId": 3
@@ -59,6 +83,30 @@
       "writtenOn": "2014-11-12T17:18:25Z",
       "side": 1,
       "message": "This comment is a little misleading. It only runs tests for the gyp generator. (Which again, most developers won\u0027t need to run since they shouldn\u0027t be using/modifying the generator.)",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 24
+      },
+      "revId": "6bd325b490b7ac3895c8db136ac76e4f5f02617b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a405775_bdf1bfa7",
+        "filename": "README.android",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1043845
+      },
+      "writtenOn": "2014-11-12T17:33:04Z",
+      "side": 1,
+      "message": "Oh... I misunderstood.",
+      "parentUuid": "9a3e4fe9_1f2423da",
       "range": {
         "startLine": 18,
         "startChar": 17,
