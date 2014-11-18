@@ -7,6 +7,7 @@
 
 #include "SkErrorInternals.h"
 #include "SkImageDecoder.h"
+#include "SkImageCodec_vendor.h"
 #include "SkStream.h"
 #include "SkTRegistry.h"
 
@@ -20,8 +21,14 @@ SkImageDecoder* image_decoder_from_stream(SkStreamRewindable*);
 
 SkImageDecoder* image_decoder_from_stream(SkStreamRewindable* stream) {
     SkImageDecoder* codec = NULL;
-    const SkImageDecoder_DecodeReg* curr = SkImageDecoder_DecodeReg::Head();
-    while (curr) {
+    bool end_of_vendor = false;
+    const SkImageDecoder_DecodeReg* curr = SkVendorImageCodec::getInstance().decodeRegHead();
+    while (curr || !end_of_vendor) {
+        if (!curr && !end_of_vendor) {
+            curr = SkImageDecoder_DecodeReg::Head();
+            end_of_vendor = true;
+            continue;
+        }
         codec = curr->factory()(stream);
         // we rewind here, because we promise later when we call "decode", that
         // the stream will be at its beginning.

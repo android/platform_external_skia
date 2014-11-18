@@ -7,13 +7,20 @@
  */
 
 #include "SkImageEncoder.h"
+#include "SkImageCodec_vendor.h"
 
 template SkImageEncoder_EncodeReg* SkImageEncoder_EncodeReg::gHead;
 
 SkImageEncoder* SkImageEncoder::Create(Type t) {
     SkImageEncoder* codec = NULL;
-    const SkImageEncoder_EncodeReg* curr = SkImageEncoder_EncodeReg::Head();
-    while (curr) {
+    bool end_of_vendor = false;
+    const SkImageEncoder_EncodeReg* curr = SkVendorImageCodec::getInstance().encodeRegHead();
+    while (curr || !end_of_vendor) {
+        if (!curr && !end_of_vendor) {
+            curr = SkImageEncoder_EncodeReg::Head();
+            end_of_vendor = true;
+            continue;
+        }
         if ((codec = curr->factory()(t)) != NULL) {
             return codec;
         }
