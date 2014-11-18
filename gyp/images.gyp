@@ -36,6 +36,7 @@
 
         '../src/images/SkDecodingImageGenerator.cpp',
         '../src/images/SkForceLinking.cpp',
+        '../src/images/SkImageCodec_vendor.cpp',
         '../src/images/SkImageDecoder.cpp',
         '../src/images/SkImageDecoder_FactoryDefault.cpp',
         '../src/images/SkImageDecoder_FactoryRegistrar.cpp',

@@ -308,6 +308,7 @@ LOCAL_SRC_FILES := \
 	src/images/bmpdecoderhelper.cpp \
 	src/images/SkDecodingImageGenerator.cpp \
 	src/images/SkForceLinking.cpp \
+	src/images/SkImageCodec_vendor.cpp \
 	src/images/SkImageDecoder.cpp \
 	src/images/SkImageDecoder_FactoryDefault.cpp \
 	src/images/SkImageDecoder_FactoryRegistrar.cpp \
@@ -523,6 +524,7 @@ LOCAL_SHARED_LIBRARIES := \
 	libicuuc \
 	libicui18n \
 	libexpat \
+	libdl \
 	libft2
 
 LOCAL_STATIC_LIBRARIES := \
