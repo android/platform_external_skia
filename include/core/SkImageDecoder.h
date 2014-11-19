@@ -145,8 +145,8 @@ public:
     public:
         SK_DECLARE_INST_COUNT(Chooser)
 
-        virtual void begin(int count) {}
-        virtual void inspect(int index, SkBitmap::Config config, int width, int height) {}
+        virtual void begin(int /*count*/) {}
+        virtual void inspect(int /*index*/, SkBitmap::Config /*config*/, int /*width*/, int /*height*/) {}
         /** Return the index of the subimage you want, or -1 to choose none of them.
         */
         virtual int choose() = 0;
@@ -278,7 +278,7 @@ public:
      *
      * Return true for success or false on failure.
      */
-    bool buildTileIndex(SkStreamRewindable*, int *width, int *height);
+    bool buildTileIndex(SkStreamRewindable*, int* /*width*/, int* /*height*/);
 
     /**
      * Decode a rectangle subset in the image.
@@ -377,17 +377,17 @@ public:
 
 protected:
     // must be overridden in subclasses. This guy is called by decode(...)
-    virtual bool onDecode(SkStream*, SkBitmap* bitmap, Mode) = 0;
+    virtual bool onDecode(SkStream*, SkBitmap* /*bitmap*/, Mode) = 0;
 
     // If the decoder wants to support tiled based decoding,
     // this method must be overridden. This guy is called by buildTileIndex(...)
-    virtual bool onBuildTileIndex(SkStreamRewindable*, int *width, int *height) {
+    virtual bool onBuildTileIndex(SkStreamRewindable*, int* /*width*/, int* /*height*/) {
         return false;
     }
 
     // If the decoder wants to support tiled based decoding,
     // this method must be overridden. This guy is called by decodeRegion(...)
-    virtual bool onDecodeSubset(SkBitmap* bitmap, const SkIRect& rect) {
+    virtual bool onDecodeSubset(SkBitmap* /*bitmap*/, const SkIRect& /*rect*/) {
         return false;
     }
 

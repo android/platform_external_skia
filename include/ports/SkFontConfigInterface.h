@@ -79,11 +79,11 @@ public:
      *
      *  If a match is not found, return false, and ignore all out parameters.
      */
-    virtual bool matchFamilyName(const char familyName[],
-                                 SkTypeface::Style requested,
-                                 FontIdentity* outFontIdentifier,
-                                 SkString* outFamilyName,
-                                 SkTypeface::Style* outStyle) = 0;
+    virtual bool matchFamilyName(const char[] /*familyName*/,
+                                 SkTypeface::Style /*requested*/,
+                                 FontIdentity* /*outFontIdentifier*/,
+                                 SkString* /*outFamilyName*/,
+                                 SkTypeface::Style* /*outStyle*/) = 0;
 
     /**
      *  Given a FontRef, open a stream to access its data, or return null
