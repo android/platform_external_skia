@@ -373,7 +373,7 @@ public:
         const SkXfermode*   fMode;
     };
 
-    virtual bool asACompose(ComposeRec* rec) const { return false; }
+    virtual bool asACompose(ComposeRec*) const { return false; }
 
 
     /**

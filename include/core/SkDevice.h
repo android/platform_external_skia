@@ -301,7 +301,7 @@ protected:
      *  it just returns false and leaves result and offset unchanged.
      */
     virtual bool filterImage(const SkImageFilter*, const SkBitmap&,
-                             const SkImageFilter::Context& ctx,
+                             const SkImageFilter::Context&,
                              SkBitmap* result, SkIPoint* offset) = 0;
 
 protected:
