@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ff64148_a8181f93",
+        "filename": "include/core/SkDevice.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1052399
+      },
+      "writtenOn": "2014-11-20T20:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a31efd3_67939230",
+      "range": {
+        "startLine": 305,
+        "startChar": 39,
+        "endLine": 305,
+        "endChar": 41
+      },
+      "revId": "84f3a30bb944e6b7895459b9780a9a35e92a06fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba2cf37b_a8447be7",
         "filename": "include/core/SkImageDecoder.h",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-11-20T15:10:56Z",
       "side": 1,
       "message": "this one is unnecessary as the function is not implemented inline.",
+      "range": {
+        "startLine": 281,
+        "startChar": 50,
+        "endLine": 281,
+        "endChar": 52
+      },
+      "revId": "84f3a30bb944e6b7895459b9780a9a35e92a06fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ffb4d34_7eff7177",
+        "filename": "include/core/SkImageDecoder.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1052399
+      },
+      "writtenOn": "2014-11-20T20:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba2cf37b_a8447be7",
       "range": {
         "startLine": 281,
         "startChar": 50,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "ffe73d92_2b2c0988",
+        "filename": "include/core/SkImageDecoder.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1052399
+      },
+      "writtenOn": "2014-11-20T20:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a26fb9d_46f2127a",
+      "revId": "84f3a30bb944e6b7895459b9780a9a35e92a06fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba2cf37b_c839af6a",
         "filename": "include/ports/SkFontConfigInterface.h",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2014-11-20T15:10:56Z",
       "side": 1,
       "message": "this one is unnecessary as the function is pure virtual.",
+      "revId": "84f3a30bb944e6b7895459b9780a9a35e92a06fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff64148_68569720",
+        "filename": "include/ports/SkFontConfigInterface.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1052399
+      },
+      "writtenOn": "2014-11-20T20:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba2cf37b_c839af6a",
       "revId": "84f3a30bb944e6b7895459b9780a9a35e92a06fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
