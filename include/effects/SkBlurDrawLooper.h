@@ -9,6 +9,10 @@
 #ifndef SkBlurDrawLooper_DEFINED
 #define SkBlurDrawLooper_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkDrawLooper.h"
 #include "SkColor.h"
 

@@ -10,6 +10,10 @@
 #ifndef SkFlattenable_DEFINED
 #define SkFlattenable_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkRefCnt.h"
 
 class SkReadBuffer;

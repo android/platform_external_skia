@@ -10,6 +10,10 @@
 #ifndef SkComposeShader_DEFINED
 #define SkComposeShader_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkShader.h"
 
 class SkXfermode;

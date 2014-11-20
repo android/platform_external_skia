@@ -8,6 +8,10 @@
 #ifndef SkWeakRefCnt_DEFINED
 #define SkWeakRefCnt_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkRefCnt.h"
 #include "SkThread.h"
 

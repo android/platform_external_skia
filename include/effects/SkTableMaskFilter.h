@@ -8,6 +8,10 @@
 #ifndef SkTableMaskFilter_DEFINED
 #define SkTableMaskFilter_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkMaskFilter.h"
 #include "SkScalar.h"
 

@@ -8,6 +8,10 @@
 #ifndef SkAvoidXfermode_DEFINED
 #define SkAvoidXfermode_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkXfermode.h"
 
 /** \class SkAvoidXfermode

@@ -8,6 +8,10 @@
 #ifndef SkDiscretePathEffect_DEFINED
 #define SkDiscretePathEffect_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkPathEffect.h"
 
 /** \class SkDiscretePathEffect

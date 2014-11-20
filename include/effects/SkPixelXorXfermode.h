@@ -8,6 +8,10 @@
 #ifndef SkPixelXorXfermode_DEFINED
 #define SkPixelXorXfermode_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkXfermode.h"
 
 /** SkPixelXorXfermode implements a simple pixel xor (op ^ src ^ dst).

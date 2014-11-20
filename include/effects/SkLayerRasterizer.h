@@ -10,6 +10,10 @@
 #ifndef SkLayerRasterizer_DEFINED
 #define SkLayerRasterizer_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkRasterizer.h"
 #include "SkDeque.h"
 #include "SkScalar.h"

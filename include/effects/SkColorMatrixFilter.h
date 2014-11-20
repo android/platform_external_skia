@@ -8,6 +8,10 @@
 #ifndef SkColorMatrixFilter_DEFINED
 #define SkColorMatrixFilter_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkColorFilter.h"
 #include "SkColorMatrix.h"
 

@@ -8,6 +8,10 @@
 #ifndef SkPaintFlagsDrawFilter_DEFINED
 #define SkPaintFlagsDrawFilter_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkDrawFilter.h"
 
 class SK_API SkPaintFlagsDrawFilter : public SkDrawFilter {

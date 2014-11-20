@@ -10,6 +10,10 @@
 #ifndef SkPathEffect_DEFINED
 #define SkPathEffect_DEFINED
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++11-extensions"
+#endif
+
 #include "SkFlattenable.h"
 #include "SkPath.h"
 #include "SkPoint.h"
