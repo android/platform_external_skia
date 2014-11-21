@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5d6134_871e664e",
+        "filename": "include/core/SkShader.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1041833
+      },
+      "writtenOn": "2014-11-21T06:54:44Z",
+      "side": 1,
+      "message": "This is also unused.",
+      "range": {
+        "startLine": 397,
+        "startChar": 40,
+        "endLine": 397,
+        "endChar": 50
+      },
+      "revId": "a1a4ac6f79778760a5bda889ed3fd1ae2a475a1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
