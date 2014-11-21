@@ -551,6 +551,151 @@ static uint32_t pmcolor_to_expand16(SkPMColor c) {
     return (g << 24) | (r << 13) | (b << 2);
 }
 
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+
+/* a prefetch distance of 4 cache-lines works best experimentally */
+
+static void blend32_16_row_neon(const SkPMColor* SK_RESTRICT src,
+                                 uint16_t* SK_RESTRICT dst, int count) {
+    uint32_t src_expand;
+    unsigned scale;
+
+    if (count <= 0) return;
+    SkASSERT(((size_t)dst & 0x01) == 0);
+
+    /*
+     * This preamble code is in order to make dst aligned to 8 bytes
+     * in the next mutiple bytes read & write access.
+     */
+    src_expand = pmcolor_to_expand16(*src);
+    scale = SkAlpha255To256(0xFF - SkGetPackedA32(*src)) >> 3;
+
+#define DST_ALIGN 8
+
+    /*
+     * preamble_size is in byte, meantime, this blend32_16_row_neon updates 2 bytes at a time.
+     */
+    int preamble_size = (DST_ALIGN - (size_t)dst) & (DST_ALIGN - 1);
+
+    for (int i = 0; i < preamble_size; i+=2, dst++) {
+        uint32_t dst_expand = SkExpand_rgb_16(*dst) * scale;
+        *dst = SkCompact_rgb_16((src_expand + dst_expand) >> 5);
+        if (--count == 0)
+            break;
+    }
+
+    asm volatile (
+    /* This code refers to a Neon version of S32A_D565_Blend and is modified in order to make it work
+     * as blend32_16_row. For detail, see S32A_D565_Blend_neon.
+     */
+                  "movs       r4, %[count], lsr #4                \n\t"   // calc. count>>4
+                  "beq        2f                                  \n\t"   // if count16 == 0, exit
+                  "vmov.u16   q15, #0x1f                          \n\t"   // set up blue mask
+                  "vld4.u8    {d24, d25, d26, d27}, [%[src]]      \n\t"   // load eight src ABGR32 pixels
+
+                  "vmov   r5, r6, d24                             \n\t"   // save src red in r5, r6
+                  "vmov   r7, r8, d25                             \n\t"   // save src green in r7, r8
+                  "vmov   r9, r10, d26                            \n\t"   // save src blue in r9, r10
+                  "vmov   r11, r12, d27                           \n\t"   // save src alpha in r11, r12
+
+
+                  "1:                                             \n\t"
+                  "vld1.u16   {d0, d1, d2, d3}, [%[dst]]          \n\t"   // load sixteen dst RGB565 pixels
+                  //set PREFETCH_DISTANCE to 128
+                  "pld        [%[dst], #128]                      \n\t"
+
+                  "subs       r4, r4, #1                          \n\t"   // decrement loop counter
+
+                  "vmov   d24, r5, r6                             \n\t"   // src red to d24
+                  "vmov   d25, r7, r8                             \n\t"   // src green to d25
+                  "vmov   d26, r9, r10                            \n\t"   // src blue to d26
+                  "vmov   d27, r11, r12                           \n\t"   // src alpha to d27
+
+                  "vmov.u16   q3, #256                            \n\t"   // set up constant
+                  "vmovl.u8   q14, d27                            \n\t"   // widen alpha to 16 bits
+                  // dst_scale = q14
+                  "vsub.u16   q14, q3, q14                        \n\t"   // 256 - sa
+                  "vshr.u16   q14, q14, #3                        \n\t"   // (256 - sa) >> 3
+
+
+                  // dst_0_rgb = {q8, q9, q10}
+                  "vshl.u16   q9, q0, #5                          \n\t"   // shift green to top of lanes
+                  "vand       q10, q0, q15                        \n\t"   // extract blue
+                  "vshr.u16   q8, q0, #11                         \n\t"   // extract red
+                  "vshr.u16   q9, q9, #10                         \n\t"   // extract green
+
+                  //use q3 for dst_1 green. In the next loop, needs to set q3 to 256 again.
+                  // dst_1_rgb = {q2, q3, q7}
+                  "vshl.u16   q3, q1, #5                          \n\t"   // shift green to top of lanes
+                  "vand       q7, q1, q15                         \n\t"   // extract blue
+                  "vshr.u16   q2, q1, #11                         \n\t"   // extract red
+                  "vshr.u16   q3, q3, #10                         \n\t"   // extract green
+
+                  // srcrgba = {q4, q5, q6, q14}, alpha calculation is done already in above.
+                  // q4, q5, q6 will have each channel's result of dst_1_rgb.
+                  "vmovl.u8   q4, d24                             \n\t"   // widen red to 16 bits
+                  "vmovl.u8   q5, d25                             \n\t"   // widen green to 16 bits
+                  "vmovl.u8   q6, d26                             \n\t"   // widen blue to 16 bits
+
+                  // srcrgba = {q11, q12, q13, q14}, alpha calculation is done already in above.
+                  // q11, q12, q13 will have each channel's result of dst_0_rgb.
+                  "vmovl.u8   q11, d24                            \n\t"   // widen red to 16 bits
+                  "vmovl.u8   q12, d25                            \n\t"   // widen green to 16 bits
+                  "vmovl.u8   q13, d26                            \n\t"   // widen blue to 16 bits
+
+                  "vshl.u16   q11, q11, #2                        \n\t"   // dst 0 red result = src_red << 2 (later will do >> 5 to make 5 bit red)
+                  "vshl.u16   q12, q12, #3                        \n\t"   // dst 0 grn result = src_grn << 3 (later will do >> 5 to make 6 bit grn)
+                  "vshl.u16   q13, q13, #2                        \n\t"   // dst 0 blu result = src_blu << 2 (later will do >> 5 to make 5 bit blu)
+
+                  "vshl.u16   q4, q4, #2                          \n\t"   // dst 1 red result = src_red << 2 (later will do >> 5 to make 5 bit red)
+                  "vshl.u16   q5, q5, #3                          \n\t"   // dst 1 grn result = src_grn << 3 (later will do >> 5 to make 6 bit grn)
+                  "vshl.u16   q6, q6, #2                          \n\t"   // dst 1 blu result = src_blu << 2 (later will do >> 5 to make 5 bit blu)
+
+                  "vmla.u16   q11, q8, q14                        \n\t"   // dst 0 red result += dst_red * dst_scale
+                  "vmla.u16   q12, q9, q14                        \n\t"   // dst 0 grn result += dst_grn * dst_scale
+                  "vmla.u16   q13, q10, q14                       \n\t"   // dst 0 blu result += dst_blu * dst_scale
+
+                  "vmla.u16   q4, q2, q14                         \n\t"   // dst 1 red result += dst_red * dst_scale
+                  "vmla.u16   q5, q3, q14                         \n\t"   // dst 1 grn result += dst_grn * dst_scale
+                  "vmla.u16   q6, q7, q14                         \n\t"   // dst 1 blu result += dst_blu * dst_scale
+
+                  "vshr.u16   q11, q11, #5                        \n\t"   // dst 0 red result >> 5
+                  "vshr.u16   q12, q12, #5                        \n\t"   // dst 0 grn result >> 5
+                  "vshr.u16   q13, q13, #5                        \n\t"   // dst 0 blu result >> 5
+
+                  "vshr.u16   q4, q4, #5                          \n\t"   // dst 1 red result >> 5
+                  "vshr.u16   q5, q5, #5                          \n\t"   // dst 1 grn result >> 5
+                  "vshr.u16   q14, q6, #5                         \n\t"   // dst 1 blu result >> 5
+
+                  "vsli.u16   q13, q12, #5                        \n\t"   // dst 0 insert green into blue
+                  "vsli.u16   q13, q11, #11                       \n\t"   // dst 0 insert red into green/blue
+
+                  "vsli.u16   q14, q5, #5                         \n\t"   // dst 1 insert green into blue
+                  "vsli.u16   q14, q4, #11                        \n\t"   // dst 1 insert red into green/blue
+
+                  "vst1.16    {d26, d27, d28, d29}, [%[dst]]!     \n\t"   // write pixel back to dst 0 and dst 1, update ptr
+
+                  "bne        1b                                  \n\t"   // if counter != 0, loop
+                  "2:                                             \n\t"   // exit
+
+                  : [src] "+r" (src), [dst] "+r" (dst), [count] "+r" (count)
+                  :
+                  : "cc", "memory", "r4", "r5", "r6", "r7", "r8", "r9", "r10", "r11", "r12",
+                                          "d0", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13", "d14", "d15", "d16",
+                                          "d17", "d18", "d19", "d20", "d21", "d22", "d23", "d24", "d25", "d26", "d27", "d28", "d29", "d30", "d31"
+                  );
+
+    count &= 0xF;
+    if (count > 0) {
+        do {
+            uint32_t dst_expand = SkExpand_rgb_16(*dst) * scale;
+            *dst = SkCompact_rgb_16((src_expand + dst_expand) >> 5);
+            dst += 1;
+        } while (--count != 0);
+    }
+}
+
+#endif
 static inline void blend32_16_row(SkPMColor src, uint16_t dst[], int count) {
     SkASSERT(count > 0);
     uint32_t src_expand = pmcolor_to_expand16(src);
@@ -568,7 +713,16 @@ void SkRGB16_Blitter::blitH(int x, int y, int width) {
     uint16_t* SK_RESTRICT device = fDevice.getAddr16(x, y);
 
     // TODO: respect fDoDither
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+    SkPMColor src32s[8] = { fSrcColor32, fSrcColor32, fSrcColor32, fSrcColor32,
+                            fSrcColor32, fSrcColor32, fSrcColor32, fSrcColor32 };
+    if (((size_t)device & 0x01) == 0)
+        blend32_16_row_neon(src32s, device, width);
+    else
+        blend32_16_row(fSrcColor32, device, width);
+#else
     blend32_16_row(fSrcColor32, device, width);
+#endif
 }
 
 void SkRGB16_Blitter::blitAntiH(int x, int y,
@@ -672,9 +826,20 @@ void SkRGB16_Blitter::blitRect(int x, int y, int width, int height) {
     uint16_t* SK_RESTRICT device = fDevice.getAddr16(x, y);
     size_t    deviceRB = fDevice.rowBytes();
     SkPMColor src32 = fSrcColor32;
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+    SkPMColor src32s[8] = { src32, src32, src32, src32,
+                                 src32, src32, src32, src32 };
+#endif
 
     while (--height >= 0) {
+#if defined(__ARM_HAVE_NEON) && defined(SK_CPU_LENDIAN)
+    if (((size_t)device & 0x01) == 0)
+        blend32_16_row_neon(src32s, device, width);
+    else
         blend32_16_row(src32, device, width);
+#else
+        blend32_16_row(src32, device, width);
+#endif
         device = (uint16_t*)((char*)device + deviceRB);
     }
 }
