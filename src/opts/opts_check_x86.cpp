@@ -221,6 +221,10 @@ SkBlitRow::Proc32 SkBlitRow::PlatformProcs32(unsigned flags) {
     }
 }
 
+SkBlitRow::Blend32_16_row_Proc SkBlitRow::PlatformBlend32_16_rowProc() {
+    return NULL;
+}
+
 SkBlitRow::ColorProc SkBlitRow::PlatformColorProc() {
     if (supports_simd(SK_CPU_SSE_LEVEL_SSE2)) {
         return Color32_SSE2;

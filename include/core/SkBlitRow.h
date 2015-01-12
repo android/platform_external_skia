@@ -84,6 +84,13 @@ public:
     //! Public entry-point to return a blit function ptr
     static ColorRectProc ColorRectProcFactory();
 
+    /** blend a single color into a row of D16 pixels. */
+    typedef void (*Blend32_16_row_Proc)(const SkPMColor* SK_RESTRICT src,
+                                        uint16_t dst[], int count);
+
+    //! Public entry-point to return a blend32_16_row function ptr
+    static Blend32_16_row_Proc Blend32_16_rowProcFactory();
+
     /** These static functions are called by the Factory and Factory32
         functions, and should return either NULL, or a
         platform-specific function-ptr to be used in place of the
@@ -93,6 +100,7 @@ public:
     static Proc32 PlatformProcs32(unsigned flags);
     static Proc PlatformProcs565(unsigned flags);
     static ColorProc PlatformColorProc();
+    static Blend32_16_row_Proc PlatformBlend32_16_rowProc();
 
 private:
     enum {

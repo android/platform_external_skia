@@ -381,6 +381,10 @@ SkBlitRow::Proc32 SkBlitRow::PlatformProcs32(unsigned flags) {
     return SK_ARM_NEON_WRAP(sk_blitrow_platform_32_procs_arm)[flags];
 }
 
+SkBlitRow::Blend32_16_row_Proc SkBlitRow::PlatformBlend32_16_rowProc() {
+    return SK_ARM_NEON_WRAP(blend32_16_row);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 #define Color32_arm  NULL
 SkBlitRow::ColorProc SkBlitRow::PlatformColorProc() {

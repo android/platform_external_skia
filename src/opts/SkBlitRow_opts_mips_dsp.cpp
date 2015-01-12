@@ -839,6 +839,10 @@ SkBlitRow::Proc32 SkBlitRow::PlatformProcs32(unsigned flags) {
     return platform_32_procs_mips_dsp[flags];
 }
 
+SkBlitRow::Blend32_16_row_Proc SkBlitRow::PlatformBlend32_16_rowProc() {
+    return NULL;
+}
+
 SkBlitRow::ColorRectProc PlatformColorRectProcFactory() {
     return NULL;
 }

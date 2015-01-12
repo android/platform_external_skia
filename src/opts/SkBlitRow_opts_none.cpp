@@ -17,6 +17,10 @@ SkBlitRow::Proc32 SkBlitRow::PlatformProcs32(unsigned flags) {
     return NULL;
 }
 
+SkBlitRow::Blend32_16_row_Proc SkBlitRow::PlatformBlend32_16_rowProc() {
+    return NULL;
+}
+
 SkBlitRow::ColorProc SkBlitRow::PlatformColorProc() {
     return NULL;
 }
