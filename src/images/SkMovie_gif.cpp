@@ -50,7 +50,11 @@ SkGIFMovie::SkGIFMovie(SkStream* stream)
 
     if (DGifSlurp(fGIF) != GIF_OK)
     {
+#if GIFLIB_MAJOR > 5 || (GIFLIB_MAJOR == 5 && GIFLIB_MINOR >= 1)
+        DGifCloseFile(fGIF, 0);
+#else
         DGifCloseFile(fGIF);
+#endif
         fGIF = NULL;
     }
     fCurrIndex = -1;
@@ -60,7 +64,11 @@ SkGIFMovie::SkGIFMovie(SkStream* stream)
 SkGIFMovie::~SkGIFMovie()
 {
     if (fGIF)
+#if GIFLIB_MAJOR > 5 || (GIFLIB_MAJOR == 5 && GIFLIB_MINOR >= 1)
+        DGifCloseFile(fGIF, 0);
+#else
         DGifCloseFile(fGIF);
+#endif
 }
 
 static SkMSec savedimage_duration(const SavedImage* image)

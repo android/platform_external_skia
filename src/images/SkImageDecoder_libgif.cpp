@@ -229,6 +229,14 @@ static void sanitize_indexed_bitmap(SkBitmap* bm) {
     }
 }
 
+#if GIFLIB_MAJOR > 5 || (GIFLIB_MAJOR == 5 && GIFLIB_MINOR >= 1)
+// Restore old-style DGifCloseFile API so we can use it with
+// SkAutoTCallIProc
+int DGifCloseFile(GifFileType * GifFile) {
+    return DGifCloseFile(GifFile, 0);
+}
+#endif
+
 SkImageDecoder::Result SkGIFImageDecoder::onDecode(SkStream* sk_stream, SkBitmap* bm, Mode mode) {
 #if GIFLIB_MAJOR < 5
     GifFileType* gif = DGifOpen(sk_stream, DecodeCallBackProc);
