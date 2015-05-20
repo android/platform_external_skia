@@ -489,6 +489,8 @@ LOCAL_SRC_FILES := \
 	../tools/picture_utils.cpp \
 	../tools/Resources.cpp
 
+LOCAL_CFLAGS += -fno-strict-aliasing
+
 LOCAL_SHARED_LIBRARIES := \
 	liblog \
 	libskia \

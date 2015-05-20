@@ -308,6 +308,8 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../third_party/etc1 \
 	$(LOCAL_PATH)/../tools/timer
 
+LOCAL_CFLAGS += -fno-strict-aliasing
+
 LOCAL_MODULE_TAGS := \
 	tests
 

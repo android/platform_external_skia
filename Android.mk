@@ -679,6 +679,9 @@ LOCAL_SRC_FILES_arm64 += \
 	src/opts/SkXfermode_opts_arm.cpp \
 	src/opts/SkXfermode_opts_arm_neon.cpp
 
+# for CacheImpl::Value::Hash
+LOCAL_CFLAGS += -fno-strict-aliasing
+
 include $(BUILD_SHARED_LIBRARY)
 
 #############################################################

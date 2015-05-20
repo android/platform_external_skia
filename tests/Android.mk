@@ -12,6 +12,8 @@ LOCAL_CFLAGS += \
 	-U_FORTIFY_SOURCE \
 	-D_FORTIFY_SOURCE=1
 
+LOCAL_CFLAGS += -fno-strict-aliasing
+
 LOCAL_CPPFLAGS := \
 	-Wno-invalid-offsetof
 
