@@ -18,7 +18,7 @@
  */
 class GrPendingFragmentStage {
 public:
-    GrPendingFragmentStage(const GrFragmentStage& stage) : fProc(stage.processor()) {}
+    explicit GrPendingFragmentStage(const GrFragmentStage& stage) : fProc(stage.processor()) {}
 
     GrPendingFragmentStage(const GrPendingFragmentStage& that) { *this = that; }
 

@@ -39,7 +39,7 @@ SkDiscretePathEffect::SkDiscretePathEffect(SkScalar segLength,
 
 class LCGRandom {
 public:
-    LCGRandom(uint32_t seed) : fSeed(seed) {}
+    explicit LCGRandom(uint32_t seed) : fSeed(seed) {}
 
     /** Return the next pseudo random number expressed as a SkScalar
         in the range (-SK_Scalar1..SK_Scalar1).

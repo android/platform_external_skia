@@ -21,7 +21,7 @@
 
 class SkRTConfBase {
 public:
-    SkRTConfBase(const char *name) : fName(name) {}
+    explicit SkRTConfBase(const char *name) : fName(name) {}
     virtual ~SkRTConfBase() {}
     virtual const char *getName() const { return fName.c_str(); }
     virtual bool isDefault() const = 0;
@@ -61,8 +61,8 @@ protected:
     skRTConfRegistry().set(confname, value, false)
 #else
 #define SK_CONF_DECLARE(confType, varName, confName, defaultValue, description) static confType varName = defaultValue
-#define SK_CONF_SET(confname, value) (void) confname, (void) value
-#define SK_CONF_TRY_SET(confname, value) (void) confname, (void) value
+#define SK_CONF_SET(confname, value) (void) (confname), (void) value
+#define SK_CONF_TRY_SET(confname, value) (void) (confname), (void) value
 #endif
 
 /** \class SkRTConfRegistry

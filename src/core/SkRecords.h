@@ -78,12 +78,12 @@ struct T {                              \
 // A here, we take any type Z which implicitly casts to A.  This allows the delay_copy() trick to
 // work, allowing the caller to decide whether to pass by value or by const&.
 
-#define RECORD1(T, A, a)                \
-struct T {                              \
-    static const Type kType = T##_Type; \
-    template <typename Z>               \
-    T(Z a) : a(a) {}                    \
-    A a;                                \
+#define RECORD1(T, A, a)                     \
+struct T {                                   \
+    static const Type kType = T##_Type;      \
+    template <typename Z>                    \
+    T(Z a) : a(a) {}  /* NOLINT, implicit */ \
+    A a;                                     \
 };
 
 #define RECORD2(T, A, a, B, b)          \
@@ -125,7 +125,7 @@ struct T {                                                                \
 template <typename T>
 class RefBox : SkNoncopyable {
 public:
-    RefBox(T* obj) : fObj(SkSafeRef(obj)) {}
+    explicit RefBox(T* obj) : fObj(SkSafeRef(obj)) {}
     ~RefBox() { SkSafeUnref(fObj); }
 
     ACT_AS_PTR(fObj);
@@ -138,7 +138,7 @@ private:
 template <typename T>
 class Optional : SkNoncopyable {
 public:
-    Optional(T* ptr) : fPtr(ptr) {}
+    explicit Optional(T* ptr) : fPtr(ptr) {}
     ~Optional() { if (fPtr) fPtr->~T(); }
 
     ACT_AS_PTR(fPtr);
@@ -150,8 +150,8 @@ private:
 template <typename T>
 class Adopted : SkNoncopyable {
 public:
-    Adopted(T* ptr) : fPtr(ptr) { SkASSERT(fPtr); }
-    Adopted(Adopted* source) {
+    explicit Adopted(T* ptr) : fPtr(ptr) { SkASSERT(fPtr); }
+    explicit Adopted(Adopted* source) {
         // Transfer ownership from source to this.
         fPtr = source->fPtr;
         source->fPtr = NULL;
@@ -167,7 +167,7 @@ private:
 template <typename T>
 class PODArray {
 public:
-    PODArray(T* ptr) : fPtr(ptr) {}
+    explicit PODArray(T* ptr) : fPtr(ptr) {}
     // Default copy and assign.
 
     ACT_AS_PTR(fPtr);
@@ -224,7 +224,7 @@ RECORD2(Restore, SkIRect, devBounds, TypedMatrix, matrix);
 RECORD0(Save);
 RECORD3(SaveLayer, Optional<SkRect>, bounds, Optional<SkPaint>, paint, SkCanvas::SaveFlags, flags);
 
-RECORD1(SetMatrix, TypedMatrix, matrix);
+RECORD1(SetMatrix, TypedMatrix, matrix);  // NOLINT, implict conversion
 
 struct RegionOpAndAA {
     RegionOpAndAA(SkRegion::Op op, bool aa) : op(op), aa(aa) {}
@@ -238,7 +238,7 @@ RECORD3(ClipRRect,  SkIRect, devBounds, SkRRect,       rrect, RegionOpAndAA, opA
 RECORD3(ClipRect,   SkIRect, devBounds, SkRect,         rect, RegionOpAndAA, opAA);
 RECORD3(ClipRegion, SkIRect, devBounds, SkRegion,     region, SkRegion::Op,    op);
 
-RECORD1(BeginCommentGroup, PODArray<char>, description);
+RECORD1(BeginCommentGroup, PODArray<char>, description);  // NOLINT, implict conversion
 RECORD2(AddComment, PODArray<char>, key, PODArray<char>, value);
 RECORD0(EndCommentGroup);
 
@@ -270,7 +270,7 @@ RECORD4(DrawImageRect, Optional<SkPaint>, paint,
                        Optional<SkRect>, src,
                        SkRect, dst);
 RECORD2(DrawOval, SkPaint, paint, SkRect, oval);
-RECORD1(DrawPaint, SkPaint, paint);
+RECORD1(DrawPaint, SkPaint, paint);  // NOLINT, implict conversion
 RECORD2(DrawPath, SkPaint, paint, PreCachedPath, path);
 RECORD3(DrawPicture, Optional<SkPaint>, paint,
                      RefBox<const SkPicture>, picture,

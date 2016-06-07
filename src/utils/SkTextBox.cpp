@@ -243,7 +243,7 @@ SkScalar SkTextBox::visit(Visitor& visitor, const char text[], size_t len,
 class CanvasVisitor : public SkTextBox::Visitor {
     SkCanvas* fCanvas;
 public:
-    CanvasVisitor(SkCanvas* canvas) : fCanvas(canvas) {}
+    explicit CanvasVisitor(SkCanvas* canvas) : fCanvas(canvas) {}
 
     void operator()(const char text[], size_t length, SkScalar x, SkScalar y,
                     const SkPaint& paint) override {

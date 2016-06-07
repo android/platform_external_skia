@@ -144,7 +144,7 @@ public:
     SkSTArray<1, Geometry, true>* geoData() { return &fGeoData; }
 
 private:
-    AAFillRectBatch(const Geometry& geometry) {
+    explicit AAFillRectBatch(const Geometry& geometry) {
         this->initClassID<AAFillRectBatch>();
         fGeoData.push_back(geometry);
 

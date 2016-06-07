@@ -54,7 +54,7 @@ public:
      * @param initialSizeInBytes  The amount of memory reserved by the recorder initially,
                                   and after calls to reset().
      */
-    GrTRecorder(int initialSizeInBytes)
+    explicit GrTRecorder(int initialSizeInBytes)
         : fHeadBlock(MemBlock::Alloc(LengthOf(initialSizeInBytes), NULL)),
           fTailBlock(fHeadBlock),
           fLastItem(NULL) {}
@@ -253,7 +253,7 @@ TItem* GrTRecorder<TBase, TAlign>::alloc_back(int dataLength) {
 template<typename TBase, typename TAlign>
 class GrTRecorder<TBase, TAlign>::Iter {
 public:
-    Iter(GrTRecorder& recorder) : fBlock(recorder.fHeadBlock), fPosition(0), fItem(NULL) {}
+    explicit Iter(GrTRecorder& recorder) : fBlock(recorder.fHeadBlock), fPosition(0), fItem(NULL) {}
 
     bool next() {
         while (fPosition >= fBlock->fBack) {
@@ -297,7 +297,7 @@ private:
 template<typename TBase, typename TAlign>
 class GrTRecorder<TBase, TAlign>::ReverseIter {
 public:
-    ReverseIter(GrTRecorder& recorder)
+    explicit ReverseIter(GrTRecorder& recorder)
         : fBlock(recorder.fTailBlock),
           fItem(&recorder.back()) {
         Header* lastHeader = reinterpret_cast<Header*>(

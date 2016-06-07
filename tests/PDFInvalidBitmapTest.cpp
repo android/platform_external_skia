@@ -21,7 +21,7 @@ namespace {
 // cannot be generated.
 class InvalidPixelRef : public SkPixelRef {
 public:
-    InvalidPixelRef(const SkImageInfo& info) : SkPixelRef(info) {}
+    explicit InvalidPixelRef(const SkImageInfo& info) : SkPixelRef(info) {}
 private:
     bool onNewLockPixels(LockRec*) override { return false; }
     void onUnlockPixels() override {

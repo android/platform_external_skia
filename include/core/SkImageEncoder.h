@@ -88,7 +88,7 @@ protected:
 // This macro defines the global creation entry point for each encoder. Each
 // encoder implementation that registers with the encoder factory must call it.
 #define DEFINE_ENCODER_CREATOR(codec)           \
-    SkImageEncoder *Create ## codec () {        \
+    SkImageEncoder *Create ## codec () {  /* NOLINT */ \
         return SkNEW( Sk ## codec );            \
     }
 

@@ -15,12 +15,12 @@ struct SkDeviceProperties {
         kLegacyLCD_InitType
     };
 
-    SkDeviceProperties(InitType, float gamma = SK_GAMMA_EXPONENT)
+    explicit SkDeviceProperties(InitType, float gamma = SK_GAMMA_EXPONENT)
         : fGamma(gamma)
         , fPixelGeometry(SkSurfacePropsDefaultPixelGeometry())
     {}
 
-    SkDeviceProperties(SkPixelGeometry geo, float gamma = SK_GAMMA_EXPONENT)
+    explicit SkDeviceProperties(SkPixelGeometry geo, float gamma = SK_GAMMA_EXPONENT)
         : fGamma(gamma)
         , fPixelGeometry(geo)
     {}

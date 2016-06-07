@@ -86,7 +86,7 @@ static void gen_paths(const SkTDArray<SkScalar>& topData,
 // filling
 class ChartBench : public Benchmark {
 public:
-    ChartBench(bool aa) {
+    explicit ChartBench(bool aa) {
         fShift = 0;
         fAA = aa;
         fSize.fWidth = -1;

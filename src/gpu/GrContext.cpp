@@ -57,7 +57,7 @@
 
 class GrContext::AutoCheckFlush {
 public:
-    AutoCheckFlush(GrContext* context) : fContext(context) { SkASSERT(context); }
+    explicit AutoCheckFlush(GrContext* context) : fContext(context) { SkASSERT(context); }
 
     ~AutoCheckFlush() {
         if (fContext->fFlushToReduceCacheSize) {

@@ -78,7 +78,7 @@ public:
     SK_DECLARE_PUBLIC_FLATTENABLE_DESERIALIZATION_PROCS(SkTwoPointConicalGradient)
 
 protected:
-    SkTwoPointConicalGradient(SkReadBuffer& buffer);
+    explicit SkTwoPointConicalGradient(SkReadBuffer& buffer);
     void flatten(SkWriteBuffer& buffer) const override;
     Context* onCreateContext(const ContextRec&, void* storage) const override;
 

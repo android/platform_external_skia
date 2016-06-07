@@ -200,7 +200,7 @@ public:
     static SkImageGenerator* NewFromData(SkData*);
 
 protected:
-    SkImageGenerator(const SkImageInfo& info) : fInfo(info) {}
+    explicit SkImageGenerator(const SkImageInfo& info) : fInfo(info) {}
 
     virtual SkData* onRefEncodedData();
 

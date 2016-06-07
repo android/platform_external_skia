@@ -375,7 +375,7 @@ private:
 
 class GLColorTableEffect : public GrGLFragmentProcessor {
 public:
-    GLColorTableEffect(const GrProcessor&);
+    explicit GLColorTableEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

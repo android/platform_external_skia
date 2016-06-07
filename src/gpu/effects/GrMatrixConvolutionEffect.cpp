@@ -12,7 +12,7 @@
 
 class GrGLMatrixConvolutionEffect : public GrGLFragmentProcessor {
 public:
-    GrGLMatrixConvolutionEffect(const GrProcessor&);
+    explicit GrGLMatrixConvolutionEffect(const GrProcessor&);
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,
                           const char* outputColor,

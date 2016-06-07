@@ -147,7 +147,7 @@ public:
      *                              bufferSize and keep them until it is
      *                              destroyed.
      */
-    GrVertexBufferAllocPool(GrGpu* gpu, size_t bufferSize = 0, int preallocBufferCnt = 0);
+    explicit GrVertexBufferAllocPool(GrGpu* gpu, size_t bufferSize = 0, int preallocBufferCnt = 0);
 
     /**
      * Returns a block of memory to hold vertices. A buffer designated to hold
@@ -196,7 +196,7 @@ public:
      *                              bufferSize and keep them until it is
      *                              destroyed.
      */
-    GrIndexBufferAllocPool(GrGpu* gpu,
+    explicit GrIndexBufferAllocPool(GrGpu* gpu,
                            size_t bufferSize = 0,
                            int preallocBufferCnt = 0);
 

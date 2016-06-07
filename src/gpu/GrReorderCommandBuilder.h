@@ -15,7 +15,7 @@ public:
     typedef GrCommandBuilder::Cmd Cmd;
     typedef GrCommandBuilder::State State;
 
-    GrReorderCommandBuilder(GrGpu* gpu) : INHERITED(gpu) {}
+    explicit GrReorderCommandBuilder(GrGpu* gpu) : INHERITED(gpu) {}
 
     Cmd* recordDrawBatch(State*, GrBatch*) override;
     Cmd* recordStencilPath(const GrPipelineBuilder&,

@@ -186,7 +186,7 @@ bool append_porterduff_term(GrGLXPFragmentBuilder* fsBuilder, GrBlendCoeff coeff
 
 class GLPorterDuffXferProcessor : public GrGLXferProcessor {
 public:
-    GLPorterDuffXferProcessor(const GrProcessor&) {}
+    explicit GLPorterDuffXferProcessor(const GrProcessor&) {}
 
     virtual ~GLPorterDuffXferProcessor() {}
 
@@ -513,7 +513,7 @@ private:
 
 class GLPDLCDXferProcessor : public GrGLXferProcessor {
 public:
-    GLPDLCDXferProcessor(const GrProcessor&) {}
+    explicit GLPDLCDXferProcessor(const GrProcessor&) {}
 
     virtual ~GLPDLCDXferProcessor() {}
 

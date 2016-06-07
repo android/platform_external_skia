@@ -16,7 +16,7 @@
 
 class AutoAAClipValidate {
 public:
-    AutoAAClipValidate(const SkAAClip& clip) : fClip(clip) {
+    explicit AutoAAClipValidate(const SkAAClip& clip) : fClip(clip) {
         fClip.validate();
     }
     ~AutoAAClipValidate() {
@@ -115,7 +115,7 @@ struct SkAAClip::RunHead {
 
 class SkAAClip::Iter {
 public:
-    Iter(const SkAAClip&);
+    explicit Iter(const SkAAClip&);
 
     bool done() const { return fDone; }
     int top() const { return fTop; }
@@ -957,7 +957,7 @@ class SkAAClip::Builder {
     int fMinY;
 
 public:
-    Builder(const SkIRect& bounds) : fBounds(bounds) {
+    explicit Builder(const SkIRect& bounds) : fBounds(bounds) {
         fPrevY = -1;
         fWidth = bounds.width();
         fCurrRow = NULL;
@@ -1252,7 +1252,7 @@ class SkAAClip::BuilderBlitter : public SkBlitter {
 
 public:
 
-    BuilderBlitter(Builder* builder) {
+    explicit BuilderBlitter(Builder* builder) {
         fBuilder = builder;
         fLeft = builder->getBounds().fLeft;
         fRight = builder->getBounds().fRight;

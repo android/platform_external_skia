@@ -65,7 +65,7 @@ GrFragmentProcessor* DitherEffect::TestCreate(SkRandom*,
 
 class GLDitherEffect : public GrGLFragmentProcessor {
 public:
-    GLDitherEffect(const GrProcessor&);
+    explicit GLDitherEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& fp,

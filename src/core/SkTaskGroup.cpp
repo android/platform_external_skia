@@ -71,7 +71,7 @@ public:
 
 private:
     struct AutoLock {
-        AutoLock(SkCondVar* c) : fC(c) { fC->lock(); }
+        explicit AutoLock(SkCondVar* c) : fC(c) { fC->lock(); }
         ~AutoLock() { fC->unlock(); }
     private:
         SkCondVar* fC;

@@ -66,7 +66,7 @@ const SkScalar kFontSize = 16;
 
 class TextBlobGM : public skiagm::GM {
 public:
-    TextBlobGM(const char* txt)
+    explicit TextBlobGM(const char* txt)
         : fTypeface(sk_tool_utils::create_portable_typeface("Times", SkTypeface::kNormal)) {
         SkPaint p;
         p.setTypeface(fTypeface);

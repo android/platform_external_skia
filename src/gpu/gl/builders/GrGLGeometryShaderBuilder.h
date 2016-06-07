@@ -14,7 +14,7 @@ class GrGLVarying;
 
 class GrGLGeometryBuilder : public GrGLShaderBuilder {
 public:
-    GrGLGeometryBuilder(GrGLProgramBuilder* program);
+    explicit GrGLGeometryBuilder(GrGLProgramBuilder* program);
 
 private:
     /*

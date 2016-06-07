@@ -30,7 +30,7 @@ public:
      *
      * @param context    the context object that owns this draw buffer.
      */
-    GrInOrderDrawBuffer(GrContext* context);
+    explicit GrInOrderDrawBuffer(GrContext* context);
 
     ~GrInOrderDrawBuffer() override;
 

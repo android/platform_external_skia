@@ -19,7 +19,7 @@
  */
 class GrGpuTraceMarkerGenerator : public ::SkNoncopyable {
 public:
-    GrGpuTraceMarkerGenerator(GrDrawTarget* target) : fTarget(target) {}
+    explicit GrGpuTraceMarkerGenerator(GrDrawTarget* target) : fTarget(target) {}
 
     ~GrGpuTraceMarkerGenerator() {
         if (fTraceMarker.isValid()) {
@@ -41,7 +41,7 @@ private:
 
 class GrGpuTraceMarkerGeneratorContext : public ::SkNoncopyable {
 public:
-    GrGpuTraceMarkerGeneratorContext(GrContext* context) : fContext(context) {}
+    explicit GrGpuTraceMarkerGeneratorContext(GrContext* context) : fContext(context) {}
 
     ~GrGpuTraceMarkerGeneratorContext() {
         if (fTraceMarker.isValid()) {
@@ -96,7 +96,7 @@ private:
     TRACE_EVENT_CATEGORY_GROUP_ENABLED(TRACE_DISABLED_BY_DEFAULT("skia.gpu"),      \
                                         &SK_MACRO_APPEND_LINE(gpuTracingEnabled)); \
     if (SK_MACRO_APPEND_LINE(gpuTracingEnabled)) {                                 \
-        SK_MACRO_APPEND_LINE(TMG).initialize(name, &name_counter);                 \
+        SK_MACRO_APPEND_LINE(TMG).initialize(name, &(name_counter));               \
     }                                                                             
 #endif
 
@@ -130,7 +130,7 @@ private:
     TRACE_EVENT_CATEGORY_GROUP_ENABLED(TRACE_DISABLED_BY_DEFAULT("skia.gpu"),      \
                                         &SK_MACRO_APPEND_LINE(gpuTracingEnabled)); \
     if (SK_MACRO_APPEND_LINE(gpuTracingEnabled)) {                                 \
-        SK_MACRO_APPEND_LINE(TMG).initialize(name, &name_counter);                 \
+        SK_MACRO_APPEND_LINE(TMG).initialize(name, &(name_counter));               \
     }                                                                             
 #endif
 

@@ -13,7 +13,7 @@
 namespace {
 struct C {
     C() : fID(-1) { ++gInstCnt; }
-    C(int id) : fID(id) { ++gInstCnt; }
+    explicit C(int id) : fID(id) { ++gInstCnt; }
     ~C() { --gInstCnt; }
     int fID;
 

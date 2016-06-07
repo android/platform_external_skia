@@ -130,7 +130,7 @@ GrFragmentProcessor* CircularRRectEffect::TestCreate(SkRandom* random,
 
 class GLCircularRRectEffect : public GrGLFragmentProcessor {
 public:
-    GLCircularRRectEffect(const GrProcessor&);
+    explicit GLCircularRRectEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& fp,
@@ -487,7 +487,7 @@ GrFragmentProcessor* EllipticalRRectEffect::TestCreate(SkRandom* random,
 
 class GLEllipticalRRectEffect : public GrGLFragmentProcessor {
 public:
-    GLEllipticalRRectEffect(const GrProcessor&);
+    explicit GLEllipticalRRectEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& effect,

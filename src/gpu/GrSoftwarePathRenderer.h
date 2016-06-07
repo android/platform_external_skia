@@ -19,7 +19,7 @@ class GrContext;
  */
 class GrSoftwarePathRenderer : public GrPathRenderer {
 public:
-    GrSoftwarePathRenderer(GrContext* context)
+    explicit GrSoftwarePathRenderer(GrContext* context)
         : fContext(context) {
     }
 

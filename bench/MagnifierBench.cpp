@@ -17,7 +17,7 @@
 
 class MagnifierBench : public Benchmark {
 public:
-    MagnifierBench(bool small) :
+    explicit MagnifierBench(bool small) :
         fIsSmall(small), fInitialized(false) {
     }
 

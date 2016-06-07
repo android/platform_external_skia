@@ -17,7 +17,7 @@
 
 class MergeBench : public Benchmark {
 public:
-    MergeBench(bool small) : fIsSmall(small), fInitialized(false) { }
+    explicit MergeBench(bool small) : fIsSmall(small), fInitialized(false) { }
 
 protected:
     const char* onGetName() override {

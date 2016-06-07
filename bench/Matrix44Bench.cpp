@@ -13,7 +13,7 @@
 class Matrix44Bench : public Benchmark {
     SkString    fName;
 public:
-    Matrix44Bench(const char name[]) {
+    explicit Matrix44Bench(const char name[]) {
         fName.printf("matrix44_%s", name);
     }
 

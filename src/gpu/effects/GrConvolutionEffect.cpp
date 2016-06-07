@@ -16,7 +16,7 @@ typedef GrGLProgramDataManager::UniformHandle UniformHandle;
 
 class GrGLConvolutionEffect : public GrGLFragmentProcessor {
 public:
-    GrGLConvolutionEffect(const GrProcessor&);
+    explicit GrGLConvolutionEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

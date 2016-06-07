@@ -22,7 +22,7 @@ class BufferObj {
 public:
     SK_DECLARE_INST_COUNT(BufferObj);
 
-    BufferObj(GrGLuint id) : fID(id), fDataPtr(NULL), fSize(0), fMapped(false) {
+    explicit BufferObj(GrGLuint id) : fID(id), fDataPtr(NULL), fSize(0), fMapped(false) {
     }
     ~BufferObj() { SkDELETE_ARRAY(fDataPtr); }
 

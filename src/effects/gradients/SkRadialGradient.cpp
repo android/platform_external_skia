@@ -437,7 +437,7 @@ void SkRadialGradient::RadialGradientContext::shadeSpan(int x, int y,
 class GrGLRadialGradient : public GrGLGradientEffect {
 public:
 
-    GrGLRadialGradient(const GrProcessor&) {}
+    explicit GrGLRadialGradient(const GrProcessor&) {}
     virtual ~GrGLRadialGradient() { }
 
     virtual void emitCode(GrGLFPBuilder*,

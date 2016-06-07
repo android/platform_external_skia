@@ -14,7 +14,7 @@ namespace {
 
 class EGLGLContext : public SkGLContext  {
 public:
-    EGLGLContext(GrGLStandard forcedGpuAPI);
+    explicit EGLGLContext(GrGLStandard forcedGpuAPI);
     ~EGLGLContext() override;
     void makeCurrent() const override;
     void swapBuffers() const override;

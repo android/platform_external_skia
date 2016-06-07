@@ -77,7 +77,7 @@ SkMemcpy32Proc SkMemcpy32GetPlatformProc();
 #ifdef SK_DEBUG
     int SkUTF8_LeadByteToCount(unsigned c);
 #else
-    #define SkUTF8_LeadByteToCount(c)   ((((0xE5 << 24) >> ((unsigned)c >> 4 << 1)) & 3) + 1)
+    #define SkUTF8_LeadByteToCount(c)   ((((0xE5 << 24) >> ((unsigned)(c) >> 4 << 1)) & 3) + 1)
 #endif
 
 inline int SkUTF8_CountUTF8Bytes(const char utf8[]) {
@@ -135,7 +135,7 @@ public:
     /** NOTE: label contents are not copied, just the ptr is
         retained, so DON'T DELETE IT.
     */
-    SkAutoTrace(const char label[]) : fLabel(label) {
+    explicit SkAutoTrace(const char label[]) : fLabel(label) {
         SkDebugf("--- trace: %s Enter\n", fLabel);
     }
     ~SkAutoTrace() {

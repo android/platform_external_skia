@@ -36,7 +36,7 @@ static bool is_degenerate(const SkPath& path) {
 
 class SkAutoDisableDirectionCheck {
 public:
-    SkAutoDisableDirectionCheck(SkPath* path) : fPath(path) {
+    explicit SkAutoDisableDirectionCheck(SkPath* path) : fPath(path) {
         fSaved = static_cast<SkPath::Direction>(fPath->fDirection);
     }
 
@@ -2287,7 +2287,7 @@ SkPath::Convexity SkPath::internalGetConvexity() const {
 
 class ContourIter {
 public:
-    ContourIter(const SkPathRef& pathRef);
+    explicit ContourIter(const SkPathRef& pathRef);
 
     bool done() const { return fDone; }
     // if !done() then these may be called

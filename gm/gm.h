@@ -28,12 +28,12 @@ class SkAnimTimer;
 
 // See colorwheel.cpp for example usage.
 #define DEF_SIMPLE_GM(NAME, CANVAS, W, H)                               \
-    static void SK_MACRO_CONCAT(NAME, _GM)(SkCanvas* CANVAS);           \
+    static void SK_MACRO_CONCAT(NAME, _GM)(SkCanvas* (CANVAS));         \
     DEF_GM( return SkNEW_ARGS(skiagm::SimpleGM,                         \
                               (SkString(#NAME),                         \
                                SK_MACRO_CONCAT(NAME, _GM),              \
                                SkISize::Make(W, H))); )                 \
-    void SK_MACRO_CONCAT(NAME, _GM)(SkCanvas* CANVAS)
+    void SK_MACRO_CONCAT(NAME, _GM)(SkCanvas* (CANVAS))
 
 namespace skiagm {
 

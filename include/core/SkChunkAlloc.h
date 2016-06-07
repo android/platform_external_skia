@@ -14,7 +14,7 @@
 
 class SkChunkAlloc : SkNoncopyable {
 public:
-    SkChunkAlloc(size_t minSize);
+    explicit SkChunkAlloc(size_t minSize);
     ~SkChunkAlloc();
 
     /**

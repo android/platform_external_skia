@@ -317,7 +317,7 @@ SkScalar SkPerlinNoiseShader::PerlinNoiseShaderContext::noise2D(
         int noisePositionIntegerValue;
         int nextNoisePositionIntegerValue;
         SkScalar noisePositionFractionValue;
-        Noise(SkScalar component)
+        explicit Noise(SkScalar component)
         {
             SkScalar position = component + kPerlinNoise;
             noisePositionIntegerValue = SkScalarFloorToInt(position);
@@ -484,7 +484,7 @@ void SkPerlinNoiseShader::PerlinNoiseShaderContext::shadeSpan16(
 
 class GrGLPerlinNoise : public GrGLFragmentProcessor {
 public:
-    GrGLPerlinNoise(const GrProcessor&);
+    explicit GrGLPerlinNoise(const GrProcessor&);
     virtual ~GrGLPerlinNoise() {}
 
     virtual void emitCode(GrGLFPBuilder*,

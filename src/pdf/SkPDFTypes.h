@@ -152,7 +152,7 @@ private:
     };
     Type fType;
 
-    SkPDFUnion(Type);
+    explicit SkPDFUnion(Type);
     // We do not now need copy constructor and copy assignment, so we
     // will disable this functionality.
     SkPDFUnion& operator=(const SkPDFUnion&) = delete;

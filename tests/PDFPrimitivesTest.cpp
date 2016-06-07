@@ -362,7 +362,7 @@ namespace {
 
 class DummyImageFilter : public SkImageFilter {
 public:
-    DummyImageFilter(bool visited = false) : SkImageFilter(0, NULL), fVisited(visited) {}
+    explicit DummyImageFilter(bool visited = false) : SkImageFilter(0, NULL), fVisited(visited) {}
     ~DummyImageFilter() override {}
     virtual bool onFilterImage(Proxy*, const SkBitmap& src, const Context&,
                                SkBitmap* result, SkIPoint* offset) const override {

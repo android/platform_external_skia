@@ -21,7 +21,7 @@ const SkScalar GrBicubicEffect::gMitchellCoefficients[16] = {
 
 class GrGLBicubicEffect : public GrGLFragmentProcessor {
 public:
-    GrGLBicubicEffect(const GrProcessor&);
+    explicit GrGLBicubicEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

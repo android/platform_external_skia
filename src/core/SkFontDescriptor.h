@@ -14,9 +14,9 @@
 
 class SkFontDescriptor {
 public:
-    SkFontDescriptor(SkTypeface::Style = SkTypeface::kNormal);
+    explicit SkFontDescriptor(SkTypeface::Style = SkTypeface::kNormal);
     // Does not affect ownership of SkStream.
-    SkFontDescriptor(SkStream*);
+    explicit SkFontDescriptor(SkStream*);
 
     void serialize(SkWStream*);
 

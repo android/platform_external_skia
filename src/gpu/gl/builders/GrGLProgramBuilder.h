@@ -118,17 +118,17 @@ private:
 };
 
 struct GrGLVertToFrag : public GrGLVarying {
-    GrGLVertToFrag(GrSLType type)
+    explicit GrGLVertToFrag(GrSLType type)
         : GrGLVarying(type, kVertToFrag_Varying) {}
 };
 
 struct GrGLVertToGeo : public GrGLVarying {
-    GrGLVertToGeo(GrSLType type)
+    explicit GrGLVertToGeo(GrSLType type)
         : GrGLVarying(type, kVertToGeo_Varying) {}
 };
 
 struct GrGLGeoToFrag : public GrGLVarying {
-    GrGLGeoToFrag(GrSLType type)
+    explicit GrGLGeoToFrag(GrSLType type)
         : GrGLVarying(type, kGeoToFrag_Varying) {}
 };
 
@@ -346,7 +346,7 @@ protected:
     // This simple class exits the stage and then restores the stage when it goes out of scope
     class AutoStageRestore {
     public:
-        AutoStageRestore(GrGLProgramBuilder* pb)
+        explicit AutoStageRestore(GrGLProgramBuilder* pb)
             : fPB(pb), fOutOfStage(pb->fOutOfStage) { pb->exitStage(); }
         ~AutoStageRestore() { fPB->fOutOfStage = fOutOfStage; }
     private:
@@ -355,7 +355,7 @@ protected:
     };
     class AutoStageAdvance {
     public:
-        AutoStageAdvance(GrGLProgramBuilder* pb)
+        explicit AutoStageAdvance(GrGLProgramBuilder* pb)
             : fPB(pb) {
             fPB->reset();
             // Each output to the fragment processor gets its own code section

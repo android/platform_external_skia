@@ -279,7 +279,7 @@ public:
 /** Place inside function where the key is used. */
 #define GR_DEFINE_STATIC_UNIQUE_KEY(name)                           \
     static GrUniqueKey name;                                        \
-    SkOnce(&name##_once, gr_init_static_unique_key_once, &name)
+    SkOnce(&name##_once, gr_init_static_unique_key_once, &(name))
 
 static inline void gr_init_static_unique_key_once(GrUniqueKey* key) {
     GrUniqueKey::Builder builder(key, GrUniqueKey::GenerateDomain(), 0);

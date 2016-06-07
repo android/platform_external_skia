@@ -31,7 +31,7 @@ public:
     static uint32_t Hash(const uint32_t& key) { return SkChecksum::Mix(key); }
 
     // GrPictureInfo proper
-    GrPictureInfo(uint32_t pictureID) : fPictureID(pictureID) { 
+    explicit GrPictureInfo(uint32_t pictureID) : fPictureID(pictureID) { 
 #if !GR_CACHE_HOISTED_LAYERS
         memset(fPlotUses, 0, sizeof(fPlotUses)); 
 #endif
@@ -283,7 +283,7 @@ private:
 // classes.
 class GrLayerCache {
 public:
-    GrLayerCache(GrContext*);
+    explicit GrLayerCache(GrContext*);
     ~GrLayerCache();
 
     // As a cache, the GrLayerCache can be ordered to free up all its cached

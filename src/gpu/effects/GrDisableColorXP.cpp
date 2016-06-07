@@ -55,7 +55,7 @@ private:
 
 class GLDisableColorXP : public GrGLXferProcessor {
 public:
-    GLDisableColorXP(const GrProcessor&) {}
+    explicit GLDisableColorXP(const GrProcessor&) {}
 
     ~GLDisableColorXP() override {}
 

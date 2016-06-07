@@ -219,7 +219,7 @@ public:
     uint32_t getGradFlags() const { return fGradFlags; }
 
 protected:
-    SkGradientShaderBase(SkReadBuffer& );
+    explicit SkGradientShaderBase(SkReadBuffer& );
     void flatten(SkWriteBuffer&) const override;
     SK_TO_STRING_OVERRIDE()
 

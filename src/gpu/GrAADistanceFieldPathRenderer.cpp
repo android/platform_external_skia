@@ -132,7 +132,7 @@ public:
     typedef GrAADistanceFieldPathRenderer::PathDataList PathDataList;
 
     struct Geometry {
-        Geometry(const SkStrokeRec& stroke) : fStroke(stroke) {}
+        explicit Geometry(const SkStrokeRec& stroke) : fStroke(stroke) {}
         SkPath fPath;
         SkStrokeRec fStroke;
         bool fAntiAlias;

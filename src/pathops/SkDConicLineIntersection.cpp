@@ -23,7 +23,7 @@ public:
         i->setMax(3);  // allow short partial coincidence plus discrete intersection
     }
 
-    LineConicIntersections(const SkDConic& c)
+    explicit LineConicIntersections(const SkDConic& c)
         : fConic(c)
         SkDEBUGPARAMS(fLine(NULL))
         SkDEBUGPARAMS(fIntersections(NULL))

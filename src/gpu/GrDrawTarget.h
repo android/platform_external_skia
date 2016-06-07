@@ -45,7 +45,7 @@ public:
 
     // The context may not be fully constructed and should not be used during GrDrawTarget
     // construction.
-    GrDrawTarget(GrContext* context);
+    explicit GrDrawTarget(GrContext* context);
 
     virtual ~GrDrawTarget() {}
 
@@ -340,7 +340,7 @@ private:
  */
 class GrClipTarget : public GrDrawTarget {
 public:
-    GrClipTarget(GrContext* context)
+    explicit GrClipTarget(GrContext* context)
         : INHERITED(context) {
         fClipMaskManager.setClipTarget(this);
     }

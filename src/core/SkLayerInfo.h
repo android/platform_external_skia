@@ -60,7 +60,7 @@ public:
         int     fKeySize;  // # of ints
     };
 
-    SkLayerInfo(Key key) : INHERITED(key) { }
+    explicit SkLayerInfo(Key key) : INHERITED(key) { }
 
     BlockInfo& addBlock() { return fBlocks.push_back(); }
 

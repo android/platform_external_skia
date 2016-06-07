@@ -104,7 +104,7 @@ private:
                 kHigh_SkBlurQuality : kLow_SkBlurQuality;
     }
 
-    SkBlurMaskFilterImpl(SkReadBuffer&);
+    explicit SkBlurMaskFilterImpl(SkReadBuffer&);
     void flatten(SkWriteBuffer&) const override;
 
     SkScalar computeXformedSigma(const SkMatrix& ctm) const {
@@ -661,7 +661,7 @@ private:
 
 class GrGLRectBlurEffect : public GrGLFragmentProcessor {
 public:
-    GrGLRectBlurEffect(const GrProcessor&) {}
+    explicit GrGLRectBlurEffect(const GrProcessor&) {}
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,
                           const char* outputColor,
@@ -1019,7 +1019,7 @@ GrFragmentProcessor* GrRRectBlurEffect::TestCreate(SkRandom* random,
 
 class GrGLRRectBlurEffect : public GrGLFragmentProcessor {
 public:
-    GrGLRRectBlurEffect(const GrProcessor&) {}
+    explicit GrGLRRectBlurEffect(const GrProcessor&) {}
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

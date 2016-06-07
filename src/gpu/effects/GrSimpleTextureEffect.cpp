@@ -16,7 +16,7 @@
 
 class GrGLSimpleTextureEffect : public GrGLFragmentProcessor {
 public:
-    GrGLSimpleTextureEffect(const GrProcessor&) {}
+    explicit GrGLSimpleTextureEffect(const GrProcessor&) {}
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& fp,

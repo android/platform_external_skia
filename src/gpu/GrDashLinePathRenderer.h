@@ -13,7 +13,7 @@
 
 class GrDashLinePathRenderer : public GrPathRenderer {
 public:
-    GrDashLinePathRenderer(GrContext*);
+    explicit GrDashLinePathRenderer(GrContext*);
     ~GrDashLinePathRenderer();
 
     bool canDrawPath(const GrDrawTarget*,

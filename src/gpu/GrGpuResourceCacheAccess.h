@@ -66,7 +66,7 @@ private:
 
     int* accessCacheIndex() const { return &fResource->fCacheArrayIndex; }
 
-    CacheAccess(GrGpuResource* resource) : fResource(resource) {}
+    explicit CacheAccess(GrGpuResource* resource) : fResource(resource) {}
     CacheAccess(const CacheAccess& that) : fResource(that.fResource) {}
     CacheAccess& operator=(const CacheAccess&); // unimpl
 

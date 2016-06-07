@@ -43,7 +43,7 @@ public:
 
 private:
     SkAnnotation(const char key[], SkData* value);
-    SkAnnotation(SkReadBuffer&);
+    explicit SkAnnotation(SkReadBuffer&);
 
     SkString    fKey;
     SkData*     fData;

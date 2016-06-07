@@ -20,7 +20,7 @@
 
 class PicturePlaybackBench : public Benchmark {
 public:
-    PicturePlaybackBench(const char name[])  {
+    explicit PicturePlaybackBench(const char name[])  {
         fName.printf("picture_playback_%s", name);
         fPictureWidth = SkIntToScalar(PICTURE_WIDTH);
         fPictureHeight = SkIntToScalar(PICTURE_HEIGHT);
@@ -93,7 +93,7 @@ private:
 
 class PosTextPlaybackBench : public PicturePlaybackBench {
 public:
-    PosTextPlaybackBench(bool drawPosH)
+    explicit PosTextPlaybackBench(bool drawPosH)
         : INHERITED(drawPosH ? "drawPosTextH" : "drawPosText")
         , fDrawPosH(drawPosH) { }
 protected:

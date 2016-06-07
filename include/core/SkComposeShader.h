@@ -68,7 +68,7 @@ public:
     SK_DECLARE_PUBLIC_FLATTENABLE_DESERIALIZATION_PROCS(SkComposeShader)
 
 protected:
-    SkComposeShader(SkReadBuffer& );
+    explicit SkComposeShader(SkReadBuffer& );
     void flatten(SkWriteBuffer&) const override;
     Context* onCreateContext(const ContextRec&, void*) const override;
 

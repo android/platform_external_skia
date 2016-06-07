@@ -58,7 +58,7 @@ namespace GrPathUtils {
     public:
         QuadUVMatrix() {};
         // Initialize the matrix from the control pts
-        QuadUVMatrix(const SkPoint controlPts[3]) { this->set(controlPts); }
+        explicit QuadUVMatrix(const SkPoint controlPts[3]) { this->set(controlPts); }
         void set(const SkPoint controlPts[3]);
 
         /**

@@ -20,7 +20,7 @@
 
 class SkBitmapFilter {
   public:
-      SkBitmapFilter(float width)
+      explicit SkBitmapFilter(float width)
       : fWidth(width), fInvWidth(1.f/width) {
           fPrecomputed = false;
           fLookupMultiplier = this->invWidth() * (SKBITMAP_FILTER_TABLE_SIZE-1);
@@ -98,7 +98,7 @@ class SkMitchellFilter: public SkBitmapFilter {
 
 class SkGaussianFilter: public SkBitmapFilter {
   public:
-      SkGaussianFilter(float a, float width=2.0f)
+      explicit SkGaussianFilter(float a, float width=2.0f)
       : SkBitmapFilter(width), alpha(a), expWidth(expf(-alpha * width * width)) {
       }
 
@@ -111,7 +111,7 @@ class SkGaussianFilter: public SkBitmapFilter {
 
 class SkTriangleFilter: public SkBitmapFilter {
   public:
-      SkTriangleFilter(float width=1)
+      explicit SkTriangleFilter(float width=1)
       : SkBitmapFilter(width) {
       }
 
@@ -123,7 +123,7 @@ class SkTriangleFilter: public SkBitmapFilter {
 
 class SkBoxFilter: public SkBitmapFilter {
   public:
-      SkBoxFilter(float width=0.5f)
+      explicit SkBoxFilter(float width=0.5f)
       : SkBitmapFilter(width) {
       }
 
@@ -135,7 +135,7 @@ class SkBoxFilter: public SkBitmapFilter {
 
 class SkHammingFilter: public SkBitmapFilter {
 public:
-    SkHammingFilter(float width=1.f)
+    explicit SkHammingFilter(float width=1.f)
     : SkBitmapFilter(width) {
     }
     float evaluate(float x) const override {
@@ -154,7 +154,7 @@ public:
 
 class SkLanczosFilter: public SkBitmapFilter {
   public:
-      SkLanczosFilter(float width=3.f)
+      explicit SkLanczosFilter(float width=3.f)
       : SkBitmapFilter(width) {
       }
 

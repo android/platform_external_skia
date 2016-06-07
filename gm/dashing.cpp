@@ -399,7 +399,7 @@ protected:
 
 class Dashing5GM : public skiagm::GM {
 public:
-    Dashing5GM(bool doAA) : fDoAA(doAA) {}
+    explicit Dashing5GM(bool doAA) : fDoAA(doAA) {}
 
 protected:
 

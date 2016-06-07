@@ -50,7 +50,7 @@ static const SkColorType gColorTypes[] = {
 class ScaledTilingGM : public skiagm::GM {
     SkAutoTUnref<SkBlurDrawLooper> fLooper;
 public:
-    ScaledTilingGM(bool powerOfTwoSize)
+    explicit ScaledTilingGM(bool powerOfTwoSize)
             : fLooper(SkBlurDrawLooper::Create(0x88000000,
                                                SkBlurMask::ConvertRadiusToSigma(SkIntToScalar(1)),
                                                SkIntToScalar(2), SkIntToScalar(2)))

@@ -442,7 +442,7 @@ static void TestDeferredCanvasFreshFrame(skiatest::Reporter* reporter) {
 
 class MockDevice : public SkBitmapDevice {
 public:
-    MockDevice(const SkBitmap& bm) : SkBitmapDevice(bm) {
+    explicit MockDevice(const SkBitmap& bm) : SkBitmapDevice(bm) {
         fDrawBitmapCallCount = 0;
     }
     virtual void drawBitmap(const SkDraw&, const SkBitmap&,

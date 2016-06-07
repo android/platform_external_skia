@@ -17,7 +17,7 @@
 
 class DisplacementBaseBench : public Benchmark {
 public:
-    DisplacementBaseBench(bool small) :
+    explicit DisplacementBaseBench(bool small) :
         fInitialized(false), fIsSmall(small) {
     }
 
@@ -87,7 +87,7 @@ private:
 
 class DisplacementZeroBench : public DisplacementBaseBench {
 public:
-    DisplacementZeroBench(bool small) : INHERITED(small) {
+    explicit DisplacementZeroBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -114,7 +114,7 @@ private:
 
 class DisplacementAlphaBench : public DisplacementBaseBench {
 public:
-    DisplacementAlphaBench(bool small) : INHERITED(small) {
+    explicit DisplacementAlphaBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -140,7 +140,7 @@ private:
 
 class DisplacementFullBench : public DisplacementBaseBench {
 public:
-    DisplacementFullBench(bool small) : INHERITED(small) {
+    explicit DisplacementFullBench(bool small) : INHERITED(small) {
     }
 
 protected:

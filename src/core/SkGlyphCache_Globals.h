@@ -30,7 +30,7 @@ public:
         kYes_UseMutex  // shared cache
     };
 
-    SkGlyphCache_Globals(UseMutex um) {
+    explicit SkGlyphCache_Globals(UseMutex um) {
         fHead = NULL;
         fTotalMemoryUsed = 0;
         fCacheSizeLimit = SK_DEFAULT_FONT_CACHE_LIMIT;

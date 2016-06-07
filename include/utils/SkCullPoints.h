@@ -15,7 +15,7 @@
 class SkCullPoints {
 public:
     SkCullPoints();
-    SkCullPoints(const SkIRect& r);
+    explicit SkCullPoints(const SkIRect& r);
 
     void    reset(const SkIRect& r);
 

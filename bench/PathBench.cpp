@@ -30,7 +30,7 @@ class PathBench : public Benchmark {
     SkString    fName;
     Flags       fFlags;
 public:
-    PathBench(Flags flags) : fFlags(flags) {
+    explicit PathBench(Flags flags) : fFlags(flags) {
         fPaint.setStyle(flags & kStroke_Flag ? SkPaint::kStroke_Style :
                         SkPaint::kFill_Style);
         fPaint.setStrokeWidth(SkIntToScalar(5));
@@ -78,7 +78,7 @@ private:
 
 class TrianglePathBench : public PathBench {
 public:
-    TrianglePathBench(Flags flags) : INHERITED(flags) {}
+    explicit TrianglePathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("triangle");
@@ -98,7 +98,7 @@ private:
 
 class RectPathBench : public PathBench {
 public:
-    RectPathBench(Flags flags) : INHERITED(flags) {}
+    explicit RectPathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("rect");
@@ -113,7 +113,7 @@ private:
 
 class OvalPathBench : public PathBench {
 public:
-    OvalPathBench(Flags flags) : INHERITED(flags) {}
+    explicit OvalPathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("oval");
@@ -128,7 +128,7 @@ private:
 
 class CirclePathBench: public PathBench {
 public:
-    CirclePathBench(Flags flags) : INHERITED(flags) {}
+    explicit CirclePathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("circle");
@@ -143,7 +143,7 @@ private:
 
 class SawToothPathBench : public PathBench {
 public:
-    SawToothPathBench(Flags flags) : INHERITED(flags) {}
+    explicit SawToothPathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("sawtooth");
@@ -173,7 +173,7 @@ private:
 
 class LongCurvedPathBench : public PathBench {
 public:
-    LongCurvedPathBench(Flags flags) : INHERITED(flags) {}
+    explicit LongCurvedPathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("long_curved");
@@ -196,7 +196,7 @@ private:
 
 class LongLinePathBench : public PathBench {
 public:
-    LongLinePathBench(Flags flags) : INHERITED(flags) {}
+    explicit LongLinePathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("long_line");
@@ -382,7 +382,7 @@ private:
 
 class PathTransformBench : public RandomPathBench {
 public:
-    PathTransformBench(bool inPlace) : fInPlace(inPlace) {}
+    explicit PathTransformBench(bool inPlace) : fInPlace(inPlace) {}
 
 protected:
     const char* onGetName() override {
@@ -477,7 +477,7 @@ public:
         kReversePathTo_AddType,
     };
 
-    SkBench_AddPathTest(AddType type) : fType(type) {
+    explicit SkBench_AddPathTest(AddType type) : fType(type) {
         fMatrix.setRotate(60 * SK_Scalar1);
     }
 
@@ -572,7 +572,7 @@ protected:
     Flags               fFlags;
 
 public:
-    CirclesBench(Flags flags) : fFlags(flags) {
+    explicit CirclesBench(Flags flags) : fFlags(flags) {
         fName.printf("circles_%s", fFlags & kStroke_Flag ? "stroke" : "fill");
     }
 
@@ -632,7 +632,7 @@ protected:
     SkString            fName;
 
 public:
-    ArbRoundRectBench(bool zeroRad) : fZeroRad(zeroRad) {
+    explicit ArbRoundRectBench(bool zeroRad) : fZeroRad(zeroRad) {
         if (zeroRad) {
             fName.printf("zeroradroundrect");
         } else {
@@ -733,7 +733,7 @@ public:
         kOval_Type,
     };
 
-    ConservativelyContainsBench(Type type)  {
+    explicit ConservativelyContainsBench(Type type)  {
         fParity = false;
         fName = "conservatively_contains_";
         switch (type) {
@@ -837,7 +837,7 @@ DEF_BENCH( return new ConicBench_Chop; )
 class ConicBench_EvalPos : public ConicBench_Chop {
     const bool fUseV2;
 public:
-    ConicBench_EvalPos(bool useV2) : fUseV2(useV2) {
+    explicit ConicBench_EvalPos(bool useV2) : fUseV2(useV2) {
         fName.printf("conic-eval-pos%d", useV2);
     }
     void onDraw(const int loops, SkCanvas*) override {
@@ -862,7 +862,7 @@ DEF_BENCH( return new ConicBench_EvalPos(true); )
 class ConicBench_EvalTan : public ConicBench_Chop {
     const bool fUseV2;
 public:
-    ConicBench_EvalTan(bool useV2) : fUseV2(useV2) {
+    explicit ConicBench_EvalTan(bool useV2) : fUseV2(useV2) {
         fName.printf("conic-eval-tan%d", useV2);
     }
     void onDraw(const int loops, SkCanvas*) override {

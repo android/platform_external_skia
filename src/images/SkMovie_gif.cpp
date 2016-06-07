@@ -22,7 +22,7 @@
 
 class SkGIFMovie : public SkMovie {
 public:
-    SkGIFMovie(SkStream* stream);
+    explicit SkGIFMovie(SkStream* stream);
     virtual ~SkGIFMovie();
 
 protected:

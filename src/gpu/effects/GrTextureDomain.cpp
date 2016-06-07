@@ -167,7 +167,7 @@ void GrTextureDomain::GLDomain::setData(const GrGLProgramDataManager& pdman,
 
 class GrGLTextureDomainEffect : public GrGLFragmentProcessor {
 public:
-    GrGLTextureDomainEffect(const GrProcessor&);
+    explicit GrGLTextureDomainEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

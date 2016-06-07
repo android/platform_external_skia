@@ -26,7 +26,7 @@ public:
         kAA_Clip_Type,
         kEffect_Type,
     };
-    RRectGM(Type type) : fType(type) {
+    explicit RRectGM(Type type) : fType(type) {
         this->setBGColor(0xFFDDDDDD);
         this->setUpRRects();
     }

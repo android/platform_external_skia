@@ -100,7 +100,7 @@ class SkCanvasState_v1 : public SkCanvasState {
 public:
     static const int32_t kVersion = 1;
 
-    SkCanvasState_v1(SkCanvas* canvas)
+    explicit SkCanvasState_v1(SkCanvas* canvas)
     : INHERITED(kVersion, canvas)
     {
         layerCount = 0;

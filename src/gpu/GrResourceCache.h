@@ -296,7 +296,7 @@ private:
 
 class GrResourceCache::ResourceAccess {
 private:
-    ResourceAccess(GrResourceCache* cache) : fCache(cache) { }
+    explicit ResourceAccess(GrResourceCache* cache) : fCache(cache) { }
     ResourceAccess(const ResourceAccess& that) : fCache(that.fCache) { }
     ResourceAccess& operator=(const ResourceAccess&); // unimpl
 

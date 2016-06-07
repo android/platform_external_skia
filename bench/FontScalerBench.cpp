@@ -17,7 +17,7 @@ class FontScalerBench : public Benchmark {
     SkString fText;
     bool     fDoLCD;
 public:
-    FontScalerBench(bool doLCD)  {
+    explicit FontScalerBench(bool doLCD)  {
         fName.printf("fontscaler_%s", doLCD ? "lcd" : "aa");
         fText.set("abcdefghijklmnopqrstuvwxyz01234567890");
         fDoLCD = doLCD;

@@ -34,7 +34,7 @@ public:
 
 protected:
     const SkBitmap fBitmap;
-    SkPDFBitmap(const SkBitmap& bm) : fBitmap(bm) {}
+    explicit SkPDFBitmap(const SkBitmap& bm) : fBitmap(bm) {}
 };
 
 #endif  // SkPDFBitmap_DEFINED

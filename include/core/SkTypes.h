@@ -120,7 +120,7 @@ inline void operator delete(void* p) {
     #define SkAssertResult(cond)        cond
 #endif
 
-#define SkFAIL(message)                 SK_ALWAYSBREAK(false && message)
+#define SkFAIL(message)                 SK_ALWAYSBREAK(false && (message))
 
 // We want to evaluate cond only once, and inside the SkASSERT somewhere so we see its string form.
 // So we use the comma operator to make an SkDebugf that always returns false: we'll evaluate cond,
@@ -159,7 +159,7 @@ struct SkCompileAssert {
 // which was fixed in gcc 4.8.2.
 #define SK_COMPILE_ASSERT(expr, msg) \
     typedef SkCompileAssert<(static_cast<bool>(expr))> \
-            msg[static_cast<bool>(expr) ? 1 : -1] SK_UNUSED
+            (msg)[static_cast<bool>(expr) ? 1 : -1] SK_UNUSED
 
 /*
  *  Usage:  SK_MACRO_CONCAT(a, b)   to construct the symbol ab
@@ -270,11 +270,11 @@ typedef uint8_t SkBool8;
 #define SkToBool(cond)  ((cond) != 0)
 
 #define SK_MaxS16   32767
-#define SK_MinS16   -32767
+#define SK_MinS16   (-32767)
 #define SK_MaxU16   0xFFFF
 #define SK_MinU16   0
 #define SK_MaxS32   0x7FFFFFFF
-#define SK_MinS32   -SK_MaxS32
+#define SK_MinS32   (-SK_MaxS32)
 #define SK_MaxU32   0xFFFFFFFF
 #define SK_MinU32   0
 #define SK_NaN32    (1 << 31)

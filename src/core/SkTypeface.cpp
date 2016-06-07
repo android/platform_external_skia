@@ -305,7 +305,7 @@ bool SkTypeface::onGetKerningPairAdjustments(const uint16_t glyphs[], int count,
 struct SkTypeface::BoundsComputer {
     const SkTypeface& fTypeface;
 
-    BoundsComputer(const SkTypeface& tf) : fTypeface(tf) {}
+    explicit BoundsComputer(const SkTypeface& tf) : fTypeface(tf) {}
 
     SkRect* operator()() const {
         SkRect* rect = SkNEW(SkRect);

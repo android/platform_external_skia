@@ -28,7 +28,7 @@ class SkAutoResolveDefaultTypeface : public SkAutoTUnref<SkTypeface> {
 public:
     SkAutoResolveDefaultTypeface() : INHERITED(SkTypeface::RefDefault()) {}
 
-    SkAutoResolveDefaultTypeface(SkTypeface* face)
+    explicit SkAutoResolveDefaultTypeface(SkTypeface* face)
         : INHERITED(ref_or_default(face)) {}
 
 private:

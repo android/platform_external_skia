@@ -35,7 +35,7 @@ public:
     // The ownership of the data remains with the caller. This class is intended
     // to be used as a logical wrapper around the data in order to properly
     // access the pixels.
-    SkKTXFile(SkData* data)
+    explicit SkKTXFile(SkData* data)
         : fData(data), fSwapBytes(false)
     {
         data->ref();
@@ -97,7 +97,7 @@ private:
     // arbitrarily many of these.
     class KeyValue {
     public:
-        KeyValue(size_t size) : fDataSz(size) { }
+        explicit KeyValue(size_t size) : fDataSz(size) { }
         bool readKeyAndValue(const uint8_t *data);
         size_t size() const { return fDataSz; }
         const SkString& key() const { return fKey; }

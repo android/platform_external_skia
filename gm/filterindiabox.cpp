@@ -65,7 +65,7 @@ public:
         this->setBGColor(0xFFDDDDDD);
     }
 
-    FilterIndiaBoxGM(const char filename[]) : fFilename(filename) {
+    explicit FilterIndiaBoxGM(const char filename[]) : fFilename(filename) {
         fName.printf("filterindiabox");
     }
 

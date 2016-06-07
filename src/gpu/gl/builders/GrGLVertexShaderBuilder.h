@@ -15,7 +15,7 @@ class GrGLVarying;
 
 class GrGLVertexBuilder : public GrGLShaderBuilder {
 public:
-    GrGLVertexBuilder(GrGLProgramBuilder* program);
+    explicit GrGLVertexBuilder(GrGLProgramBuilder* program);
 
     void transformToNormalizedDeviceSpace(const GrShaderVar& posVar);
     void emitAttributes(const GrGeometryProcessor& gp);

@@ -48,7 +48,7 @@ static const SkColorType gColorTypes[] = {
 
 class TilingGM : public skiagm::GM {
 public:
-    TilingGM(bool powerOfTwoSize)
+    explicit TilingGM(bool powerOfTwoSize)
             : fPowerOfTwoSize(powerOfTwoSize) {
     }
 

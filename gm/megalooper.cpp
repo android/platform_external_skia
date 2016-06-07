@@ -26,7 +26,7 @@ public:
         k1x4_Type,  // all four shadows in one looper
     };
 
-    MegaLooperGM(Type type) : fType(type) {}
+    explicit MegaLooperGM(Type type) : fType(type) {}
 
 protected:
     virtual SkString onShortName() {

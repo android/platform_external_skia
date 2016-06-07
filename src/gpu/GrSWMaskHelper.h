@@ -41,7 +41,7 @@ class GrDrawTarget;
  */
 class GrSWMaskHelper : SkNoncopyable {
 public:
-    GrSWMaskHelper(GrContext* context)
+    explicit GrSWMaskHelper(GrContext* context)
     : fContext(context)
     , fCompressionMode(kNone_CompressionMode) {
     }

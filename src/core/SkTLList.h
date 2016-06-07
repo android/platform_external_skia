@@ -44,7 +44,7 @@ public:
 
     /** allocCnt is the number of objects to allocate as a group. In the worst case fragmentation
         each object is using the space required for allocCnt unfragmented objects. */
-    SkTLList(int allocCnt = 1) : fCount(0), fAllocCnt(allocCnt) {
+    explicit SkTLList(int allocCnt = 1) : fCount(0), fAllocCnt(allocCnt) {
         SkASSERT(allocCnt > 0);
         this->validate();
     }
@@ -198,7 +198,7 @@ public:
 
         Iter() {}
 
-        Iter(const SkTLList& list, IterStart start = kHead_IterStart) {
+        explicit Iter(const SkTLList& list, IterStart start = kHead_IterStart) {
             INHERITED::init(list.fList, start);
         }
 

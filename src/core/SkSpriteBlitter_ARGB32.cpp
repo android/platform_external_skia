@@ -214,7 +214,7 @@ static void src_row(SkPMColor* SK_RESTRICT dst,
 
 class Sprite_D32_S4444_Opaque : public SkSpriteBlitter {
 public:
-    Sprite_D32_S4444_Opaque(const SkBitmap& source) : SkSpriteBlitter(source) {}
+    explicit Sprite_D32_S4444_Opaque(const SkBitmap& source) : SkSpriteBlitter(source) {}
 
     void blitRect(int x, int y, int width, int height) override {
         SkASSERT(width > 0 && height > 0);
@@ -243,7 +243,7 @@ static void srcover_row(SkPMColor* SK_RESTRICT dst,
 
 class Sprite_D32_S4444 : public SkSpriteBlitter {
 public:
-    Sprite_D32_S4444(const SkBitmap& source) : SkSpriteBlitter(source) {}
+    explicit Sprite_D32_S4444(const SkBitmap& source) : SkSpriteBlitter(source) {}
 
     void blitRect(int x, int y, int width, int height) override {
         SkASSERT(width > 0 && height > 0);

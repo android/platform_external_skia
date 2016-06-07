@@ -21,9 +21,11 @@ public:
     SkFunction() {}
 
     template <typename Fn>
-    SkFunction(const Fn& fn) : fFunction(SkNEW_ARGS(LambdaImpl<Fn>, (fn))) {}
+    SkFunction(const Fn& fn) : // NOLINT, implicit
+        fFunction(SkNEW_ARGS(LambdaImpl<Fn>, (fn))) {}
 
-    SkFunction(R (*fn)(Args...)) : fFunction(SkNEW_ARGS(FnPtrImpl, (fn))) {}
+    SkFunction(R (*fn)(Args...)) : // NOLINT, implicit
+        fFunction(SkNEW_ARGS(FnPtrImpl, (fn))) {}
 
     SkFunction(const SkFunction& other) { *this = other; }
     SkFunction& operator=(const SkFunction& other) {
@@ -51,7 +53,7 @@ private:
     template <typename Fn>
     class LambdaImpl final : public Interface {
     public:
-        LambdaImpl(const Fn& fn) : fFn(fn) {}
+        explicit LambdaImpl(const Fn& fn) : fFn(fn) {}
 
         R call(Args... args) const override { return fFn(Forward(args)...); }
         Interface* clone() const { return SkNEW_ARGS(LambdaImpl<Fn>, (fFn)); }
@@ -61,7 +63,7 @@ private:
 
     class FnPtrImpl final : public Interface {
     public:
-        FnPtrImpl(R (*fn)(Args...)) : fFn(fn) {}
+        explicit FnPtrImpl(R (*fn)(Args...)) : fFn(fn) {}
 
         R call(Args... args) const override { return fFn(Forward(args)...); }
         Interface* clone() const { return SkNEW_ARGS(FnPtrImpl, (fFn)); }

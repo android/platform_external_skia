@@ -14,7 +14,7 @@
 //
 class OwnDeviceCanvas : public SkCanvas {
 public:
-    OwnDeviceCanvas(SkBaseDevice* device) : SkCanvas(device) {
+    explicit OwnDeviceCanvas(SkBaseDevice* device) : SkCanvas(device) {
         SkSafeUnref(device);
     }
 };

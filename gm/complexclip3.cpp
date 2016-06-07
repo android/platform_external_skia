@@ -15,7 +15,7 @@ static const SkColor gPathColor = SK_ColorYELLOW;
 
 class ComplexClip3GM : public GM {
 public:
-    ComplexClip3GM(bool doSimpleClipFirst)
+    explicit ComplexClip3GM(bool doSimpleClipFirst)
         : fDoSimpleClipFirst(doSimpleClipFirst) {
         this->setBGColor(0xFFDDDDDD);
     }

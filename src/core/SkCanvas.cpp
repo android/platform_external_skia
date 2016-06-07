@@ -208,7 +208,7 @@ public:
     SkMatrix        fMatrix;
     int             fDeferredSaveCount;
 
-    MCRec(bool conservativeRasterClip) : fRasterClip(conservativeRasterClip) {
+    explicit MCRec(bool conservativeRasterClip) : fRasterClip(conservativeRasterClip) {
         fFilter     = NULL;
         fLayer      = NULL;
         fTopLayer   = NULL;
@@ -245,7 +245,7 @@ public:
 
 class SkDrawIter : public SkDraw {
 public:
-    SkDrawIter(SkCanvas* canvas, bool skipEmptyClips = true) {
+    explicit SkDrawIter(SkCanvas* canvas, bool skipEmptyClips = true) {
         canvas = canvas->canvasForDrawIter();
         fCanvas = canvas;
         canvas->updateDeviceCMCache();
@@ -563,7 +563,7 @@ static SkBitmap make_nopixels(int width, int height) {
 
 class SkNoPixelsBitmapDevice : public SkBitmapDevice {
 public:
-    SkNoPixelsBitmapDevice(const SkIRect& bounds)
+    explicit SkNoPixelsBitmapDevice(const SkIRect& bounds)
         : INHERITED(make_nopixels(bounds.width(), bounds.height()))
     {
         this->setOrigin(bounds.x(), bounds.y());

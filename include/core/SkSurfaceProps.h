@@ -60,7 +60,7 @@ public:
     enum InitType {
         kLegacyFontHost_InitType
     };
-    SkSurfaceProps(InitType);
+    explicit SkSurfaceProps(InitType);
     SkSurfaceProps(uint32_t flags, InitType);
     SkSurfaceProps(const SkSurfaceProps& other);
 

@@ -58,7 +58,7 @@ public:
         // this class always generates the same code.
         static void GenKey(const GrProcessor&, const GrGLSLCaps&, GrProcessorKeyBuilder*) {}
 
-        GLProcessor(const GrProcessor&) {}
+        explicit GLProcessor(const GrProcessor&) {}
 
         virtual void emitCode(GrGLFPBuilder* builder,
                               const GrFragmentProcessor&,

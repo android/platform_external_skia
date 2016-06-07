@@ -205,7 +205,7 @@ public:
 
     class GLProcessor : public GrGLFragmentProcessor {
     public:
-        GLProcessor(const GrProcessor&);
+        explicit GLProcessor(const GrProcessor&);
         virtual ~GLProcessor();
 
         virtual void emitCode(GrGLFPBuilder*,
@@ -229,7 +229,7 @@ public:
 private:
     bool onIsEqual(const GrFragmentProcessor&) const override { return true; }
 
-    GrColorCubeEffect(GrTexture* colorCube);
+    explicit GrColorCubeEffect(GrTexture* colorCube);
 
     GrTextureAccess     fColorCubeAccess;
 

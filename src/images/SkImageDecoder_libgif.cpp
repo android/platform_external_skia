@@ -51,7 +51,7 @@ SK_CONF_DECLARE(bool, c_suppressGIFImageDecoderWarnings,
 */
 class GifInterlaceIter {
 public:
-    GifInterlaceIter(int height) : fHeight(height) {
+    explicit GifInterlaceIter(int height) : fHeight(height) {
         fStartYPtr = gStartingIterlaceYValue;
         fDeltaYPtr = gDeltaIterlaceYValue;
 

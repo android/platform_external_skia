@@ -134,9 +134,9 @@ class SK_API SkRefCnt : public SkRefCntBase { };
  */
 #define SkRefCnt_SafeAssign(dst, src)   \
     do {                                \
-        if (src) src->ref();            \
-        if (dst) dst->unref();          \
-        dst = src;                      \
+        if (src) (src)->ref();          \
+        if (dst) (dst)->unref();        \
+        (dst) = src;                    \
     } while (0)
 
 
@@ -218,7 +218,7 @@ private:
 
 class SkAutoUnref : public SkAutoTUnref<SkRefCnt> {
 public:
-    SkAutoUnref(SkRefCnt* obj) : SkAutoTUnref<SkRefCnt>(obj) {}
+    explicit SkAutoUnref(SkRefCnt* obj) : SkAutoTUnref<SkRefCnt>(obj) {}
 };
 #define SkAutoUnref(...) SK_REQUIRE_LOCAL_VAR(SkAutoUnref)
 

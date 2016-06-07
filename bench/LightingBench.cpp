@@ -17,7 +17,7 @@
 
 class LightingBaseBench : public Benchmark {
 public:
-    LightingBaseBench(bool small) : fIsSmall(small) { }
+    explicit LightingBaseBench(bool small) : fIsSmall(small) { }
 
 protected:
     void draw(const int loops, SkCanvas* canvas, SkImageFilter* imageFilter) const {
@@ -97,7 +97,7 @@ protected:
 
 class LightingPointLitDiffuseBench : public LightingBaseBench {
 public:
-    LightingPointLitDiffuseBench(bool small) : INHERITED(small) {
+    explicit LightingPointLitDiffuseBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -118,7 +118,7 @@ private:
 
 class LightingDistantLitDiffuseBench : public LightingBaseBench {
 public:
-    LightingDistantLitDiffuseBench(bool small) : INHERITED(small) {
+    explicit LightingDistantLitDiffuseBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -139,7 +139,7 @@ private:
 
 class LightingSpotLitDiffuseBench : public LightingBaseBench {
 public:
-    LightingSpotLitDiffuseBench(bool small) : INHERITED(small) {
+    explicit LightingSpotLitDiffuseBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -163,7 +163,7 @@ private:
 
 class LightingPointLitSpecularBench : public LightingBaseBench {
 public:
-    LightingPointLitSpecularBench(bool small) : INHERITED(small) {
+    explicit LightingPointLitSpecularBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -185,7 +185,7 @@ private:
 
 class LightingDistantLitSpecularBench : public LightingBaseBench {
 public:
-    LightingDistantLitSpecularBench(bool small) : INHERITED(small) {
+    explicit LightingDistantLitSpecularBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -207,7 +207,7 @@ private:
 
 class LightingSpotLitSpecularBench : public LightingBaseBench {
 public:
-    LightingSpotLitSpecularBench(bool small) : INHERITED(small) {
+    explicit LightingSpotLitSpecularBench(bool small) : INHERITED(small) {
     }
 
 protected:

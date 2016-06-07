@@ -157,7 +157,7 @@ class TypefaceStylesGM : public skiagm::GM {
     bool fApplyKerning;
 
 public:
-    TypefaceStylesGM(bool applyKerning) : fApplyKerning(applyKerning) {
+    explicit TypefaceStylesGM(bool applyKerning) : fApplyKerning(applyKerning) {
         for (int i = 0; i < gFaceStylesCount; i++) {
             fFaces[i] = sk_tool_utils::create_portable_typeface(gFaceStyles[i].fName,
                                                          gFaceStyles[i].fStyle);

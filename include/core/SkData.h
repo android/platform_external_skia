@@ -165,7 +165,7 @@ private:
     size_t      fSize;
 
     SkData(const void* ptr, size_t size, ReleaseProc, void* context);
-    SkData(size_t size);   // inplace new/delete
+    explicit SkData(size_t size);   // inplace new/delete
     virtual ~SkData();
 
 

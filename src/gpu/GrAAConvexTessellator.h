@@ -27,7 +27,7 @@ class GrAAConvexTessellator;
 // computeDepthFromEdge requests.
 class GrAAConvexTessellator {
 public:
-    GrAAConvexTessellator(SkScalar targetDepth = 0.5f)
+    explicit GrAAConvexTessellator(SkScalar targetDepth = 0.5f)
         : fSide(SkPoint::kOn_Side)
         , fTargetDepth(targetDepth) {
     }

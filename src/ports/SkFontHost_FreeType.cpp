@@ -350,7 +350,7 @@ static void unref_ft_face(FT_Face face) {
 
 class AutoFTAccess {
 public:
-    AutoFTAccess(const SkTypeface* tf) : fRec(NULL), fFace(NULL) {
+    explicit AutoFTAccess(const SkTypeface* tf) : fRec(NULL), fFace(NULL) {
         gFTMutex.acquire();
         if (!ref_ft_library()) {
             sk_throw();

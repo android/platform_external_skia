@@ -305,7 +305,7 @@ enum GradCaseType { // these must match the order in gGradCases
 
 class ConicalGradientsGM : public GM {
 public:
-    ConicalGradientsGM(GradCaseType gradCaseType) {
+    explicit ConicalGradientsGM(GradCaseType gradCaseType) {
         this->setBGColor(0xFFDDDDDD);
         fName.printf("gradients_2pt_conical_%s", gGradCases[gradCaseType].fName);
         fGradCaseType = gradCaseType;

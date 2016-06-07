@@ -723,7 +723,7 @@ private:
     typedef SkTArray<int, true> IntArray;
     typedef SkTArray<float, true> FloatArray;
 
-    AAHairlineBatch(const Geometry& geometry) {
+    explicit AAHairlineBatch(const Geometry& geometry) {
         this->initClassID<AAHairlineBatch>();
         fGeoData.push_back(geometry);
 

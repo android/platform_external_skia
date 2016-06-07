@@ -113,7 +113,7 @@ public:
             , fColorEffectCnt(0)
             , fCoverageEffectCnt(0) {}
 
-        AutoRestoreFragmentProcessors(GrPipelineBuilder* ds)
+        explicit AutoRestoreFragmentProcessors(GrPipelineBuilder* ds)
             : fPipelineBuilder(NULL)
             , fColorEffectCnt(0)
             , fCoverageEffectCnt(0) {
@@ -236,7 +236,7 @@ public:
     public:
         AutoRestoreStencil() : fPipelineBuilder(NULL) {}
 
-        AutoRestoreStencil(GrPipelineBuilder* ds) : fPipelineBuilder(NULL) { this->set(ds); }
+        explicit AutoRestoreStencil(GrPipelineBuilder* ds) : fPipelineBuilder(NULL) { this->set(ds); }
 
         ~AutoRestoreStencil() { this->set(NULL); }
 

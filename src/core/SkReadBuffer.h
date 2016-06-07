@@ -35,7 +35,7 @@ class SkReadBuffer {
 public:
     SkReadBuffer();
     SkReadBuffer(const void* data, size_t size);
-    SkReadBuffer(SkStream* stream);
+    explicit SkReadBuffer(SkStream* stream);
     virtual ~SkReadBuffer();
 
     enum Version {

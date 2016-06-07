@@ -104,7 +104,7 @@ static SkString svg_transform(const SkMatrix& t) {
 }
 
 struct Resources {
-    Resources(const SkPaint& paint)
+    explicit Resources(const SkPaint& paint)
         : fPaintServer(svg_color(paint.getColor())) {}
 
     SkString fPaintServer;

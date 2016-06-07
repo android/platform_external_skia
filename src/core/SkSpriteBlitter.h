@@ -20,7 +20,7 @@ class SkPaint;
 
 class SkSpriteBlitter : public SkBlitter {
 public:
-            SkSpriteBlitter(const SkBitmap& source);
+            explicit SkSpriteBlitter(const SkBitmap& source);
     virtual ~SkSpriteBlitter();
 
     virtual void setup(const SkBitmap& device, int left, int top,

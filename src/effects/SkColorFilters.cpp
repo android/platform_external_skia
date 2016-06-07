@@ -163,7 +163,7 @@ public:
 
     class GLProcessor : public GrGLFragmentProcessor {
     public:
-        GLProcessor(const GrProcessor&) {
+        explicit GLProcessor(const GrProcessor&) {
         }
 
         virtual void emitCode(GrGLFPBuilder* builder,
@@ -260,7 +260,7 @@ public:
         fColor[3] = color[3];
     }
 
-    MaskedColorExpr(float v, uint32_t flags = kRGBA_GrColorComponentFlags)
+    explicit MaskedColorExpr(float v, uint32_t flags = kRGBA_GrColorComponentFlags)
         : fFlags(flags) {
         fColor[0] = v;
         fColor[1] = v;
@@ -382,7 +382,7 @@ bool SkModeColorFilter::asFragmentProcessors(GrContext*,
 
 class Src_SkModeColorFilter : public SkModeColorFilter {
 public:
-    Src_SkModeColorFilter(SkColor color) : INHERITED(color, SkXfermode::kSrc_Mode) {}
+    explicit Src_SkModeColorFilter(SkColor color) : INHERITED(color, SkXfermode::kSrc_Mode) {}
 
     void filterSpan(const SkPMColor shader[], int count, SkPMColor result[]) const override {
         sk_memset32(result, this->getPMColor(), count);
@@ -394,7 +394,7 @@ private:
 
 class SrcOver_SkModeColorFilter : public SkModeColorFilter {
 public:
-    SrcOver_SkModeColorFilter(SkColor color) : INHERITED(color, SkXfermode::kSrcOver_Mode) { }
+    explicit SrcOver_SkModeColorFilter(SkColor color) : INHERITED(color, SkXfermode::kSrcOver_Mode) { }
 
     void filterSpan(const SkPMColor shader[], int count, SkPMColor result[]) const override {
         SkBlitRow::Color32(result, shader, count, this->getPMColor());

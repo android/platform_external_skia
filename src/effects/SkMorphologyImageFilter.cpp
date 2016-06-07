@@ -342,7 +342,7 @@ private:
 
 class GrGLMorphologyEffect : public GrGLFragmentProcessor {
 public:
-    GrGLMorphologyEffect(const GrProcessor&);
+    explicit GrGLMorphologyEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

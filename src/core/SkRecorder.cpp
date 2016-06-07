@@ -73,7 +73,7 @@ void SkRecorder::forgetRecord() {
 template <typename T>
 class Reference {
 public:
-    Reference(const T& x) : fX(x) {}
+    explicit Reference(const T& x) : fX(x) {}
     operator const T&() const { return fX; }
 private:
     const T& fX;

@@ -172,7 +172,7 @@ public:
     bool isPathRendering() const { return fIsPathRendering; }
 
 protected:
-    GrPrimitiveProcessor(bool isPathRendering)
+    explicit GrPrimitiveProcessor(bool isPathRendering)
         : fNumAttribs(0)
         , fVertexStride(0)
         , fIsPathRendering(isPathRendering) {}

@@ -83,7 +83,7 @@ GrFragmentProcessor* AARectEffect::TestCreate(SkRandom* random,
 
 class GLAARectEffect : public GrGLFragmentProcessor {
 public:
-    GLAARectEffect(const GrProcessor&);
+    explicit GLAARectEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& fp,
@@ -178,7 +178,7 @@ GrGLFragmentProcessor* AARectEffect::createGLInstance() const  {
 
 class GrGLConvexPolyEffect : public GrGLFragmentProcessor {
 public:
-    GrGLConvexPolyEffect(const GrProcessor&);
+    explicit GrGLConvexPolyEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& fp,

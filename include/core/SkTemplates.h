@@ -76,7 +76,7 @@ template <typename D, typename S> static D* SkTAddOffset(S* ptr, size_t byteOffs
 */
 template <typename T, void (*P)(T*)> class SkAutoTCallVProc : SkNoncopyable {
 public:
-    SkAutoTCallVProc(T* obj): fObj(obj) {}
+    explicit SkAutoTCallVProc(T* obj): fObj(obj) {}
     ~SkAutoTCallVProc() { if (fObj) P(fObj); }
 
     operator T*() const { return fObj; }
@@ -105,7 +105,7 @@ function.
 */
 template <typename T, int (*P)(T*)> class SkAutoTCallIProc : SkNoncopyable {
 public:
-    SkAutoTCallIProc(T* obj): fObj(obj) {}
+    explicit SkAutoTCallIProc(T* obj): fObj(obj) {}
     ~SkAutoTCallIProc() { if (fObj) P(fObj); }
 
     operator T*() const { return fObj; }
@@ -128,7 +128,7 @@ private:
 */
 template <typename T> class SkAutoTDelete : SkNoncopyable {
 public:
-    SkAutoTDelete(T* obj = NULL) : fObj(obj) {}
+    explicit SkAutoTDelete(T* obj = NULL) : fObj(obj) {}
     ~SkAutoTDelete() { SkDELETE(fObj); }
 
     T* get() const { return fObj; }
@@ -173,7 +173,7 @@ private:
 // Calls ~T() in the destructor.
 template <typename T> class SkAutoTDestroy : SkNoncopyable {
 public:
-    SkAutoTDestroy(T* obj = NULL) : fObj(obj) {}
+    explicit SkAutoTDestroy(T* obj = NULL) : fObj(obj) {}
     ~SkAutoTDestroy() {
         if (fObj) {
             fObj->~T();
@@ -190,7 +190,7 @@ private:
 
 template <typename T> class SkAutoTDeleteArray : SkNoncopyable {
 public:
-    SkAutoTDeleteArray(T array[]) : fArray(array) {}
+    explicit SkAutoTDeleteArray(T array[]) : fArray(array) {}
     ~SkAutoTDeleteArray() { SkDELETE_ARRAY(fArray); }
 
     T*      get() const { return fArray; }
@@ -276,7 +276,7 @@ public:
 
     /** Allocate count number of T elements
      */
-    SkAutoSTArray(int count) {
+    explicit SkAutoSTArray(int count) {
         fArray = NULL;
         fCount = 0;
         this->reset(count);
@@ -413,7 +413,7 @@ template <size_t N, typename T> class SkAutoSTMalloc : SkNoncopyable {
 public:
     SkAutoSTMalloc() : fPtr(fTStorage) {}
 
-    SkAutoSTMalloc(size_t count) {
+    explicit SkAutoSTMalloc(size_t count) {
         if (count > N) {
             fPtr = (T*)sk_malloc_flags(count * sizeof(T), SK_MALLOC_THROW | SK_MALLOC_TEMP);
         } else {
