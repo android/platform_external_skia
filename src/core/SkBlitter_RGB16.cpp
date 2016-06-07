@@ -182,14 +182,14 @@ SkRGB16_Black_Blitter::SkRGB16_Black_Blitter(const SkBitmap& device, const SkPai
 #if 1
 #define black_8_pixels(mask, dst)       \
     do {                                \
-        if (mask & 0x80) dst[0] = 0;    \
-        if (mask & 0x40) dst[1] = 0;    \
-        if (mask & 0x20) dst[2] = 0;    \
-        if (mask & 0x10) dst[3] = 0;    \
-        if (mask & 0x08) dst[4] = 0;    \
-        if (mask & 0x04) dst[5] = 0;    \
-        if (mask & 0x02) dst[6] = 0;    \
-        if (mask & 0x01) dst[7] = 0;    \
+        if ((mask) & 0x80) (dst)[0] = 0;    \
+        if ((mask) & 0x40) (dst)[1] = 0;    \
+        if ((mask) & 0x20) (dst)[2] = 0;    \
+        if ((mask) & 0x10) (dst)[3] = 0;    \
+        if ((mask) & 0x08) (dst)[4] = 0;    \
+        if ((mask) & 0x04) (dst)[5] = 0;    \
+        if ((mask) & 0x02) (dst)[6] = 0;    \
+        if ((mask) & 0x01) (dst)[7] = 0;    \
     } while (0)
 #else
 static inline black_8_pixels(U8CPU mask, uint16_t dst[])
@@ -359,14 +359,14 @@ void SkRGB16_Opaque_Blitter::blitAntiH(int x, int y,
 
 #define solid_8_pixels(mask, dst, color)    \
     do {                                    \
-        if (mask & 0x80) dst[0] = color;    \
-        if (mask & 0x40) dst[1] = color;    \
-        if (mask & 0x20) dst[2] = color;    \
-        if (mask & 0x10) dst[3] = color;    \
-        if (mask & 0x08) dst[4] = color;    \
-        if (mask & 0x04) dst[5] = color;    \
-        if (mask & 0x02) dst[6] = color;    \
-        if (mask & 0x01) dst[7] = color;    \
+        if ((mask) & 0x80) (dst)[0] = color;    \
+        if ((mask) & 0x40) (dst)[1] = color;    \
+        if ((mask) & 0x20) (dst)[2] = color;    \
+        if ((mask) & 0x10) (dst)[3] = color;    \
+        if ((mask) & 0x08) (dst)[4] = color;    \
+        if ((mask) & 0x04) (dst)[5] = color;    \
+        if ((mask) & 0x02) (dst)[6] = color;    \
+        if ((mask) & 0x01) (dst)[7] = color;    \
     } while (0)
 
 #define SK_BLITBWMASK_NAME                  SkRGB16_BlitBW

@@ -87,7 +87,7 @@
 #endif
 
 #define ALLOC_NEW(Type, args, alloc) \
-    SkNEW_PLACEMENT_ARGS(alloc.allocThrow(sizeof(Type)), Type, args)
+    SkNEW_PLACEMENT_ARGS((alloc).allocThrow(sizeof(Type)), Type, args)
 
 namespace {
 

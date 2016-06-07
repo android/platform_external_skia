@@ -14,7 +14,7 @@
 #include "SkShader.h"
 #include "SkSurface.h"
 
-#define COUNT(T) + 1
+#define COUNT(T) + 1  /* NOLINT, bop 1 */
 static const int kRecordTypes = SK_RECORD_TYPES(COUNT);
 #undef COUNT
 

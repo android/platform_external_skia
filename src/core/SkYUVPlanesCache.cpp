@@ -10,7 +10,7 @@
 #include "SkYUVPlanesCache.h"
 
 #define CHECK_LOCAL(localCache, localName, globalName, ...) \
-    ((localCache) ? localCache->localName(__VA_ARGS__) : SkResourceCache::globalName(__VA_ARGS__))
+    ((localCache) ? (localCache)->localName(__VA_ARGS__) : SkResourceCache::globalName(__VA_ARGS__))
 
 namespace {
 static unsigned gYUVPlanesKeyNamespaceLabel;

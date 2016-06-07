@@ -236,8 +236,8 @@ static void A8_RowProc_Blend(SkPMColor* SK_RESTRICT dst,
 // instead of
 // expand..combine add expand..combine
 //
-#define EXPAND0(v, m, s)    ((v) & (m)) * (s)
-#define EXPAND1(v, m, s)    (((v) >> 8) & (m)) * (s)
+#define EXPAND0(v, m, s)    (((v) & (m)) * (s))
+#define EXPAND1(v, m, s)    ((((v) >> 8) & (m)) * (s))
 #define COMBINE(e0, e1, m)  ((((e0) >> 8) & (m)) | ((e1) & ~(m)))
 
 static void A8_RowProc_Opaque(SkPMColor* SK_RESTRICT dst,
