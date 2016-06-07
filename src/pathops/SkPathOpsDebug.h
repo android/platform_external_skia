@@ -117,11 +117,11 @@
 
 #define T_DEBUG_STR(t, n) #t "[" #n "]=%1.9g"
 #define TX_DEBUG_STR(t) #t "[%d]=%1.9g"
-#define CUBIC_DEBUG_DATA(c) c[0].fX, c[0].fY, c[1].fX, c[1].fY, c[2].fX, c[2].fY, c[3].fX, c[3].fY
-#define CONIC_DEBUG_DATA(c, w) c[0].fX, c[0].fY, c[1].fX, c[1].fY, c[2].fX, c[2].fY, w
-#define QUAD_DEBUG_DATA(q)  q[0].fX, q[0].fY, q[1].fX, q[1].fY, q[2].fX, q[2].fY
-#define LINE_DEBUG_DATA(l)  l[0].fX, l[0].fY, l[1].fX, l[1].fY
-#define PT_DEBUG_DATA(i, n) i.pt(n).asSkPoint().fX, i.pt(n).asSkPoint().fY
+#define CUBIC_DEBUG_DATA(c) c[0].fX, (c)[0].fY, (c)[1].fX, (c)[1].fY, (c)[2].fX, (c)[2].fY, (c)[3].fX, (c)[3].fY
+#define CONIC_DEBUG_DATA(c, w) c[0].fX, (c)[0].fY, (c)[1].fX, (c)[1].fY, (c)[2].fX, (c)[2].fY, w
+#define QUAD_DEBUG_DATA(q)  q[0].fX, (q)[0].fY, (q)[1].fX, (q)[1].fY, (q)[2].fX, (q)[2].fY
+#define LINE_DEBUG_DATA(l)  l[0].fX, (l)[0].fY, (l)[1].fX, (l)[1].fY
+#define PT_DEBUG_DATA(i, n) i.pt(n).asSkPoint().fX, (i).pt(n).asSkPoint().fY
 
 #ifndef DEBUG_TEST
 #define DEBUG_TEST 0

@@ -84,7 +84,7 @@ enum GrGLRenderer {
     do {                                                                       \
         (range)[0] = GR_GL_INIT_ZERO;                                          \
         (range)[1] = GR_GL_INIT_ZERO;                                          \
-        (*precision) = GR_GL_INIT_ZERO;                                        \
+        (*(precision)) = GR_GL_INIT_ZERO;                                      \
         GR_GL_CALL(gl, GetShaderPrecisionFormat(st, pt, range, precision));    \
     } while (0)
 

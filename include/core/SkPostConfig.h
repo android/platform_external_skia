@@ -100,10 +100,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef SkNEW
-#  define SkNEW(type_name)                           (new type_name)
-#  define SkNEW_ARGS(type_name, args)                (new type_name args)
-#  define SkNEW_ARRAY(type_name, count)              (new type_name[(count)])
-#  define SkNEW_PLACEMENT(buf, type_name)            (new (buf) type_name)
+#  define SkNEW(type_name)                           (new type_name)  // NOLINT
+#  define SkNEW_ARGS(type_name, args)                (new type_name args)  // NOLINT
+#  define SkNEW_ARRAY(type_name, count)              (new type_name[(count)])  // NOLINT
+#  define SkNEW_PLACEMENT(buf, type_name)            (new (buf) type_name)  // NOLINT
 #  define SkNEW_PLACEMENT_ARGS(buf, type_name, args) (new (buf) type_name args)
 #  define SkDELETE(obj)                              (delete (obj))
 #  define SkDELETE_ARRAY(array)                      (delete[] (array))

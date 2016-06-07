@@ -90,7 +90,7 @@ private:
 } // namespace
 
 #define CHECK_LOCAL(localCache, localName, globalName, ...) \
-    ((localCache) ? localCache->localName(__VA_ARGS__) : SkResourceCache::globalName(__VA_ARGS__))
+    ((localCache) ? (localCache)->localName(__VA_ARGS__) : SkResourceCache::globalName(__VA_ARGS__))
 
 bool SkBitmapCache::Find(const SkBitmap& src, SkScalar invScaleX, SkScalar invScaleY, SkBitmap* result,
                          SkResourceCache* localCache) {

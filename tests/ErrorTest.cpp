@@ -16,7 +16,7 @@ typedef struct {
 } ErrorContext;
 
 #define CHECK(errcode)                                                        \
-  REPORTER_ASSERT( reporter, (err = SkGetLastError()) == errcode);            \
+  REPORTER_ASSERT( reporter, (err = SkGetLastError()) == (errcode));          \
   if (err != kNoError_SkError)                                                \
   {                                                                           \
      SkClearLastError();                                                      \

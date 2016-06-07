@@ -445,7 +445,7 @@ public:
 // This macro defines the global creation entry point for each decoder. Each
 // decoder implementation that registers with the decoder factory must call it.
 #define DEFINE_DECODER_CREATOR(codec)           \
-    SkImageDecoder *Create ## codec () {        \
+    SkImageDecoder *Create ## codec () {      /* NOLINT */   \
         return SkNEW( Sk ## codec );            \
     }
 
