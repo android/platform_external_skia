@@ -34,7 +34,7 @@
  */
 class GrAutoLocaleSetter : public SkNoncopyable {
 public:
-    GrAutoLocaleSetter (const char* name) {
+    explicit GrAutoLocaleSetter (const char* name) {
 #if defined(SK_BUILD_FOR_WIN)
         fOldPerThreadLocale = _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);        
         char* oldLocale = setlocale(LC_ALL, name);

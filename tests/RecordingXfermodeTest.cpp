@@ -74,7 +74,7 @@ class RecordingStrategy {
 class BitmapBackedCanvasStrategy : public RecordingStrategy {
     // This version just draws into a bitmap-backed canvas.
  public:
-    BitmapBackedCanvasStrategy(const SkImageInfo& imageInfo) {
+    explicit BitmapBackedCanvasStrategy(const SkImageInfo& imageInfo) {
         fBitmap.allocPixels(imageInfo);
     }
 
@@ -98,7 +98,7 @@ class PictureStrategy : public RecordingStrategy {
     // Then it then replays the scene through a clip rectangle.
     // This backend proved to be buggy.
  public:
-    PictureStrategy(const SkImageInfo& imageInfo) {
+    explicit PictureStrategy(const SkImageInfo& imageInfo) {
         fBitmap.allocPixels(imageInfo);
         fWidth  = imageInfo.width();
         fHeight = imageInfo.height();

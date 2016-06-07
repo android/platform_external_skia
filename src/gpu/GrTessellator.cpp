@@ -307,7 +307,7 @@ struct Edge {
 /***************************************************************************************/
 
 struct Poly {
-    Poly(int winding)
+    explicit Poly(int winding)
         : fWinding(winding)
         , fHead(nullptr)
         , fTail(nullptr)

@@ -26,7 +26,7 @@ public:
     SkRect  fRects[N];
     SkColor fColors[N];
 
-    RectBench(int shift, int stroke = 0)
+    explicit RectBench(int shift, int stroke = 0)
         : fShift(shift)
         , fStroke(stroke) {}
 
@@ -140,7 +140,7 @@ private:
 
 class OvalBench : public RectBench {
 public:
-    OvalBench(int shift, int stroke = 0) : RectBench(shift, stroke) {}
+    explicit OvalBench(int shift, int stroke = 0) : RectBench(shift, stroke) {}
 protected:
     void drawThisRect(SkCanvas* c, const SkRect& r, const SkPaint& p) override {
         c->drawOval(r, p);
@@ -150,7 +150,7 @@ protected:
 
 class RRectBench : public RectBench {
 public:
-    RRectBench(int shift, int stroke = 0) : RectBench(shift, stroke) {}
+    explicit RRectBench(int shift, int stroke = 0) : RectBench(shift, stroke) {}
 protected:
     void drawThisRect(SkCanvas* c, const SkRect& r, const SkPaint& p) override {
         c->drawRoundRect(r, r.width() / 4, r.height() / 4, p);

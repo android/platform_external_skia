@@ -35,7 +35,7 @@ class OpenLibResult {
 public:
     // If the flag library was passed to this run of the test, attempt to open it using dlopen and
     // report whether it succeeded.
-    OpenLibResult(skiatest::Reporter* reporter) {
+    explicit OpenLibResult(skiatest::Reporter* reporter) {
         if (FLAGS_library.count() == 1) {
             fHandle = dlopen(FLAGS_library[0], RTLD_LAZY | RTLD_LOCAL);
             REPORTER_ASSERT_MESSAGE(reporter, fHandle != nullptr, "Failed to open library!");

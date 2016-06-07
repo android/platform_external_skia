@@ -133,7 +133,7 @@ int SkDebugCanvas::getCommandAtPoint(int x, int y, int index) {
 
 class SkDebugClipVisitor : public SkCanvas::ClipVisitor {
 public:
-    SkDebugClipVisitor(SkCanvas* canvas) : fCanvas(canvas) {}
+    explicit SkDebugClipVisitor(SkCanvas* canvas) : fCanvas(canvas) {}
 
     void clipRect(const SkRect& r, SkRegion::Op, bool doAA) override {
         SkPaint p;

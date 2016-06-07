@@ -188,7 +188,7 @@ public:
 
         Iter() {}
 
-        Iter(const SkTLList& list, IterStart start = kHead_IterStart) {
+        explicit Iter(const SkTLList& list, IterStart start = kHead_IterStart) {
             INHERITED::init(list.fList, start);
         }
 

@@ -136,8 +136,8 @@ public:
         kIdentity_Constructor
     };
 
-    SkMatrix44(Uninitialized_Constructor) { }
-    SkMatrix44(Identity_Constructor) { this->setIdentity(); }
+    explicit SkMatrix44(Uninitialized_Constructor) { }
+    explicit SkMatrix44(Identity_Constructor) { this->setIdentity(); }
 
     SK_ATTR_DEPRECATED("use the constructors that take an enum")
     SkMatrix44() { this->setIdentity(); }
@@ -172,7 +172,7 @@ public:
      * [ g h i ]      [ 0 0 1 0 ]
      *                [ g h 0 i ]
      */
-    SkMatrix44(const SkMatrix&);
+    SkMatrix44(const SkMatrix&);  // NOLINT, implicit
     SkMatrix44& operator=(const SkMatrix& src);
     operator SkMatrix() const;
 

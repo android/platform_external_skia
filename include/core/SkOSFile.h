@@ -94,7 +94,7 @@ public:
     class Iter {
     public:
         Iter();
-        Iter(const char path[], const char suffix[] = NULL);
+        explicit Iter(const char path[], const char suffix[] = NULL);
         ~Iter();
 
         void reset(const char path[], const char suffix[] = NULL);

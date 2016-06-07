@@ -304,7 +304,7 @@ private:
 // GrFontCache and GrTextStrike classes.
 class GrLayerCache {
 public:
-    GrLayerCache(GrContext*);
+    explicit GrLayerCache(GrContext*);
     ~GrLayerCache();
 
     // As a cache, the GrLayerCache can be ordered to free up all its cached

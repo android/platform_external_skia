@@ -101,7 +101,7 @@ private:
 
 class FilterBitmapTextGM: public FilterBitmapGM {
   public:
-      FilterBitmapTextGM(float textSize)
+      explicit FilterBitmapTextGM(float textSize)
       : fTextSize(textSize)
         {
             fName.printf("filterbitmap_text_%.2fpt", fTextSize);
@@ -181,7 +181,7 @@ private:
 
 class FilterBitmapImageGM: public FilterBitmapGM {
 public:
-    FilterBitmapImageGM(const char filename[], bool convertToG8 = false)
+    explicit FilterBitmapImageGM(const char filename[], bool convertToG8 = false)
         : fFilename(filename), fConvertToG8(convertToG8)
     {
         fName.printf("filterbitmap_image_%s%s", filename, convertToG8 ? "_g8" : "");

@@ -94,7 +94,7 @@ public:
      * @param ownerCount  The number of owners to assign to each inserted bitmap. NOTE: while a
      *   bitmap in the heap has a least one owner it can't be removed.
      */
-    SkBitmapHeap(int32_t preferredSize = UNLIMITED_SIZE, int32_t ownerCount = IGNORE_OWNERS);
+    explicit SkBitmapHeap(int32_t preferredSize = UNLIMITED_SIZE, int32_t ownerCount = IGNORE_OWNERS);
 
     /**
      * Constructs a heap that defers the responsibility of storing the bitmaps to an external
@@ -109,7 +109,7 @@ public:
      * @param heapSize  The maximum size of the heap. Because of the sequential limitation imposed
      *   by our LRU implementation we can guarantee that the heap will never grow beyond this size.
      */
-    SkBitmapHeap(ExternalStorage* externalStorage, int32_t heapSize = UNLIMITED_SIZE);
+    explicit SkBitmapHeap(ExternalStorage* externalStorage, int32_t heapSize = UNLIMITED_SIZE);
 
     virtual ~SkBitmapHeap();
 
@@ -210,7 +210,7 @@ public:
 
 private:
     struct LookupEntry {
-        LookupEntry(const SkBitmap& bm)
+        explicit LookupEntry(const SkBitmap& bm)
         : fGenerationId(bm.getGenerationID())
         , fPixelOrigin(bm.pixelRefOrigin())
         , fWidth(bm.width())

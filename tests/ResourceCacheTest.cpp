@@ -265,7 +265,7 @@ public:
         this->registerWithCache();
     }
 
-    TestResource(GrGpu* gpu)
+    explicit TestResource(GrGpu* gpu)
         : INHERITED(gpu, kCached_LifeCycle)
         , fToDelete(nullptr)
         , fSize(kDefaultSize)

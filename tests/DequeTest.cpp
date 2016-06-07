@@ -75,7 +75,7 @@ class DequeUnitTestHelper {
 public:
     int fNumBlocksAllocated;
 
-    DequeUnitTestHelper(const SkDeque& deq) {
+    explicit DequeUnitTestHelper(const SkDeque& deq) {
         fNumBlocksAllocated = deq.numBlocksAllocated();
     }
 };

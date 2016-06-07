@@ -356,7 +356,7 @@ class Gradient2Bench : public Benchmark {
     bool     fHasAlpha;
 
 public:
-    Gradient2Bench(bool hasAlpha)  {
+    explicit Gradient2Bench(bool hasAlpha)  {
         fName.printf("gradient_create_%s", hasAlpha ? "alpha" : "opaque");
         fHasAlpha = hasAlpha;
     }

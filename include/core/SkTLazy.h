@@ -129,7 +129,7 @@ private:
 template <typename T>
 class SkTCopyOnFirstWrite {
 public:
-    SkTCopyOnFirstWrite(const T& initial) : fObj(&initial) {}
+    explicit SkTCopyOnFirstWrite(const T& initial) : fObj(&initial) {}
 
     SkTCopyOnFirstWrite(const T* initial) : fObj(initial) {}
 

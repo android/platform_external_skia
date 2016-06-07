@@ -44,7 +44,7 @@ public:
     /**
      * Copies one array to another. The new array will be heap allocated.
      */
-    explicit SkTArray(const SkTArray& array) {
+    SkTArray(const SkTArray& array) {
         this->init(array.fItemArray, array.fCount, NULL, 0);
     }
 
@@ -341,7 +341,7 @@ protected:
      * is insufficiently large to hold the entire array.
      */
     template <int N>
-    SkTArray(SkAlignedSTStorage<N,T>* storage) {
+    explicit SkTArray(SkAlignedSTStorage<N,T>* storage) {
         this->init(NULL, 0, storage->get(), N);
     }
 

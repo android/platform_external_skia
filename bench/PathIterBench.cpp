@@ -32,7 +32,7 @@ class PathIterBench : public Benchmark {
     bool        fRaw;
 
 public:
-    PathIterBench(bool raw)  {
+    explicit PathIterBench(bool raw)  {
         fName.printf("pathiter_%s", raw ? "raw" : "consume");
         fRaw = raw;
 

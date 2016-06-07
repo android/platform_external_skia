@@ -65,7 +65,7 @@ SkCachedData::~SkCachedData() {
 
 class SkCachedData::AutoMutexWritable {
 public:
-    AutoMutexWritable(const SkCachedData* cd) : fCD(const_cast<SkCachedData*>(cd)) {
+    explicit AutoMutexWritable(const SkCachedData* cd) : fCD(const_cast<SkCachedData*>(cd)) {
         fCD->fMutex.acquire();
         fCD->validate();
     }

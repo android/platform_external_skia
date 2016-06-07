@@ -126,7 +126,7 @@ private:
 
 class GLCustomXP : public GrGLSLXferProcessor {
 public:
-    GLCustomXP(const GrXferProcessor&) {}
+    explicit GLCustomXP(const GrXferProcessor&) {}
     ~GLCustomXP() override {}
 
     static void GenKey(const GrXferProcessor& p, const GrGLSLCaps& caps, GrProcessorKeyBuilder* b) {

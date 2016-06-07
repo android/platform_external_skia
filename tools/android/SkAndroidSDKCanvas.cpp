@@ -96,9 +96,9 @@ void Filter(SkPaint* paint) {
 
 #define FILTER_PTR(p)                          \
     SkTLazy<SkPaint> lazyPaint;                \
-    SkPaint* filteredPaint = (SkPaint*) p;     \
+    SkPaint* filteredPaint = (SkPaint*) (p);   \
     if (p) {                                   \
-        filteredPaint = lazyPaint.set(*p);     \
+        filteredPaint = lazyPaint.set(*(p));   \
         Filter(filteredPaint);                 \
     }
 

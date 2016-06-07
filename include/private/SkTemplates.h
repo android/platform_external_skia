@@ -176,7 +176,7 @@ public:
 
     /** Allocate count number of T elements
      */
-    SkAutoSTArray(int count) {
+    explicit SkAutoSTArray(int count) {
         fArray = NULL;
         fCount = 0;
         this->reset(count);

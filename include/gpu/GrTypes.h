@@ -19,36 +19,37 @@
  * bitfield.
  */
 #define GR_MAKE_BITFIELD_OPS(X) \
-    inline X operator | (X a, X b) { \
+    inline X operator | (X a, X b) { /* NOLINT */ \
         return (X) (+a | +b); \
     } \
-    inline X& operator |= (X& a, X b) { \
+    inline X& operator |= (X& a, X b) { /* NOLINT */ \
         return (a = a | b); \
     } \
     \
-    inline X operator & (X a, X b) { \
+    inline X operator & (X a, X b) { /* NOLINT */ \
         return (X) (+a & +b); \
     } \
     template <typename T> \
-    inline X operator & (T a, X b) { \
+    inline X operator & (T a, X b) { /* NOLINT */ \
         return (X) (+a & +b); \
-    } \
+    } /* NOLINT */ \
     template <typename T> \
-    inline X operator & (X a, T b) { \
+    inline X operator & (X a, T b) { /* NOLINT */ \
         return (X) (+a & +b); \
     } \
 
 #define GR_DECL_BITFIELD_OPS_FRIENDS(X) \
-    friend X operator | (X a, X b); \
-    friend X& operator |= (X& a, X b); \
+    friend X operator | (X a, X b); /* NOLINT */ \
+    friend X& operator |= (X& a, X b); /* NOLINT */ \
     \
-    friend X operator & (X a, X b); \
-    \
-    template <typename T> \
-    friend X operator & (T a, X b); \
+    friend X operator & (X a, X b); /* NOLINT */ \
     \
     template <typename T> \
-    friend X operator & (X a, T b); \
+    friend X operator & (T a, X b); /* NOLINT */ \
+    \
+    template <typename T> \
+    friend X operator & (X a, T b); /* NOLINT */ \
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // compile time versions of min/max

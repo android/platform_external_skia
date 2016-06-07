@@ -14,7 +14,7 @@
 class MatrixBench : public Benchmark {
     SkString    fName;
 public:
-    MatrixBench(const char name[])  {
+    explicit MatrixBench(const char name[])  {
         fName.printf("matrix_%s", name);
     }
 

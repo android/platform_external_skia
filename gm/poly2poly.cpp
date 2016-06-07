@@ -12,7 +12,7 @@
 
 class SkJSCanvas {
 public:
-    SkJSCanvas(SkCanvas* target);
+    explicit SkJSCanvas(SkCanvas* target);
     ~SkJSCanvas();
 
     void save();

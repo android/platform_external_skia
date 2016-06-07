@@ -132,7 +132,7 @@ public:
     class Iter {
     public:
         Iter() : fRec(NULL) {}
-        Iter(const SkMetaData&);
+        explicit Iter(const SkMetaData&);
 
         /** Reset the iterator, so that calling next() will return the first
             data element. This is done implicitly in the constructor.

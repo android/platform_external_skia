@@ -284,7 +284,7 @@ public:
     SkMemoryStream();
 
     /** We allocate (and free) the memory. Write to it via getMemoryBase() */
-    SkMemoryStream(size_t length);
+    explicit SkMemoryStream(size_t length);
 
     /** If copyData is true, the stream makes a private copy of the data. */
     SkMemoryStream(const void* data, size_t length, bool copyData = false);
@@ -292,7 +292,7 @@ public:
     /** Use the specified data as the memory for this stream.
      *  The stream will call ref() on the data (assuming it is not NULL).
      */
-    SkMemoryStream(SkData*);
+    explicit SkMemoryStream(SkData*);
 
     virtual ~SkMemoryStream();
 

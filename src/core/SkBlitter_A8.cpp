@@ -83,14 +83,14 @@ void SkA8_Blitter::blitAntiH(int x, int y, const SkAlpha antialias[],
 
 #define solid_8_pixels(mask, dst)           \
     do {                                    \
-        if (mask & 0x80) dst[0] = 0xFF;     \
-        if (mask & 0x40) dst[1] = 0xFF;     \
-        if (mask & 0x20) dst[2] = 0xFF;     \
-        if (mask & 0x10) dst[3] = 0xFF;     \
-        if (mask & 0x08) dst[4] = 0xFF;     \
-        if (mask & 0x04) dst[5] = 0xFF;     \
-        if (mask & 0x02) dst[6] = 0xFF;     \
-        if (mask & 0x01) dst[7] = 0xFF;     \
+        if ((mask) & 0x80) (dst)[0] = 0xFF;     \
+        if ((mask) & 0x40) (dst)[1] = 0xFF;     \
+        if ((mask) & 0x20) (dst)[2] = 0xFF;     \
+        if ((mask) & 0x10) (dst)[3] = 0xFF;     \
+        if ((mask) & 0x08) (dst)[4] = 0xFF;     \
+        if ((mask) & 0x04) (dst)[5] = 0xFF;     \
+        if ((mask) & 0x02) (dst)[6] = 0xFF;     \
+        if ((mask) & 0x01) (dst)[7] = 0xFF;     \
     } while (0)
 
 #define SK_BLITBWMASK_NAME                  SkA8_BlitBW

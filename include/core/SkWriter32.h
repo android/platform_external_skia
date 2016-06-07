@@ -31,7 +31,7 @@ public:
      *  first time an allocation doesn't fit.  From then it will use dynamically allocated storage.
      *  This used to be optional behavior, but pipe now relies on it.
      */
-    SkWriter32(void* external = NULL, size_t externalBytes = 0) {
+    explicit SkWriter32(void* external = NULL, size_t externalBytes = 0) {
         this->reset(external, externalBytes);
     }
 

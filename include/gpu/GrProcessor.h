@@ -25,7 +25,7 @@ class GrInvariantOutput;
  */
 class GrProcessorKeyBuilder {
 public:
-    GrProcessorKeyBuilder(SkTArray<unsigned char, true>* data) : fData(data), fCount(0) {
+    explicit GrProcessorKeyBuilder(SkTArray<unsigned char, true>* data) : fData(data), fCount(0) {
         SkASSERT(0 == fData->count() % sizeof(uint32_t));
     }
 

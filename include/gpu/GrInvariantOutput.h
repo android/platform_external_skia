@@ -64,7 +64,7 @@ public:
         , fWillUseInputColor(true)
         , fIsLCDCoverage(false) {}
 
-    GrInvariantOutput(const GrInitInvariantOutput& io)
+    explicit GrInvariantOutput(const GrInitInvariantOutput& io)
         : fColor(io.fColor)
         , fValidFlags(io.fValidFlags)
         , fIsSingleComponent(io.fIsSingleComponent)

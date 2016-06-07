@@ -185,7 +185,7 @@ protected:
     /** Constructs an expression from a string.
      * Argument expr is a simple expression or a parenthesized expression. */
     // TODO: make explicit once effects input Exprs.
-    GrGLSLExpr(const SkString& expr) {
+    explicit GrGLSLExpr(const SkString& expr) {
         if (expr.isEmpty()) {  // TODO: remove this once effects input Exprs.
             fType = kOnes_ExprType;
         } else {
@@ -267,10 +267,10 @@ public:
     explicit GrGLSLExpr1(int v)
         : INHERITED(v) {
     }
-    GrGLSLExpr1(const char* expr)
+    GrGLSLExpr1(const char* expr)  // NOLINT, implicit
         : INHERITED(expr) {
     }
-    GrGLSLExpr1(const SkString& expr)
+    GrGLSLExpr1(const SkString& expr)  // NOLINT, implicit
         : INHERITED(expr) {
     }
 
@@ -308,10 +308,10 @@ public:
     explicit GrGLSLExpr4(int v)
         : INHERITED(v) {
     }
-    GrGLSLExpr4(const char* expr)
+    GrGLSLExpr4(const char* expr)  // NOLINT, implicit
         : INHERITED(expr) {
     }
-    GrGLSLExpr4(const SkString& expr)
+    GrGLSLExpr4(const SkString& expr)  // NOLINT, implicit
         : INHERITED(expr) {
     }
 

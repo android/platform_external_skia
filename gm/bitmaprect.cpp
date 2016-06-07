@@ -31,7 +31,7 @@ static void make_bitmap(SkBitmap* bitmap) {
 class DrawBitmapRect2 : public skiagm::GM {
     bool fUseIRect;
 public:
-    DrawBitmapRect2(bool useIRect) : fUseIRect(useIRect) {
+    explicit DrawBitmapRect2(bool useIRect) : fUseIRect(useIRect) {
     }
 
 protected:
@@ -179,7 +179,7 @@ class DrawBitmapRect4 : public skiagm::GM {
     SkBitmap fBigBitmap;
 
 public:
-    DrawBitmapRect4(bool useIRect) : fUseIRect(useIRect) {
+    explicit DrawBitmapRect4(bool useIRect) : fUseIRect(useIRect) {
         this->setBGColor(0x88444444);
     }
 

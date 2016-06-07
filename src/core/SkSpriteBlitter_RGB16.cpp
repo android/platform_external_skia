@@ -16,7 +16,7 @@
 #define D16_S32A_Opaque_Pixel(dst, sc)                                        \
 do {                                                                          \
     if (sc) {                                                                 \
-        *dst = SkSrcOver32To16(sc, *dst);                                     \
+        *(dst) = SkSrcOver32To16(sc, *(dst));                                 \
     }                                                                         \
 } while (0)
 
@@ -66,8 +66,8 @@ public:
 
 #define D16_S16_Blend_Pixel(dst, sc, scale)     \
     do {                                        \
-        uint16_t dc = *dst;                     \
-        *dst = SkBlendRGB16(sc, dc, scale);     \
+        uint16_t dc = *(dst);                   \
+        *(dst) = SkBlendRGB16(sc, dc, scale);   \
     } while (0)
 
 #define SkSPRITE_CLASSNAME                  Sprite_D16_S16_Blend
@@ -88,8 +88,8 @@ public:
 
 #define D16_S4444_Opaque(dst, sc)           \
     do {                                    \
-        uint16_t dc = *dst;                 \
-        *dst = SkSrcOver4444To16(sc, dc);   \
+        uint16_t dc = *(dst);               \
+        *(dst) = SkSrcOver4444To16(sc, dc); \
     } while (0)
 
 #define SkSPRITE_CLASSNAME                  Sprite_D16_S4444_Opaque
@@ -108,8 +108,8 @@ public:
 
 #define D16_S4444_Blend(dst, sc, scale16)           \
     do {                                            \
-        uint16_t dc = *dst;                         \
-        *dst = SkBlend4444To16(sc, dc, scale16);    \
+        uint16_t dc = *(dst);                       \
+        *(dst) = SkBlend4444To16(sc, dc, scale16);  \
     } while (0)
 
 

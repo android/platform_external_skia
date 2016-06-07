@@ -68,7 +68,7 @@ public:
 
 protected:
     SkLayerRasterizer();
-    SkLayerRasterizer(SkDeque* layers);
+    explicit SkLayerRasterizer(SkDeque* layers);
     void flatten(SkWriteBuffer&) const override;
 
     // override from SkRasterizer

@@ -204,7 +204,7 @@ public:
 
         int                     fGenID;
 
-        Element(int saveCount) {
+        explicit Element(int saveCount) {
             this->initCommon(saveCount, SkRegion::kReplace_Op, false);
             this->setEmpty();
         }
@@ -408,7 +408,7 @@ public:
          * Wrap Iter's 2 parameter ctor to force initialization to the
          * beginning of the deque/bottom of the stack
          */
-        B2TIter(const SkClipStack& stack)
+        explicit B2TIter(const SkClipStack& stack)
         : INHERITED(stack, kBottom_IterStart) {
         }
 

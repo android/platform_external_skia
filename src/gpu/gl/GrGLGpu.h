@@ -259,7 +259,7 @@ private:
 
     class ProgramCache : public ::SkNoncopyable {
     public:
-        ProgramCache(GrGLGpu* gpu);
+        explicit ProgramCache(GrGLGpu* gpu);
         ~ProgramCache();
 
         void reset();

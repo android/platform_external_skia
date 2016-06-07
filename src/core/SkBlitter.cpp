@@ -584,7 +584,7 @@ SkBlitter* SkBlitterClipper::apply(SkBlitter* blitter, const SkRegion* clip,
 
 class Sk3DShader : public SkShader {
 public:
-    Sk3DShader(SkShader* proxy) : fProxy(proxy) {
+    explicit Sk3DShader(SkShader* proxy) : fProxy(proxy) {
         SkSafeRef(proxy);
     }
 

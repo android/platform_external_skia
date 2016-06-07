@@ -14,7 +14,7 @@
 #include "SkAtomics.h"
 
 #define assert_sentinel(value, isSentinel) \
-    SkASSERT(((value) == SkRegion::kRunTypeSentinel) == isSentinel)
+    SkASSERT(((value) == SkRegion::kRunTypeSentinel) == (isSentinel))
 
 //SkDEBUGCODE(extern int32_t gRgnAllocCounter;)
 

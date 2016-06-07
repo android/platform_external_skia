@@ -41,7 +41,7 @@ public:
     bool        fBitmapMade;
     SkFilterQuality fFilterQuality;
 
-    DownsampleBitmapGM(SkFilterQuality filterQuality)
+    explicit DownsampleBitmapGM(SkFilterQuality filterQuality)
         : fFilterQuality(filterQuality)
     {
         this->setBGColor(sk_tool_utils::color_to_565(0xFFDDDDDD));

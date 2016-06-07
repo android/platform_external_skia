@@ -27,7 +27,7 @@ public:
      *  Create an object to optimize the drawing of multiple pictures.
      *  @param reserve Hint for the number of add calls expected to be issued
      */
-    SkMultiPictureDraw(int reserve = 0);
+    explicit SkMultiPictureDraw(int reserve = 0);
     ~SkMultiPictureDraw() { this->reset(); }
 
     /**

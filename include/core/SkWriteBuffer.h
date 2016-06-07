@@ -30,7 +30,7 @@ public:
         kValidation_Flag    = 1 << 1,
     };
 
-    SkWriteBuffer(uint32_t flags = 0);
+    explicit SkWriteBuffer(uint32_t flags = 0);
     SkWriteBuffer(void* initialStorage, size_t storageSize, uint32_t flags = 0);
     ~SkWriteBuffer();
 

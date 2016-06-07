@@ -18,7 +18,7 @@ class SkPictureData;
 // The basic picture playback class replays the provided picture into a canvas.
 class SkPicturePlayback : SkNoncopyable {
 public:
-    SkPicturePlayback(const SkPictureData* data)
+    explicit SkPicturePlayback(const SkPictureData* data)
         : fPictureData(data)
         , fCurOffset(0) {
     }
@@ -48,7 +48,7 @@ protected:
 
     class AutoResetOpID {
     public:
-        AutoResetOpID(SkPicturePlayback* playback) : fPlayback(playback) { }
+        explicit AutoResetOpID(SkPicturePlayback* playback) : fPlayback(playback) { }
         ~AutoResetOpID() {
             if (fPlayback) {
                 fPlayback->resetOpID();

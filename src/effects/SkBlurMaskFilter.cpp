@@ -106,7 +106,7 @@ private:
                 kHigh_SkBlurQuality : kLow_SkBlurQuality;
     }
 
-    SkBlurMaskFilterImpl(SkReadBuffer&);
+    explicit SkBlurMaskFilterImpl(SkReadBuffer&);
     void flatten(SkWriteBuffer&) const override;
 
     SkScalar computeXformedSigma(const SkMatrix& ctm) const {

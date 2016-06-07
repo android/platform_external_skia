@@ -106,9 +106,9 @@
     SkEventTracer::GetInstance()->updateTraceEventDuration
 
 #define TRACE_EVENT_API_ATOMIC_WORD intptr_t
-#define TRACE_EVENT_API_ATOMIC_LOAD(var) sk_atomic_load(&var, sk_memory_order_relaxed)
+#define TRACE_EVENT_API_ATOMIC_LOAD(var) sk_atomic_load(&(var), sk_memory_order_relaxed)
 #define TRACE_EVENT_API_ATOMIC_STORE(var, value) \
-    sk_atomic_store(&var, value, sk_memory_order_relaxed)
+    sk_atomic_store(&(var), value, sk_memory_order_relaxed)
 
 // Defines visibility for classes in trace_event.h
 #define TRACE_EVENT_API_CLASS_EXPORT SK_API
@@ -141,8 +141,8 @@ TRACE_EVENT_API_CLASS_EXPORT extern \
     category_group_enabled = \
         reinterpret_cast<const uint8_t*>(TRACE_EVENT_API_ATOMIC_LOAD( \
             atomic)); \
-    if (!category_group_enabled) { \
-      category_group_enabled = \
+    if (!(category_group_enabled)) { \
+      (category_group_enabled) = \
           TRACE_EVENT_API_GET_CATEGORY_GROUP_ENABLED(category_group); \
       TRACE_EVENT_API_ATOMIC_STORE(atomic, \
           reinterpret_cast<TRACE_EVENT_API_ATOMIC_WORD>( \
@@ -191,7 +191,7 @@ TRACE_EVENT_API_CLASS_EXPORT extern \
     do { \
       INTERNAL_TRACE_EVENT_GET_CATEGORY_INFO(category_group); \
       if (INTERNAL_TRACE_EVENT_CATEGORY_GROUP_ENABLED_FOR_RECORDING_MODE()) { \
-        unsigned char trace_event_flags = flags | TRACE_EVENT_FLAG_HAS_ID; \
+        unsigned char trace_event_flags = (flags) | TRACE_EVENT_FLAG_HAS_ID; \
         skia::tracing_internals::TraceID trace_event_trace_id( \
             id, &trace_event_flags); \
         skia::tracing_internals::AddTraceEvent( \
@@ -208,7 +208,7 @@ TRACE_EVENT_API_CLASS_EXPORT extern \
     do { \
       INTERNAL_TRACE_EVENT_GET_CATEGORY_INFO(category_group); \
       if (INTERNAL_TRACE_EVENT_CATEGORY_GROUP_ENABLED_FOR_RECORDING_MODE()) { \
-        unsigned char trace_event_flags = flags | TRACE_EVENT_FLAG_HAS_ID; \
+        unsigned char trace_event_flags = (flags) | TRACE_EVENT_FLAG_HAS_ID; \
         skia::tracing_internals::TraceID trace_event_trace_id( \
             id, &trace_event_flags); \
         skia::tracing_internals::AddTraceEventWithThreadIdAndTimestamp( \
@@ -503,7 +503,7 @@ class TRACE_EVENT_API_CLASS_EXPORT ScopedTraceBinaryEfficient {
 template<size_t BucketNumber>
 class TraceEventSamplingStateScope {
  public:
-  TraceEventSamplingStateScope(const char* category_and_name) {
+  explicit TraceEventSamplingStateScope(const char* category_and_name) {
     previous_state_ = TraceEventSamplingStateScope<BucketNumber>::Current();
     TraceEventSamplingStateScope<BucketNumber>::Set(category_and_name);
   }

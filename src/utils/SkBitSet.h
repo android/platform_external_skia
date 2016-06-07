@@ -18,7 +18,7 @@ public:
     /** NumberOfBits must be greater than zero.
      */
     explicit SkBitSet(int numberOfBits);
-    explicit SkBitSet(const SkBitSet& source);
+    SkBitSet(const SkBitSet& source);
 
     SkBitSet& operator=(const SkBitSet& rhs);
     bool operator==(const SkBitSet& rhs);

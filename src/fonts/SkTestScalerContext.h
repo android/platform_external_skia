@@ -32,7 +32,7 @@ class SkTestFont : public SkRefCnt {
 public:
     
 
-    SkTestFont(const SkTestFontData& );
+    explicit SkTestFont(const SkTestFontData& );
     virtual ~SkTestFont();
     int codeToIndex(SkUnichar charCode) const;
     void init(const SkScalar* pts, const unsigned char* verbs);

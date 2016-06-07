@@ -156,12 +156,14 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 // Helper macro to make creating an object (where you need to get back a derived
 // type) easier
+// NOLINT: clang-tidy adds parentheses around 'className'.
 #define GR_CREATE(className, classEnum)                     \
-    reinterpret_cast<className *>(GrDebugGL::getInstance()->createObj(classEnum))
+    (reinterpret_cast<className *>(GrDebugGL::getInstance()->createObj(classEnum))) // NOLINT
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper macro to make finding objects less painful
+// NOLINT: clang-tidy adds parentheses around 'className'.
 #define GR_FIND(id, className, classEnum)                   \
-    reinterpret_cast<className *>(GrDebugGL::getInstance()->findObject(id, classEnum))
+    (reinterpret_cast<className *>(GrDebugGL::getInstance()->findObject(id, classEnum))) // NOLINT
 
 #endif // GrDebugGL_DEFINED

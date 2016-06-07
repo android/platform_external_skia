@@ -157,7 +157,7 @@ size_t SkOneShotDiscardablePixelRef::getAllocatedSizeInBytes() const {
 
 class SkResourceCacheDiscardableAllocator : public SkBitmap::Allocator {
 public:
-    SkResourceCacheDiscardableAllocator(SkResourceCache::DiscardableFactory factory) {
+    explicit SkResourceCacheDiscardableAllocator(SkResourceCache::DiscardableFactory factory) {
         SkASSERT(factory);
         fFactory = factory;
     }

@@ -42,7 +42,7 @@ static const SkScalar SLIDE_SIZE = 300;
 
 class ClippedBitmapShadersGM : public GM {
 public:
-    ClippedBitmapShadersGM(SkShader::TileMode mode, bool hq=false)
+    explicit ClippedBitmapShadersGM(SkShader::TileMode mode, bool hq=false)
     : fMode(mode), fHQ(hq) {
     }
 

@@ -8,7 +8,7 @@
 #include "GrGLBufferImpl.h"
 #include "GrGLGpu.h"
 
-#define GL_CALL(GPU, X) GR_GL_CALL(GPU->glInterface(), X)
+#define GL_CALL(GPU, X) GR_GL_CALL((GPU)->glInterface(), X)
 
 #ifdef SK_DEBUG
 #define VALIDATE() this->validate()

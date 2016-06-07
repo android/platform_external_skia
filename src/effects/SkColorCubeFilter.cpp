@@ -199,7 +199,7 @@ private:
 
     bool onIsEqual(const GrFragmentProcessor&) const override { return true; }
 
-    GrColorCubeEffect(GrTexture* colorCube);
+    explicit GrColorCubeEffect(GrTexture* colorCube);
 
     GrTextureAccess     fColorCubeAccess;
 

@@ -168,7 +168,7 @@ public:
 
     class AutoValidate : SkNoncopyable {
     public:
-        AutoValidate(const SkGlyphCache* cache) : fCache(cache) {
+        explicit AutoValidate(const SkGlyphCache* cache) : fCache(cache) {
             if (fCache) {
                 fCache->validate();
             }

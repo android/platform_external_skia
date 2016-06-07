@@ -39,7 +39,7 @@ public:
     SK_DECLARE_PUBLIC_FLATTENABLE_DESERIALIZATION_PROCS(SkRadialGradient)
 
 protected:
-    SkRadialGradient(SkReadBuffer& buffer);
+    explicit SkRadialGradient(SkReadBuffer& buffer);
     void flatten(SkWriteBuffer& buffer) const override;
     Context* onCreateContext(const ContextRec&, void* storage) const override;
 

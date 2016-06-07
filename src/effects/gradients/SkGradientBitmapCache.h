@@ -14,7 +14,7 @@
 
 class SkGradientBitmapCache : SkNoncopyable {
 public:
-    SkGradientBitmapCache(int maxEntries);
+    explicit SkGradientBitmapCache(int maxEntries);
     ~SkGradientBitmapCache();
 
     bool find(const void* buffer, size_t len, SkBitmap*) const;
@@ -39,7 +39,7 @@ private:
 
     class AutoValidate : SkNoncopyable {
     public:
-        AutoValidate(const SkGradientBitmapCache* bc) : fBC(bc) { bc->validate(); }
+        explicit AutoValidate(const SkGradientBitmapCache* bc) : fBC(bc) { bc->validate(); }
         ~AutoValidate() { fBC->validate(); }
     private:
         const SkGradientBitmapCache* fBC;

@@ -31,8 +31,8 @@ typedef ImplicitString Path;
 
 class Error {
 public:
-    Error(const SkString& s) : fMsg(s), fFatal(!this->isEmpty()) {}
-    Error(const char* s)     : fMsg(s), fFatal(!this->isEmpty()) {}
+    Error(const SkString& s) : fMsg(s), fFatal(!this->isEmpty()) {}  // NOLINT, implicit
+    Error(const char* s)     : fMsg(s), fFatal(!this->isEmpty()) {}  // NOLINT, implicit
 
     Error(const Error&)            = default;
     Error& operator=(const Error&) = default;

@@ -52,7 +52,7 @@ public:
     // This is most useful as the result of a multiply, e.g. from mulWiden().
     class Wide : public Sk16h {
     public:
-        Wide(const Sk16h& v) : Sk16h(v) {}
+        Wide(const Sk16h& v) : Sk16h(v) {}  // NOLINT, implicit
 
         // Pack the top byte of each component back down into 4 SkPMColors.
         Sk4px addNarrowHi(const Sk16h&) const;

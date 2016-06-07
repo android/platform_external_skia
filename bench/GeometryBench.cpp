@@ -12,7 +12,7 @@
 
 class GeometryBench : public Benchmark {
 public:
-    GeometryBench(const char suffix[]) : fVolatileInt(0) {
+    explicit GeometryBench(const char suffix[]) : fVolatileInt(0) {
         fName.printf("geo_%s", suffix);
     }
 
@@ -41,7 +41,7 @@ private:
 
 class GeoRectBench : public GeometryBench {
 public:
-    GeoRectBench(const char suffix[]) : GeometryBench(suffix) {}
+    explicit GeoRectBench(const char suffix[]) : GeometryBench(suffix) {}
 
 protected:
     SkRect fRects[2048];
@@ -136,7 +136,7 @@ class QuadBenchBase : public GeometryBench {
 protected:
     SkPoint fPts[4];
 public:
-    QuadBenchBase(const char name[]) : GeometryBench(name) {
+    explicit QuadBenchBase(const char name[]) : GeometryBench(name) {
         SkRandom rand;
         for (int i = 0; i < 4; ++i) {
             fPts[i].set(rand.nextUScalar1(), rand.nextUScalar1());
