@@ -14,7 +14,7 @@
 class ScalarBench : public Benchmark {
     SkString    fName;
 public:
-    ScalarBench(const char name[])  {
+    explicit ScalarBench(const char name[])  {
         fName.printf("scalar_%s", name);
     }
 

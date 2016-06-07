@@ -155,7 +155,7 @@ private:
  */
 template <typename T, GrIOType IO_TYPE> class GrPendingIOResource : SkNoncopyable {
 public:
-    GrPendingIOResource(T* resource = NULL) : fResource(NULL) {
+    explicit GrPendingIOResource(T* resource = NULL) : fResource(NULL) {
         this->reset(resource);
     }
 

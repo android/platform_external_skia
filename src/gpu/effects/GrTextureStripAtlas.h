@@ -96,7 +96,7 @@ private:
     /**
      * We'll only allow construction via the static GrTextureStripAtlas::GetAtlas
      */
-    GrTextureStripAtlas(Desc desc);
+    explicit GrTextureStripAtlas(Desc desc);
 
     void lockTexture();
     void unlockTexture();

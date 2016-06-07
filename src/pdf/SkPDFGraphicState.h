@@ -82,7 +82,7 @@ private:
     const uint8_t fStrokeJoin;  // SkPaint::Join
     const uint8_t fMode;        // SkXfermode::Mode
 
-    SkPDFGraphicState(const SkPaint&);
+    explicit SkPDFGraphicState(const SkPaint&);
 
     typedef SkPDFDict INHERITED;
 };

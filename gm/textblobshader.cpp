@@ -18,7 +18,7 @@
 // This GM exercises drawTextBlob offset vs. shader space behavior.
 class TextBlobShaderGM : public skiagm::GM {
 public:
-    TextBlobShaderGM(const char* txt) {
+    explicit TextBlobShaderGM(const char* txt) {
         SkPaint p;
         sk_tool_utils::set_portable_typeface(&p);
         size_t txtLen = strlen(txt);

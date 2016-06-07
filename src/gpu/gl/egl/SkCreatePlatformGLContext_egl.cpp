@@ -37,7 +37,7 @@ private:
 
 class EGLGLContext : public SkGLContext  {
 public:
-    EGLGLContext(GrGLStandard forcedGpuAPI);
+    explicit EGLGLContext(GrGLStandard forcedGpuAPI);
     ~EGLGLContext() override;
 
     GrEGLImage texture2DToEGLImage(GrGLuint texID) const override;

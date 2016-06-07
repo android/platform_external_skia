@@ -129,7 +129,7 @@ void SkSweepGradient::SweepGradientContext::shadeSpan(int x, int y, SkPMColor* S
 class GrGLSweepGradient : public GrGLGradientEffect {
 public:
 
-    GrGLSweepGradient(const GrProcessor&) {}
+    explicit GrGLSweepGradient(const GrProcessor&) {}
     virtual ~GrGLSweepGradient() { }
 
     virtual void emitCode(EmitArgs&) override;

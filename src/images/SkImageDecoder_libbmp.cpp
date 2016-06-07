@@ -68,7 +68,7 @@ static SkImageDecoder_FormatReg gFormatReg(get_format_bmp);
 class SkBmpDecoderCallback : public image_codec::BmpDecoderCallback {
 public:
     // we don't copy the bitmap, just remember the pointer
-    SkBmpDecoderCallback(bool justBounds) : fJustBounds(justBounds) {}
+    explicit SkBmpDecoderCallback(bool justBounds) : fJustBounds(justBounds) {}
 
     // override from BmpDecoderCallback
     virtual uint8* SetSize(int width, int height) {

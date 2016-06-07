@@ -57,7 +57,7 @@ public:
 
     static const int kOpTypeCount = kLast_OpType + 1;
 
-    SkDrawCommand(OpType opType);
+    explicit SkDrawCommand(OpType opType);
 
     virtual ~SkDrawCommand();
 
@@ -133,7 +133,7 @@ private:
 
 class SkClearCommand : public SkDrawCommand {
 public:
-    SkClearCommand(SkColor color);
+    explicit SkClearCommand(SkColor color);
     void execute(SkCanvas* canvas) const override;
     Json::Value toJSON(UrlDataManager& urlDataManager) const override;
     static SkClearCommand* fromJSON(Json::Value& command, UrlDataManager& urlDataManager);
@@ -215,7 +215,7 @@ private:
 
 class SkConcatCommand : public SkDrawCommand {
 public:
-    SkConcatCommand(const SkMatrix& matrix);
+    explicit SkConcatCommand(const SkMatrix& matrix);
     void execute(SkCanvas* canvas) const override;
     Json::Value toJSON(UrlDataManager& urlDataManager) const override;
     static SkConcatCommand* fromJSON(Json::Value& command, UrlDataManager& urlDataManager);
@@ -358,7 +358,7 @@ private:
 
 class SkDrawPaintCommand : public SkDrawCommand {
 public:
-    SkDrawPaintCommand(const SkPaint& paint);
+    explicit SkDrawPaintCommand(const SkPaint& paint);
     void execute(SkCanvas* canvas) const override;
     bool render(SkCanvas* canvas) const override;
     Json::Value toJSON(UrlDataManager& urlDataManager) const override;
@@ -404,7 +404,7 @@ private:
 
 class SkEndDrawPictureCommand : public SkDrawCommand {
 public:
-    SkEndDrawPictureCommand(bool restore);
+    explicit SkEndDrawPictureCommand(bool restore);
 
     void execute(SkCanvas* canvas) const override;
 
@@ -657,7 +657,7 @@ private:
 
 class SkSetMatrixCommand : public SkDrawCommand {
 public:
-    SkSetMatrixCommand(const SkMatrix& matrix);
+    explicit SkSetMatrixCommand(const SkMatrix& matrix);
     void setUserMatrix(const SkMatrix&) override;
     void execute(SkCanvas* canvas) const override;
     Json::Value toJSON(UrlDataManager& urlDataManager) const override;

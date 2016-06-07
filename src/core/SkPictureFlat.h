@@ -191,7 +191,7 @@ class SkFlatController : public SkRefCnt {
 public:
 
 
-    SkFlatController(uint32_t writeBufferFlags = 0);
+    explicit SkFlatController(uint32_t writeBufferFlags = 0);
     virtual ~SkFlatController();
     /**
      * Return a new block of memory for the SkFlatDictionary to use.

@@ -42,7 +42,7 @@ public:
     static void ComputeScratchKey(const GrSurfaceDesc&, GrScratchKey*);
 
 private:
-    GrTexturePriv(GrTexture* texture) : fTexture(texture) { }
+    explicit GrTexturePriv(GrTexture* texture) : fTexture(texture) { }
     GrTexturePriv(const GrTexturePriv& that) : fTexture(that.fTexture) { }
     GrTexturePriv& operator=(const GrTexturePriv&); // unimpl
 

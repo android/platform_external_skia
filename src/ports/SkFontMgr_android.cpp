@@ -282,7 +282,7 @@ struct NameToFamily {
 
 class SkFontMgr_Android : public SkFontMgr {
 public:
-    SkFontMgr_Android(const SkFontMgr_Android_CustomFonts* custom) {
+    explicit SkFontMgr_Android(const SkFontMgr_Android_CustomFonts* custom) {
         SkTDArray<FontFamily*> families;
         if (custom && SkFontMgr_Android_CustomFonts::kPreferSystem != custom->fSystemFontUse) {
             SkString base(custom->fBasePath);

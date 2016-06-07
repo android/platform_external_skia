@@ -223,16 +223,16 @@ void convolve4RowsHorizontally_SSE2(const unsigned char* src_data[4],
             mul_hi = _mm_mulhi_epi16(src16, coeff16lo);                      \
             mul_lo = _mm_mullo_epi16(src16, coeff16lo);                      \
             t = _mm_unpacklo_epi16(mul_lo, mul_hi);                          \
-            accum = _mm_add_epi32(accum, t);                                 \
+            (accum) = _mm_add_epi32(accum, t);                               \
             t = _mm_unpackhi_epi16(mul_lo, mul_hi);                          \
-            accum = _mm_add_epi32(accum, t);                                 \
+            (accum) = _mm_add_epi32(accum, t);                               \
             src16 = _mm_unpackhi_epi8(src8, zero);                           \
             mul_hi = _mm_mulhi_epi16(src16, coeff16hi);                      \
             mul_lo = _mm_mullo_epi16(src16, coeff16hi);                      \
             t = _mm_unpacklo_epi16(mul_lo, mul_hi);                          \
-            accum = _mm_add_epi32(accum, t);                                 \
+            (accum) = _mm_add_epi32(accum, t);                               \
             t = _mm_unpackhi_epi16(mul_lo, mul_hi);                          \
-            accum = _mm_add_epi32(accum, t)
+            (accum) = _mm_add_epi32(accum, t)
 
             ITERATION(src_data[0] + start, accum0);
             ITERATION(src_data[1] + start, accum1);

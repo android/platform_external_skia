@@ -124,7 +124,7 @@ private:
  */
 class SK_API SkDataTableBuilder : SkNoncopyable {
 public:
-    SkDataTableBuilder(size_t minChunkSize);
+    explicit SkDataTableBuilder(size_t minChunkSize);
     ~SkDataTableBuilder();
 
     int  count() const { return fDir.count(); }

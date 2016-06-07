@@ -325,7 +325,7 @@ public:
 
 class SkDrawIter : public SkDraw {
 public:
-    SkDrawIter(SkCanvas* canvas, bool skipEmptyClips = true) {
+    explicit SkDrawIter(SkCanvas* canvas, bool skipEmptyClips = true) {
         canvas = canvas->canvasForDrawIter();
         fCanvas = canvas;
         canvas->updateDeviceCMCache();

@@ -16,7 +16,7 @@ class ChunkAllocBench : public Benchmark {
     SkString    fName;
     size_t      fMinSize;
 public:
-    ChunkAllocBench(size_t minSize)  {
+    explicit ChunkAllocBench(size_t minSize)  {
         fMinSize = minSize;
         fName.printf("chunkalloc_" SK_SIZE_T_SPECIFIER, minSize);
     }

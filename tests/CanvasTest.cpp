@@ -184,7 +184,7 @@ static bool equal_clips(const SkCanvas& a, const SkCanvas& b) {
 
 class Canvas2CanvasClipVisitor : public SkCanvas::ClipVisitor {
 public:
-    Canvas2CanvasClipVisitor(SkCanvas* target) : fTarget(target) {}
+    explicit Canvas2CanvasClipVisitor(SkCanvas* target) : fTarget(target) {}
 
     void clipRect(const SkRect& r, SkRegion::Op op, bool aa) override {
         fTarget->clipRect(r, op, aa);
@@ -252,7 +252,7 @@ static SkTDArray<CanvasTestStep*>& testStepArray() {
 
 class CanvasTestStep {
 public:
-    CanvasTestStep(bool fEnablePdfTesting = true) {
+    explicit CanvasTestStep(bool fEnablePdfTesting = true) {
         *testStepArray().append() = this;
         fAssertMessageFormat = kDefaultAssertMessageFormat;
         this->fEnablePdfTesting = fEnablePdfTesting;

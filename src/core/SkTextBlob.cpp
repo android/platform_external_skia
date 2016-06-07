@@ -16,7 +16,7 @@ namespace {
 // TODO(fmalita): replace with SkFont.
 class RunFont : SkNoncopyable {
 public:
-    RunFont(const SkPaint& paint)
+    RunFont(const SkPaint& paint)  // NOLINT, implicit
         : fSize(paint.getTextSize())
         , fScaleX(paint.getTextScaleX())
         , fTypeface(SkSafeRef(paint.getTypeface()))

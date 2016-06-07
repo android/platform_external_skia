@@ -30,8 +30,8 @@ static const size_t kBufferSize = 1024;
     do {                                                   \
         va_list args;                                      \
         va_start(args, format);                            \
-        written = VSNPRINTF(buffer, size, format, args);   \
-        SkASSERT(written >= 0 && written < SkToInt(size)); \
+        (written) = VSNPRINTF(buffer, size, format, args);   \
+        SkASSERT((written) >= 0 && (written) < SkToInt(size)); \
         va_end(args);                                      \
     } while (0)
 

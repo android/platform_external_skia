@@ -95,7 +95,7 @@ public:
          * Wrap Iter's 2 parameter ctor to force initialization to the
          * beginning of the deque
          */
-        F2BIter(const SkDeque& d) : INHERITED(d, kFront_IterStart) {}
+        explicit F2BIter(const SkDeque& d) : INHERITED(d, kFront_IterStart) {}
 
         using Iter::next;
 

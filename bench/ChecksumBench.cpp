@@ -25,7 +25,7 @@ class ComputeChecksumBench : public Benchmark {
     ChecksumType fType;
 
 public:
-    ComputeChecksumBench(ChecksumType type) : fType(type) {
+    explicit ComputeChecksumBench(ChecksumType type) : fType(type) {
         SkRandom rand;
         for (int i = 0; i < U32COUNT; ++i) {
             fData[i] = rand.nextU();

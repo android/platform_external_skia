@@ -319,7 +319,7 @@ SkScalar SkPerlinNoiseShader::PerlinNoiseShaderContext::noise2D(
         int noisePositionIntegerValue;
         int nextNoisePositionIntegerValue;
         SkScalar noisePositionFractionValue;
-        Noise(SkScalar component)
+        explicit Noise(SkScalar component)
         {
             SkScalar position = component + kPerlinNoise;
             noisePositionIntegerValue = SkScalarFloorToInt(position);

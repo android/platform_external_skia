@@ -74,7 +74,7 @@ public:
     SK_TO_STRING_OVERRIDE()
     SK_DECLARE_PUBLIC_FLATTENABLE_DESERIALIZATION_PROCS(IdentityImageFilter)
 protected:
-    IdentityImageFilter(SkImageFilter* input) : INHERITED(1, &input) {}
+    explicit IdentityImageFilter(SkImageFilter* input) : INHERITED(1, &input) {}
 
     bool onFilterImageDeprecated(Proxy*, const SkBitmap& src, const Context&,
                                  SkBitmap* result, SkIPoint* offset) const override {
@@ -242,7 +242,7 @@ DEF_GM( return new ImageFiltersBaseGM; )
 class ImageFiltersTextBaseGM : public skiagm::GM {
     SkString fSuffix;
 public:
-    ImageFiltersTextBaseGM(const char suffix[]) : fSuffix(suffix) {}
+    explicit ImageFiltersTextBaseGM(const char suffix[]) : fSuffix(suffix) {}
 
 protected:
     SkString onShortName() override {

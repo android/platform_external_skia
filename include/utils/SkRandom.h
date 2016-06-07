@@ -21,7 +21,7 @@
 class SkRandom {
 public:
     SkRandom() { init(0); }
-    SkRandom(uint32_t seed) { init(seed); }
+    explicit SkRandom(uint32_t seed) { init(seed); }
     SkRandom(const SkRandom& rand) : fK(rand.fK), fJ(rand.fJ) {}
 
     SkRandom& operator=(const SkRandom& rand) {

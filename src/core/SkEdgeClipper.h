@@ -17,7 +17,7 @@
  */
 class SkEdgeClipper {
 public:
-    SkEdgeClipper(bool canCullToTheRight) : fCanCullToTheRight(canCullToTheRight) {}
+    explicit SkEdgeClipper(bool canCullToTheRight) : fCanCullToTheRight(canCullToTheRight) {}
 
     bool clipQuad(const SkPoint pts[3], const SkRect& clip);
     bool clipCubic(const SkPoint pts[4], const SkRect& clip);

@@ -21,7 +21,7 @@
 class SkColorTable;
 
 #define CHECK_FOR_ANNOTATION(paint) \
-    do { if (paint.getAnnotation()) { return; } } while (0)
+    do { if ((paint).getAnnotation()) { return; } } while (0)
 
 static bool valid_for_bitmap_device(const SkImageInfo& info,
                                     SkAlphaType* newAlphaType) {

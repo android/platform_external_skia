@@ -309,7 +309,7 @@ public:
     class SK_API Iterator {
     public:
         Iterator() : fRgn(NULL), fDone(true) {}
-        Iterator(const SkRegion&);
+        explicit Iterator(const SkRegion&);
         // if we have a region, reset to it and return true, else return false
         bool rewind();
         // reset the iterator, using the new region

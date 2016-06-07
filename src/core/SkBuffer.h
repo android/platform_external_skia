@@ -26,7 +26,7 @@ public:
     /** Initialize RBuffer with a data pointer, but no specified length.
         This signals the RBuffer to not perform range checks during reading.
     */
-    SkRBuffer(const void* data) {
+    explicit SkRBuffer(const void* data) {
         fData = (const char*)data;
         fPos = (const char*)data;
         fStop = 0;  // no bounds checking
@@ -126,7 +126,7 @@ private:
 class SkWBuffer : SkNoncopyable {
 public:
     SkWBuffer() : fData(0), fPos(0), fStop(0) {}
-    SkWBuffer(void* data) { reset(data); }
+    explicit SkWBuffer(void* data) { reset(data); }
     SkWBuffer(void* data, size_t size) { reset(data, size); }
 
     void reset(void* data) {

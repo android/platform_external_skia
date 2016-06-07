@@ -26,7 +26,7 @@ class BlurRectBench: public Benchmark {
     SkString    fName;
 
 public:
-    BlurRectBench(SkScalar rad) {
+    explicit BlurRectBench(SkScalar rad) {
         fRadius = rad;
 
         if (fRadius > SkIntToScalar(25)) {
@@ -76,7 +76,7 @@ private:
 
 class BlurRectDirectBench: public BlurRectBench {
  public:
-    BlurRectDirectBench(SkScalar rad) : INHERITED(rad) {
+    explicit BlurRectDirectBench(SkScalar rad) : INHERITED(rad) {
         SkString name;
 
         if (SkScalarFraction(rad) != 0) {
@@ -128,7 +128,7 @@ private:
 
 class BlurRectBoxFilterBench: public BlurRectSeparableBench {
 public:
-    BlurRectBoxFilterBench(SkScalar rad) : INHERITED(rad) {
+    explicit BlurRectBoxFilterBench(SkScalar rad) : INHERITED(rad) {
         SkString name;
 
         if (SkScalarFraction(rad) != 0) {
@@ -156,7 +156,7 @@ private:
 
 class BlurRectGaussianBench: public BlurRectSeparableBench {
 public:
-    BlurRectGaussianBench(SkScalar rad) : INHERITED(rad) {
+    explicit BlurRectGaussianBench(SkScalar rad) : INHERITED(rad) {
         SkString name;
 
         if (SkScalarFraction(rad) != 0) {

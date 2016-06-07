@@ -36,7 +36,7 @@ public:
      * Create the decode manager
      * Does not take ownership of stream
      */
-    JpegDecoderMgr(SkStream* stream);
+    explicit JpegDecoderMgr(SkStream* stream);
 
     /*
      * Initialize decompress struct

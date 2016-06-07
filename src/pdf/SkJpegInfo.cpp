@@ -11,7 +11,7 @@
 namespace {
 class JpegSegment {
 public:
-    JpegSegment(const SkData* skdata)
+    explicit JpegSegment(const SkData* skdata)
         : fData(static_cast<const char*>(skdata->data()))
         , fSize(skdata->size())
         , fOffset(0)

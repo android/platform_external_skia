@@ -781,7 +781,7 @@ private:
 
 class SkAutoLockPixels : SkNoncopyable {
 public:
-    SkAutoLockPixels(const SkBitmap& bm, bool doLock = true) : fBitmap(bm) {
+    explicit SkAutoLockPixels(const SkBitmap& bm, bool doLock = true) : fBitmap(bm) {
         fDidLock = doLock;
         if (doLock) {
             bm.lockPixels();

@@ -294,7 +294,7 @@ private:
 template<typename TBase, typename TAlign>
 class GrTRecorder<TBase, TAlign>::ReverseIter {
 public:
-    ReverseIter(GrTRecorder& recorder)
+    explicit ReverseIter(GrTRecorder& recorder)
         : fBlock(recorder.fTailBlock),
           fItem(&recorder.back()) {
         Header* lastHeader = reinterpret_cast<Header*>(

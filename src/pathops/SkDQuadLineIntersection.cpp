@@ -101,7 +101,7 @@ public:
         i->setMax(3);  // allow short partial coincidence plus discrete intersection
     }
 
-    LineQuadraticIntersections(const SkDQuad& q)
+    explicit LineQuadraticIntersections(const SkDQuad& q)
         : fQuad(q) 
         SkDEBUGPARAMS(fLine(nullptr))
         SkDEBUGPARAMS(fIntersections(nullptr))

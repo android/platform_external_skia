@@ -29,7 +29,7 @@ class MathBench : public Benchmark {
     SkString    fName;
     float       fSrc[kBuffer], fDst[kBuffer];
 public:
-    MathBench(const char name[])  {
+    explicit MathBench(const char name[])  {
         fName.printf("math_%s", name);
 
         SkRandom rand;
@@ -66,7 +66,7 @@ private:
 
 class MathBenchU32 : public MathBench {
 public:
-    MathBenchU32(const char name[]) : INHERITED(name) {}
+    explicit MathBenchU32(const char name[]) : INHERITED(name) {}
 
 protected:
     virtual void performITest(uint32_t* SK_RESTRICT dst,
@@ -216,7 +216,7 @@ static bool isfinite_and_mulzero(const float data[4]) {
     return  isFinite_mulzero(data[0]) && isFinite_mulzero(data[1]) && isFinite_mulzero(data[2]) && isFinite_mulzero(data[3]);
 }
 
-#define mulzeroadd(data)    (data[0]*0 + data[1]*0 + data[2]*0 + data[3]*0)
+#define mulzeroadd(data)    ((data)[0]*0 + (data)[1]*0 + (data)[2]*0 + (data)[3]*0)
 
 static bool isfinite_plus_int(const float data[4]) {
     return  isFinite_int(mulzeroadd(data));
@@ -266,7 +266,7 @@ class IsFiniteBench : public Benchmark {
     float fData[N];
 public:
 
-    IsFiniteBench(int index)  {
+    explicit IsFiniteBench(int index)  {
         SkRandom rand;
 
         for (int i = 0; i < N; ++i) {
@@ -336,7 +336,7 @@ class FloorBench : public Benchmark {
     bool fFast;
 public:
 
-    FloorBench(bool fast) : fFast(fast) {
+    explicit FloorBench(bool fast) : fFast(fast) {
         SkRandom rand;
 
         for (int i = 0; i < ARRAY; ++i) {
@@ -397,7 +397,7 @@ class CLZBench : public Benchmark {
     bool fUsePortable;
 
 public:
-    CLZBench(bool usePortable) : fUsePortable(usePortable) {
+    explicit CLZBench(bool usePortable) : fUsePortable(usePortable) {
 
         SkRandom rand;
         for (int i = 0; i < ARRAY; ++i) {

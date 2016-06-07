@@ -76,7 +76,7 @@ static inline void fast_normalize(SkPoint3* vector) {
 
 class DiffuseLightingType {
 public:
-    DiffuseLightingType(SkScalar kd)
+    explicit DiffuseLightingType(SkScalar kd)
         : fKD(kd) {}
     SkPMColor light(const SkPoint3& normal, const SkPoint3& surfaceTolight,
                     const SkPoint3& lightColor) const {
@@ -818,7 +818,7 @@ public:
                fDirection == o.fDirection;
     }
 
-    SkDistantLight(SkReadBuffer& buffer) : INHERITED(buffer) {
+    explicit SkDistantLight(SkReadBuffer& buffer) : INHERITED(buffer) {
         fDirection = readPoint3(buffer);
     }
 
@@ -886,7 +886,7 @@ public:
         return new SkPointLight(location, color());
     }
 
-    SkPointLight(SkReadBuffer& buffer) : INHERITED(buffer) {
+    explicit SkPointLight(SkReadBuffer& buffer) : INHERITED(buffer) {
         fLocation = readPoint3(buffer);
     }
 
@@ -989,7 +989,7 @@ public:
     SkScalar coneScale() const { return fConeScale; }
     const SkPoint3& s() const { return fS; }
 
-    SkSpotLight(SkReadBuffer& buffer) : INHERITED(buffer) {
+    explicit SkSpotLight(SkReadBuffer& buffer) : INHERITED(buffer) {
         fLocation = readPoint3(buffer);
         fTarget = readPoint3(buffer);
         fSpecularExponent = buffer.readScalar();

@@ -28,7 +28,7 @@ namespace skiagm {
 
 class DCShader : public SkShader {
 public:
-    DCShader(const SkMatrix& matrix) : fDeviceMatrix(matrix) {}
+    explicit DCShader(const SkMatrix& matrix) : fDeviceMatrix(matrix) {}
 
     SK_DECLARE_PUBLIC_FLATTENABLE_DESERIALIZATION_PROCS(DCShader);
 
@@ -59,7 +59,7 @@ SkFlattenable* DCShader::CreateProc(SkReadBuffer& buf) {
 
 class DCFP : public GrFragmentProcessor {
 public:
-    DCFP(const SkMatrix& m) : fDeviceTransform(kDevice_GrCoordSet, m) {
+    explicit DCFP(const SkMatrix& m) : fDeviceTransform(kDevice_GrCoordSet, m) {
         this->addCoordTransform(&fDeviceTransform);
         this->initClassID<DCFP>();
     }
@@ -175,7 +175,7 @@ protected:
         };
 
         struct Points : public Prim {
-            Points(SkCanvas::PointMode mode) : fMode(mode) {}
+            explicit Points(SkCanvas::PointMode mode) : fMode(mode) {}
 
             SkRect draw(SkCanvas* canvas, const SkPaint& paint) override {
                 SkRandom random;

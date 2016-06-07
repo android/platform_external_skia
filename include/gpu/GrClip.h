@@ -28,12 +28,12 @@ public:
         fOrigin.setZero();
     }
 
-    GrClip(const SkIRect& rect) : fClipType(kIRect_ClipType) {
+    explicit GrClip(const SkIRect& rect) : fClipType(kIRect_ClipType) {
         fOrigin.setZero();
         fClip.fIRect = rect;
     }
 
-    GrClip(const SkRect& rect) : fClipType(kIRect_ClipType) {
+    explicit GrClip(const SkRect& rect) : fClipType(kIRect_ClipType) {
         fOrigin.setZero();
         fClip.fIRect.fLeft   = SkScalarRoundToInt(rect.fLeft);
         fClip.fIRect.fTop    = SkScalarRoundToInt(rect.fTop);

@@ -15,8 +15,8 @@ const uint32_t gIEEEInfinity = 0x7F800000;
 const uint32_t gIEEENegativeInfinity = 0xFF800000;
 
 #define sub_shift(zeros, x, n)  \
-    zeros -= n;                 \
-    x >>= n
+    zeros -= (n);               \
+    (x) >>= n
 
 int SkCLZ_portable(uint32_t x) {
     if (x == 0) {
@@ -48,7 +48,7 @@ int SkCLZ_portable(uint32_t x) {
 #define DIVBITS_ITER(n)                                 \
     case n:                                             \
         if ((numer = (numer << 1) - denom) >= 0)        \
-            result |= 1 << (n - 1); else numer += denom
+            result |= 1 << ((n) - 1); else numer += denom
 
 int32_t SkDivBits(int32_t numer, int32_t denom, int shift_bias) {
     SkASSERT(denom != 0);

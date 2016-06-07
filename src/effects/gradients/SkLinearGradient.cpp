@@ -363,7 +363,7 @@ SkShader::GradientType SkLinearGradient::asAGradient(GradientInfo* info) const {
 class GrGLLinearGradient : public GrGLGradientEffect {
 public:
 
-    GrGLLinearGradient(const GrProcessor&) {}
+    explicit GrGLLinearGradient(const GrProcessor&) {}
 
     virtual ~GrGLLinearGradient() { }
 

@@ -216,7 +216,7 @@ private:
 template<typename TCurve, typename OppCurve>
 class SkTSect {
 public:
-    SkTSect(const TCurve& c  PATH_OPS_DEBUG_T_SECT_PARAMS(int id));
+    explicit SkTSect(const TCurve& c  PATH_OPS_DEBUG_T_SECT_PARAMS(int id));
     static void BinarySearch(SkTSect* sect1, SkTSect<OppCurve, TCurve>* sect2,
             SkIntersections* intersections);
 

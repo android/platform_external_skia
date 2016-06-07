@@ -181,7 +181,7 @@ bool SortContourList(SkOpContourHead** contourList, bool evenOdd, bool oppEvenOd
 
 class DistanceLessThan {
 public:
-    DistanceLessThan(double* distances) : fDistances(distances) { }
+    explicit DistanceLessThan(double* distances) : fDistances(distances) { }
     double* fDistances;
     bool operator()(const int one, const int two) {
         return fDistances[one] < fDistances[two];

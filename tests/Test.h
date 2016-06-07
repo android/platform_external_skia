@@ -117,7 +117,7 @@ void RunWithGPUTestContexts(T testFunction, GPUTestContexts contexts, Reporter* 
     static void test_##name(skiatest::Reporter*, GrContextFactory*); \
     skiatest::TestRegistry name##TestRegistry(                       \
             skiatest::Test(#name, false, test_##name));              \
-    void test_##name(skiatest::Reporter* reporter, GrContextFactory*)
+    void test_##name(skiatest::Reporter* (reporter), GrContextFactory*)
 
 #define GPUTEST_EXPAND_MSVC(x) x
 #define GPUTEST_APPLY(C, ...) GPUTEST_EXPAND_MSVC(C(__VA_ARGS__))
@@ -133,7 +133,7 @@ void RunWithGPUTestContexts(T testFunction, GPUTestContexts contexts, Reporter* 
     static void test_##name(skiatest::Reporter*, GrContextFactory*); \
     skiatest::TestRegistry name##TestRegistry(                       \
             skiatest::Test(#name, true, test_##name));               \
-    void test_##name(skiatest::Reporter* reporter, GrContextFactory* factory)
+    void test_##name(skiatest::Reporter* (reporter), GrContextFactory* (factory))
 
 #define DEF_GPUTEST_FOR_CONTEXTS(name, contexts, reporter, ...)                      \
     static void test_##name(skiatest::Reporter*, GPUTEST_CONTEXT_ARGS(__VA_ARGS__)); \

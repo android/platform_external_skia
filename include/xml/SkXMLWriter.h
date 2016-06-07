@@ -17,7 +17,7 @@ class SkXMLParser;
 
 class SkXMLWriter {
 public:
-            SkXMLWriter(bool doEscapeMarkup = true);
+            explicit SkXMLWriter(bool doEscapeMarkup = true);
     virtual ~SkXMLWriter();
 
     void    addS32Attribute(const char name[], int32_t value);
@@ -63,7 +63,7 @@ private:
 
 class SkXMLStreamWriter : public SkXMLWriter {
 public:
-    SkXMLStreamWriter(SkWStream*);
+    explicit SkXMLStreamWriter(SkWStream*);
     virtual ~SkXMLStreamWriter();
     void writeHeader() override;
     SkDEBUGCODE(static void UnitTest();)
@@ -80,7 +80,7 @@ private:
 
 class SkXMLParserWriter : public SkXMLWriter {
 public:
-    SkXMLParserWriter(SkXMLParser*);
+    explicit SkXMLParserWriter(SkXMLParser*);
     virtual ~SkXMLParserWriter();
 protected:
     void onStartElementLen(const char elem[], size_t length) override;

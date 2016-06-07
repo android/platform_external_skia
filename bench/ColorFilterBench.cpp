@@ -20,7 +20,7 @@
 class ColorFilterBaseBench : public Benchmark {
 
 public:
-    ColorFilterBaseBench(bool small) : fIsSmall(small) {}
+    explicit ColorFilterBaseBench(bool small) : fIsSmall(small) {}
 
 protected:
     SkRect getFilterRect() const {
@@ -66,7 +66,7 @@ private:
 class ColorFilterDimBrightBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterDimBrightBench(bool small) : INHERITED(small) {
+    explicit ColorFilterDimBrightBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -96,7 +96,7 @@ private:
 class ColorFilterBrightGrayBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterBrightGrayBench(bool small) : INHERITED(small) {
+    explicit ColorFilterBrightGrayBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -123,7 +123,7 @@ private:
 class ColorFilterGrayBrightBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterGrayBrightBench(bool small) : INHERITED(small) {
+    explicit ColorFilterGrayBrightBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -150,7 +150,7 @@ private:
 class ColorFilterBlueBrightBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterBlueBrightBench(bool small) : INHERITED(small) {
+    explicit ColorFilterBlueBrightBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -177,7 +177,7 @@ private:
 class ColorFilterBrightBlueBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterBrightBlueBench(bool small) : INHERITED(small) {
+    explicit ColorFilterBrightBlueBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -204,7 +204,7 @@ private:
 class ColorFilterBrightBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterBrightBench(bool small) : INHERITED(small) {
+    explicit ColorFilterBrightBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -230,7 +230,7 @@ private:
 class ColorFilterBlueBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterBlueBench(bool small) : INHERITED(small) {
+    explicit ColorFilterBlueBench(bool small) : INHERITED(small) {
     }
 
 protected:
@@ -256,7 +256,7 @@ private:
 class ColorFilterGrayBench : public ColorFilterBaseBench {
 
 public:
-    ColorFilterGrayBench(bool small) : INHERITED(small) {}
+    explicit ColorFilterGrayBench(bool small) : INHERITED(small) {}
 
 protected:
     const char* onGetName() override {

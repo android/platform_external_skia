@@ -626,7 +626,7 @@ private:
 
 class GLPDLCDXferProcessor : public GrGLSLXferProcessor {
 public:
-    GLPDLCDXferProcessor(const GrProcessor&) {}
+    explicit GLPDLCDXferProcessor(const GrProcessor&) {}
 
     virtual ~GLPDLCDXferProcessor() {}
 

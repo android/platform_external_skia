@@ -46,7 +46,7 @@ class SkAutoTime {
 public:
     // The label is not deep-copied, so its address must remain valid for the
     // lifetime of this object
-    SkAutoTime(const char* label = NULL, SkMSec minToDump = 0) : fLabel(label)
+    explicit SkAutoTime(const char* label = NULL, SkMSec minToDump = 0) : fLabel(label)
     {
         fNow = SkTime::GetMSecs();
         fMinToDump = minToDump;

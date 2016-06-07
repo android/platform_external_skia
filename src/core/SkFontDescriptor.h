@@ -49,7 +49,7 @@ private:
 
 class SkFontDescriptor : SkNoncopyable {
 public:
-    SkFontDescriptor(SkTypeface::Style = SkTypeface::kNormal);
+    explicit SkFontDescriptor(SkTypeface::Style = SkTypeface::kNormal);
     // Does not affect ownership of SkStream.
     static bool Deserialize(SkStream*, SkFontDescriptor* result);
 

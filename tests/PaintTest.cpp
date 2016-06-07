@@ -242,9 +242,9 @@ DEF_TEST(Paint_flattening, reporter) {
         SkPaint::kStrokeAndFill_Style,
     };
 
-#define FOR_SETUP(index, array, setter)                                 \
-    for (size_t index = 0; index < SK_ARRAY_COUNT(array); ++index) {    \
-        paint.setter(array[index]);                                     \
+#define FOR_SETUP(index, array, setter)                                   \
+    for (size_t index = 0; (index) < SK_ARRAY_COUNT(array); ++(index)) {  \
+        paint.setter((array)[index]);                                     \
 
     SkPaint paint;
     paint.setFlags(0x1234);

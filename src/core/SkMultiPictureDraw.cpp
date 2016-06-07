@@ -80,7 +80,7 @@ void SkMultiPictureDraw::add(SkCanvas* canvas,
 class AutoMPDReset : SkNoncopyable {
     SkMultiPictureDraw* fMPD;
 public:
-    AutoMPDReset(SkMultiPictureDraw* mpd) : fMPD(mpd) {}
+    explicit AutoMPDReset(SkMultiPictureDraw* mpd) : fMPD(mpd) {}
     ~AutoMPDReset() { fMPD->reset(); }
 };
 

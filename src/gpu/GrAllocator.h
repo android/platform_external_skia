@@ -136,7 +136,7 @@ public:
         /**
          * Initializes the iterator. next() must be called before get().
          */
-        Iter(const GrAllocator* allocator)
+        explicit Iter(const GrAllocator* allocator)
             : fAllocator(allocator)
             , fBlockIndex(-1)
             , fIndexInBlock(allocator->fItemsPerBlock - 1)
@@ -312,7 +312,7 @@ public:
         /**
          * Initializes the iterator. next() must be called before get() or ops * and ->.
          */
-        Iter(const GrTAllocator* allocator) : fImpl(&allocator->fAllocator) {}
+        explicit Iter(const GrTAllocator* allocator) : fImpl(&allocator->fAllocator) {}
 
         /**
          * Advances the iterator. Iteration is finished when next() returns false.

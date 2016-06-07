@@ -382,7 +382,7 @@ GrGLvoid GR_GL_FUNCTION_TYPE nullGLGetBufferParameteriv(GrGLenum target, GrGLenu
 
 class NullInterface : public GrGLInterface {
 public:
-    NullInterface(State* state) : fState(SkRef(state)) {}
+    explicit NullInterface(State* state) : fState(SkRef(state)) {}
     ~NullInterface() override {
         fState->unref();
     }

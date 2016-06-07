@@ -47,7 +47,7 @@ public:
         kAAClip_GeomType
     };
 
-    SimpleClipGM(SkGeomTypes geomType)
+    explicit SimpleClipGM(SkGeomTypes geomType)
     : fGeomType(geomType) {
     }
 

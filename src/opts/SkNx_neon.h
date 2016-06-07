@@ -28,13 +28,13 @@ static inline float32x4_t armv7_vrndmq_f32(float32x4_t v) {
     case  7: return op(v,  7); \
     } return fVec
 
-#define SHIFT16(op, v, bits) if (bits < 8) { SHIFT8(op, v, bits); } switch(bits) { \
+#define SHIFT16(op, v, bits) if ((bits) < 8) { SHIFT8(op, v, bits); } switch(bits) {   \
                                 case  8: return op(v,  8);  case  9: return op(v,  9); \
     case 10: return op(v, 10);  case 11: return op(v, 11);  case 12: return op(v, 12); \
     case 13: return op(v, 13);  case 14: return op(v, 14);  case 15: return op(v, 15); \
     } return fVec
 
-#define SHIFT32(op, v, bits) if (bits < 16) { SHIFT16(op, v, bits); } switch(bits) { \
+#define SHIFT32(op, v, bits) if ((bits) < 16) { SHIFT16(op, v, bits); } switch(bits) { \
     case 16: return op(v, 16);  case 17: return op(v, 17);  case 18: return op(v, 18); \
     case 19: return op(v, 19);  case 20: return op(v, 20);  case 21: return op(v, 21); \
     case 22: return op(v, 22);  case 23: return op(v, 23);  case 24: return op(v, 24); \

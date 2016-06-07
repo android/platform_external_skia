@@ -19,14 +19,14 @@
     move these into SkColorPriv.h
 */
 
-#define SkDITHER_R32_FOR_565_MACRO(r, d)    (r + d - (r >> 5))
-#define SkDITHER_G32_FOR_565_MACRO(g, d)    (g + (d >> 1) - (g >> 6))
-#define SkDITHER_B32_FOR_565_MACRO(b, d)    (b + d - (b >> 5))
+#define SkDITHER_R32_FOR_565_MACRO(r, d)    ((r) + (d) - ((r) >> 5))
+#define SkDITHER_G32_FOR_565_MACRO(g, d)    ((g) + ((d) >> 1) - ((g) >> 6))
+#define SkDITHER_B32_FOR_565_MACRO(b, d)    ((b) + (d) - ((b) >> 5))
 
-#define SkDITHER_A32_FOR_4444_MACRO(a, d)    (a + 15 - (a >> 4))
-#define SkDITHER_R32_FOR_4444_MACRO(r, d)    (r + d - (r >> 4))
-#define SkDITHER_G32_FOR_4444_MACRO(g, d)    (g + d - (g >> 4))
-#define SkDITHER_B32_FOR_4444_MACRO(b, d)    (b + d - (b >> 4))
+#define SkDITHER_A32_FOR_4444_MACRO(a, d)    ((a) + 15 - ((a) >> 4))
+#define SkDITHER_R32_FOR_4444_MACRO(r, d)    ((r) + (d) - ((r) >> 4))
+#define SkDITHER_G32_FOR_4444_MACRO(g, d)    ((g) + (d) - ((g) >> 4))
+#define SkDITHER_B32_FOR_4444_MACRO(b, d)    ((b) + (d) - ((b) >> 4))
 
 #ifdef SK_DEBUG
     inline unsigned SkDITHER_R32_FOR_565(unsigned r, unsigned d)
