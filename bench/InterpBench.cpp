@@ -5,7 +5,7 @@
 #include "SkRandom.h"
 #include "SkString.h"
 
-#define TILE(x, width)  (((x) & 0xFFFF) * width >> 16)
+#define TILE(x, width)  (((x) & 0xFFFF) * (width) >> 16)
 
 class InterpBench : public Benchmark {
     enum {

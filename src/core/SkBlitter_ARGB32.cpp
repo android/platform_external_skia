@@ -126,14 +126,14 @@ void SkARGB32_Blitter::blitAntiV2(int x, int y, U8CPU a0, U8CPU a1) {
 
 #define solid_8_pixels(mask, dst, color)    \
     do {                                    \
-        if (mask & 0x80) dst[0] = color;    \
-        if (mask & 0x40) dst[1] = color;    \
-        if (mask & 0x20) dst[2] = color;    \
-        if (mask & 0x10) dst[3] = color;    \
-        if (mask & 0x08) dst[4] = color;    \
-        if (mask & 0x04) dst[5] = color;    \
-        if (mask & 0x02) dst[6] = color;    \
-        if (mask & 0x01) dst[7] = color;    \
+        if ((mask) & 0x80) (dst)[0] = color;    \
+        if ((mask) & 0x40) (dst)[1] = color;    \
+        if ((mask) & 0x20) (dst)[2] = color;    \
+        if ((mask) & 0x10) (dst)[3] = color;    \
+        if ((mask) & 0x08) (dst)[4] = color;    \
+        if ((mask) & 0x04) (dst)[5] = color;    \
+        if ((mask) & 0x02) (dst)[6] = color;    \
+        if ((mask) & 0x01) (dst)[7] = color;    \
     } while (0)
 
 #define SK_BLITBWMASK_NAME                  SkARGB32_BlitBW
@@ -145,14 +145,14 @@ void SkARGB32_Blitter::blitAntiV2(int x, int y, U8CPU a0, U8CPU a1) {
 
 #define blend_8_pixels(mask, dst, sc, dst_scale)                            \
     do {                                                                    \
-        if (mask & 0x80) { dst[0] = sc + SkAlphaMulQ(dst[0], dst_scale); }  \
-        if (mask & 0x40) { dst[1] = sc + SkAlphaMulQ(dst[1], dst_scale); }  \
-        if (mask & 0x20) { dst[2] = sc + SkAlphaMulQ(dst[2], dst_scale); }  \
-        if (mask & 0x10) { dst[3] = sc + SkAlphaMulQ(dst[3], dst_scale); }  \
-        if (mask & 0x08) { dst[4] = sc + SkAlphaMulQ(dst[4], dst_scale); }  \
-        if (mask & 0x04) { dst[5] = sc + SkAlphaMulQ(dst[5], dst_scale); }  \
-        if (mask & 0x02) { dst[6] = sc + SkAlphaMulQ(dst[6], dst_scale); }  \
-        if (mask & 0x01) { dst[7] = sc + SkAlphaMulQ(dst[7], dst_scale); }  \
+        if ((mask) & 0x80) { (dst)[0] = (sc) + SkAlphaMulQ((dst)[0], dst_scale); }  \
+        if ((mask) & 0x40) { (dst)[1] = (sc) + SkAlphaMulQ((dst)[1], dst_scale); }  \
+        if ((mask) & 0x20) { (dst)[2] = (sc) + SkAlphaMulQ((dst)[2], dst_scale); }  \
+        if ((mask) & 0x10) { (dst)[3] = (sc) + SkAlphaMulQ((dst)[3], dst_scale); }  \
+        if ((mask) & 0x08) { (dst)[4] = (sc) + SkAlphaMulQ((dst)[4], dst_scale); }  \
+        if ((mask) & 0x04) { (dst)[5] = (sc) + SkAlphaMulQ((dst)[5], dst_scale); }  \
+        if ((mask) & 0x02) { (dst)[6] = (sc) + SkAlphaMulQ((dst)[6], dst_scale); }  \
+        if ((mask) & 0x01) { (dst)[7] = (sc) + SkAlphaMulQ((dst)[7], dst_scale); }  \
     } while (0)
 
 #define SK_BLITBWMASK_NAME                  SkARGB32_BlendBW

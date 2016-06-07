@@ -151,7 +151,7 @@ private:
  */
 #define GR_CREATE_STATIC_PROCESSOR(NAME, PROC_CLASS, ARGS)                                 \
 static SkAlignedSStorage<sizeof(PROC_CLASS)> g_##NAME##_Storage;                           \
-static PROC_CLASS* NAME SkNEW_PLACEMENT_ARGS(g_##NAME##_Storage.get(), PROC_CLASS, ARGS);  \
+static PROC_CLASS* NAME SkNEW_PLACEMENT_ARGS(g_##NAME##_Storage.get(), PROC_CLASS, ARGS);  /* NOLINT */ \
 static SkAutoTDestroy<GrProcessor> NAME##_ad(NAME);
 
 #endif

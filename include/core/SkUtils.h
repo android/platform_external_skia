@@ -77,7 +77,7 @@ SkMemcpy32Proc SkMemcpy32GetPlatformProc();
 #ifdef SK_DEBUG
     int SkUTF8_LeadByteToCount(unsigned c);
 #else
-    #define SkUTF8_LeadByteToCount(c)   ((((0xE5 << 24) >> ((unsigned)c >> 4 << 1)) & 3) + 1)
+    #define SkUTF8_LeadByteToCount(c)   ((((0xE5 << 24) >> ((unsigned)(c) >> 4 << 1)) & 3) + 1)
 #endif
 
 inline int SkUTF8_CountUTF8Bytes(const char utf8[]) {

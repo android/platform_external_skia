@@ -96,7 +96,7 @@ private:
     TRACE_EVENT_CATEGORY_GROUP_ENABLED(TRACE_DISABLED_BY_DEFAULT("skia.gpu"),      \
                                         &SK_MACRO_APPEND_LINE(gpuTracingEnabled)); \
     if (SK_MACRO_APPEND_LINE(gpuTracingEnabled)) {                                 \
-        SK_MACRO_APPEND_LINE(TMG).initialize(name, &name_counter);                 \
+        SK_MACRO_APPEND_LINE(TMG).initialize(name, &(name_counter));               \
     }                                                                             
 #endif
 
@@ -130,7 +130,7 @@ private:
     TRACE_EVENT_CATEGORY_GROUP_ENABLED(TRACE_DISABLED_BY_DEFAULT("skia.gpu"),      \
                                         &SK_MACRO_APPEND_LINE(gpuTracingEnabled)); \
     if (SK_MACRO_APPEND_LINE(gpuTracingEnabled)) {                                 \
-        SK_MACRO_APPEND_LINE(TMG).initialize(name, &name_counter);                 \
+        SK_MACRO_APPEND_LINE(TMG).initialize(name, &(name_counter));               \
     }                                                                             
 #endif
 

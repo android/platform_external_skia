@@ -9,7 +9,7 @@
 
 #include "SkBase64.h"
 
-#define DecodePad -2
+#define DecodePad (-2)
 #define EncodePad 64
 
 static const char default_encode[] =

@@ -492,7 +492,7 @@ static inline void SetLum(int* r, int* g, int* b, int a, int l) {
 
 // non-separable blend modes are done in non-premultiplied alpha
 #define  blendfunc_nonsep_byte(sc, dc, sa, da, blendval) \
-  clamp_div255round(sc * (255 - da) +  dc * (255 - sa) + blendval)
+  clamp_div255round((sc) * (255 - (da)) +  (dc) * (255 - (sa)) + (blendval))
 
 // kHue_Mode
 // B(Cb, Cs) = SetLum(SetSat(Cs, Sat(Cb)), Lum(Cb))

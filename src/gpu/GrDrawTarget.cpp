@@ -27,7 +27,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define DEBUG_INVAL_BUFFER 0xdeadcafe
-#define DEBUG_INVAL_START_IDX -1
+#define DEBUG_INVAL_START_IDX (-1)
 
 GrDrawTarget::GrDrawTarget(GrContext* context)
     : fContext(context)
