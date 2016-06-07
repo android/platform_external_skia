@@ -134,9 +134,9 @@ class SK_API SkRefCnt : public SkRefCntBase { };
  */
 #define SkRefCnt_SafeAssign(dst, src)   \
     do {                                \
-        if (src) src->ref();            \
-        if (dst) dst->unref();          \
-        dst = src;                      \
+        if (src) (src)->ref();          \
+        if (dst) (dst)->unref();        \
+        (dst) = src;                    \
     } while (0)
 
 

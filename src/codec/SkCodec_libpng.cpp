@@ -360,7 +360,7 @@ SkCodec* SkPngCodec::NewFromStream(SkStream* stream) {
     return NULL;
 }
 
-#define INVALID_NUMBER_PASSES -1
+#define INVALID_NUMBER_PASSES (-1)
 SkPngCodec::SkPngCodec(const SkImageInfo& info, SkStream* stream,
                        png_structp png_ptr, png_infop info_ptr)
     : INHERITED(info, stream)

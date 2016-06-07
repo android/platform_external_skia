@@ -114,7 +114,7 @@ SkPaint& SkPaint::operator=(const SkPaint& src) {
     }
 
 #define COPY(field) field = src.field
-#define REF_COPY(field) SkSafeUnref(field); field = SkSafeRef(src.field)
+#define REF_COPY(field) SkSafeUnref(field); (field) = SkSafeRef(src.field)
 
     REF_COPY(fTypeface);
     REF_COPY(fPathEffect);

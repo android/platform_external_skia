@@ -219,7 +219,7 @@ static bool isfinite_and_mulzero(const float data[4]) {
     return  isFinite_mulzero(data[0]) && isFinite_mulzero(data[1]) && isFinite_mulzero(data[2]) && isFinite_mulzero(data[3]);
 }
 
-#define mulzeroadd(data)    (data[0]*0 + data[1]*0 + data[2]*0 + data[3]*0)
+#define mulzeroadd(data)    ((data)[0]*0 + (data)[1]*0 + (data)[2]*0 + (data)[3]*0)
 
 static bool isfinite_plus_int(const float data[4]) {
     return  isFinite_int(mulzeroadd(data));

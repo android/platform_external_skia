@@ -12,10 +12,10 @@
 
 #include "SkStroke.h"
 
-#define CWX(x, y)   (-y)
+#define CWX(x, y)   (-(y))
 #define CWY(x, y)   (x)
 #define CCWX(x, y)  (y)
-#define CCWY(x, y)  (-x)
+#define CCWY(x, y)  (-(x))
 
 #define CUBIC_ARC_FACTOR    ((SK_ScalarSqrt2 - SK_Scalar1) * 4 / 3)
 

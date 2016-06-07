@@ -61,8 +61,8 @@ protected:
     skRTConfRegistry().set(confname, value, false)
 #else
 #define SK_CONF_DECLARE(confType, varName, confName, defaultValue, description) static confType varName = defaultValue
-#define SK_CONF_SET(confname, value) (void) confname, (void) value
-#define SK_CONF_TRY_SET(confname, value) (void) confname, (void) value
+#define SK_CONF_SET(confname, value) (void) (confname), (void) value
+#define SK_CONF_TRY_SET(confname, value) (void) (confname), (void) value
 #endif
 
 /** \class SkRTConfRegistry

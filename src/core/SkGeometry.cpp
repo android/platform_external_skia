@@ -1018,7 +1018,7 @@ static const SkPoint gQuadCirclePts[kSkBuildQuadArcStorage] = {
 // two bits, distributing the convex test error between the round rect
 // approximation and the convex cross product sign equality test.
 #define SK_MID_RRECT_OFFSET \
-    (SK_Scalar1 + SK_ScalarTanPIOver8 + FLT_EPSILON * 4) / 2
+    ((SK_Scalar1 + SK_ScalarTanPIOver8 + FLT_EPSILON * 4) / 2)
     { SK_Scalar1,            0                      },
     { SK_Scalar1,            SK_ScalarTanPIOver8    },
     { SK_MID_RRECT_OFFSET,   SK_MID_RRECT_OFFSET    },

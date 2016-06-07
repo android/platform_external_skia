@@ -744,11 +744,11 @@ static bool valid_grad(const SkColor colors[], const SkScalar pos[], int count, 
 #define EXPAND_1_COLOR(count)               \
     SkColor tmp[2];                         \
     do {                                    \
-        if (1 == count) {                   \
+        if (1 == (count)) {                 \
             tmp[0] = tmp[1] = colors[0];    \
             colors = tmp;                   \
             pos = NULL;                     \
-            count = 2;                      \
+            (count) = 2;                    \
         }                                   \
     } while (0)
 

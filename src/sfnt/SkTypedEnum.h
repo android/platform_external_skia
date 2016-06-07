@@ -46,7 +46,7 @@
         elem
 
     #define SK_TYPED_ENUM(enumName, enumType, enumSeq, idSeq) \
-        enum enumName : enumType { \
+        enum enumName : enumType { /* NOLINT */ \
             SK_SEQ_FOREACH(SK_TYPED_ENUM_VALUES, _, enumSeq) \
         } SK_SEQ_FOREACH_L(SK_TYPED_ENUM_IDS, SK_TYPED_ENUM_IDS_L, _, idSeq);
 

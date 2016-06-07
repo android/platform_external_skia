@@ -72,7 +72,7 @@ enum { kDefaultImageFilterCacheSize = 32 * 1024 * 1024 };
 ///////////////////////////////////////////////////////////////////////////////
 
 #define CHECK_FOR_ANNOTATION(paint) \
-    do { if (paint.getAnnotation()) { return; } } while (0)
+    do { if ((paint).getAnnotation()) { return; } } while (0)
 
 ///////////////////////////////////////////////////////////////////////////////
 
