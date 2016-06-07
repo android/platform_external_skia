@@ -11,7 +11,7 @@ class SkGLContext;
 
 class GpuTimer {
 public:
-    GpuTimer(const SkGLContext*);
+    explicit GpuTimer(const SkGLContext*);
     ~GpuTimer();
     void start();
     double end();

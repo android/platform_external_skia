@@ -13,7 +13,7 @@
 
 class ListElement {
 public:
-    ListElement(int id) : fID(id) {
+    explicit ListElement(int id) : fID(id) {
     }
     bool operator== (const ListElement& other) { return fID == other.fID; }
 

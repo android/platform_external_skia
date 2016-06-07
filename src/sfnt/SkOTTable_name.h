@@ -549,7 +549,7 @@ struct SkOTTableName {
 
     class Iterator {
     public:
-        Iterator(const SkOTTableName& name) : fName(name), fIndex(0), fType(-1) { }
+        explicit Iterator(const SkOTTableName& name) : fName(name), fIndex(0), fType(-1) { }
         Iterator(const SkOTTableName& name, SkOTTableName::Record::NameID::Predefined::Value type)
             : fName(name), fIndex(0), fType(type)
         { }

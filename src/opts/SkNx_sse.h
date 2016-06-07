@@ -14,7 +14,7 @@
 template <>
 class SkNb<2, 4> {
 public:
-    SkNb(const __m128i& vec) : fVec(vec) {}
+    SkNb(const __m128i& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNb() {}
     bool allTrue() const { return 0xff == (_mm_movemask_epi8(fVec) & 0xff); }
@@ -26,7 +26,7 @@ public:
 template <>
 class SkNb<4, 4> {
 public:
-    SkNb(const __m128i& vec) : fVec(vec) {}
+    SkNb(const __m128i& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNb() {}
     bool allTrue() const { return 0xffff == _mm_movemask_epi8(fVec); }
@@ -38,7 +38,7 @@ public:
 template <>
 class SkNb<2, 8> {
 public:
-    SkNb(const __m128i& vec) : fVec(vec) {}
+    SkNb(const __m128i& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNb() {}
     bool allTrue() const { return 0xffff == _mm_movemask_epi8(fVec); }
@@ -52,7 +52,7 @@ template <>
 class SkNf<2, float> {
     typedef SkNb<2, 4> Nb;
 public:
-    SkNf(const __m128& vec) : fVec(vec) {}
+    SkNf(const __m128& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNf() {}
     explicit SkNf(float val) : fVec(_mm_set1_ps(val)) {}
@@ -99,7 +99,7 @@ template <>
 class SkNf<2, double> {
     typedef SkNb<2, 8> Nb;
 public:
-    SkNf(const __m128d& vec) : fVec(vec) {}
+    SkNf(const __m128d& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNf() {}
     explicit SkNf(double val)           : fVec( _mm_set1_pd(val) ) {}
@@ -143,7 +143,7 @@ public:
 template <>
 class SkNi<4, int> {
 public:
-    SkNi(const __m128i& vec) : fVec(vec) {}
+    SkNi(const __m128i& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNi() {}
     explicit SkNi(int val) : fVec(_mm_set1_epi32(val)) {}
@@ -182,7 +182,7 @@ template <>
 class SkNf<4, float> {
     typedef SkNb<4, 4> Nb;
 public:
-    SkNf(const __m128& vec) : fVec(vec) {}
+    SkNf(const __m128& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNf() {}
     explicit SkNf(float val)           : fVec( _mm_set1_ps(val) ) {}
@@ -228,7 +228,7 @@ public:
 template <>
 class SkNi<4, uint16_t> {
 public:
-    SkNi(const __m128i& vec) : fVec(vec) {}
+    SkNi(const __m128i& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNi() {}
     explicit SkNi(uint16_t val) : fVec(_mm_set1_epi16(val)) {}
@@ -255,7 +255,7 @@ public:
 template <>
 class SkNi<8, uint16_t> {
 public:
-    SkNi(const __m128i& vec) : fVec(vec) {}
+    SkNi(const __m128i& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNi() {}
     explicit SkNi(uint16_t val) : fVec(_mm_set1_epi16(val)) {}
@@ -292,7 +292,7 @@ public:
 template <>
 class SkNi<16, uint8_t> {
 public:
-    SkNi(const __m128i& vec) : fVec(vec) {}
+    SkNi(const __m128i& vec) : fVec(vec) {}  // NOLINT, implicit
 
     SkNi() {}
     explicit SkNi(uint8_t val) : fVec(_mm_set1_epi8(val)) {}

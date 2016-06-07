@@ -14,7 +14,7 @@ namespace skiagm {
 // Test out various combinations of nested rects, ovals and rrects.
 class NestedGM : public GM {
 public:
-    NestedGM(bool doAA) : fDoAA(doAA) {
+    explicit NestedGM(bool doAA) : fDoAA(doAA) {
         this->setBGColor(0xFFDDDDDD);
     }
 

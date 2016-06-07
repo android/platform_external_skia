@@ -120,7 +120,7 @@ private:
 
 class GrGLAlphaThresholdEffect : public GrGLFragmentProcessor {
 public:
-    GrGLAlphaThresholdEffect(const GrFragmentProcessor&) {}
+    explicit GrGLAlphaThresholdEffect(const GrFragmentProcessor&) {}
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

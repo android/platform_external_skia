@@ -105,7 +105,7 @@ typedef GrGLProgramDataManager::UniformHandle UniformHandle;
 
 class GrGLMagnifierEffect : public GrGLFragmentProcessor {
 public:
-    GrGLMagnifierEffect(const GrProcessor&);
+    explicit GrGLMagnifierEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder*,
                           const GrFragmentProcessor&,

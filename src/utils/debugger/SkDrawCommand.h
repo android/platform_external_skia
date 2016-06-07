@@ -54,7 +54,7 @@ public:
 
     static const int kOpTypeCount = kLast_OpType + 1;
 
-    SkDrawCommand(OpType opType);
+    explicit SkDrawCommand(OpType opType);
 
     virtual ~SkDrawCommand();
 
@@ -119,7 +119,7 @@ private:
 
 class SkClearCommand : public SkDrawCommand {
 public:
-    SkClearCommand(SkColor color);
+    explicit SkClearCommand(SkColor color);
     void execute(SkCanvas* canvas) const override;
 private:
     SkColor fColor;
@@ -188,7 +188,7 @@ private:
 
 class SkConcatCommand : public SkDrawCommand {
 public:
-    SkConcatCommand(const SkMatrix& matrix);
+    explicit SkConcatCommand(const SkMatrix& matrix);
     void execute(SkCanvas* canvas) const override;
 private:
     SkMatrix fMatrix;
@@ -269,7 +269,7 @@ private:
 
 class SkBeginCommentGroupCommand : public SkDrawCommand {
 public:
-    SkBeginCommentGroupCommand(const char* description);
+    explicit SkBeginCommentGroupCommand(const char* description);
     void execute(SkCanvas* canvas) const override {
         canvas->beginCommentGroup(fDescription.c_str());
     };
@@ -316,7 +316,7 @@ private:
 
 class SkDrawPaintCommand : public SkDrawCommand {
 public:
-    SkDrawPaintCommand(const SkPaint& paint);
+    explicit SkDrawPaintCommand(const SkPaint& paint);
     void execute(SkCanvas* canvas) const override;
     bool render(SkCanvas* canvas) const override;
 private:
@@ -357,7 +357,7 @@ private:
 
 class SkEndDrawPictureCommand : public SkDrawCommand {
 public:
-    SkEndDrawPictureCommand(bool restore);
+    explicit SkEndDrawPictureCommand(bool restore);
 
     void execute(SkCanvas* canvas) const override;
 
@@ -592,7 +592,7 @@ private:
 
 class SkSetMatrixCommand : public SkDrawCommand {
 public:
-    SkSetMatrixCommand(const SkMatrix& matrix);
+    explicit SkSetMatrixCommand(const SkMatrix& matrix);
     void setUserMatrix(const SkMatrix&) override;
     void execute(SkCanvas* canvas) const override;
 private:

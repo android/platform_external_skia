@@ -20,7 +20,7 @@ class GrContext;
 
 class GrAADistanceFieldPathRenderer : public GrPathRenderer {
 public:
-    GrAADistanceFieldPathRenderer(GrContext* context);
+    explicit GrAADistanceFieldPathRenderer(GrContext* context);
     virtual ~GrAADistanceFieldPathRenderer();
     
     virtual bool canDrawPath(const GrDrawTarget*,

@@ -21,17 +21,19 @@ class SkRandom;
  * are generally useful for GrBatch testing
  */
 
+typedef GrBatch* GrBatchPtr;
+
 // Batches should define test functions using BATCH_TEST_DEFINE.  The other macros defined below
 // are used exclusively by the test harness.
 typedef GrBatch* (*BatchTestFunc)(SkRandom* random, GrContext* context);
 #define BATCH_TEST_DEFINE(Batch) \
-    GrBatch* Batch##__Test(SkRandom* random, GrContext* context)
+    GrBatchPtr Batch##__Test(SkRandom* random, GrContext* context)
 #define BATCH_TEST_EXTERN(Batch) \
-    extern GrBatch* Batch##__Test(SkRandom*, GrContext* context);
+    extern GrBatchPtr Batch##__Test(SkRandom*, GrContext* context);
 #define BATCH_TEST_ENTRY(Batch) \
     Batch##__Test
 #define BATCH_TEST_FRIEND(Batch) \
-    friend GrBatch* Batch##__Test(SkRandom* random, GrContext* context);
+    friend GrBatchPtr Batch##__Test(SkRandom* random, GrContext* context);
 
 GrBatch* GrRandomBatch(SkRandom*, GrContext*);
 

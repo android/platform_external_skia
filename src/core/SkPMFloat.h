@@ -33,7 +33,7 @@ public:
         : INHERITED(b,g,r,a) {}
     #endif
 
-    SkPMFloat(const Sk4f& fs) : INHERITED(fs) {}
+    SkPMFloat(const Sk4f& fs) : INHERITED(fs) {}  // NOLINT, implicit
 
     float a() const { return this->kth<SK_A32_SHIFT / 8>(); }
     float r() const { return this->kth<SK_R32_SHIFT / 8>(); }

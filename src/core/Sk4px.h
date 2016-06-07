@@ -14,9 +14,9 @@
 // 1, 2 or 4 SkPMColors, generally vectorized.
 class Sk4px : public Sk16b {
 public:
-    Sk4px(SkAlpha a) : INHERITED(a) {} // Duplicate 16x: a    -> aaaa aaaa aaaa aaaa
-    Sk4px(SkPMColor);                  // Duplicate 4x:  argb -> argb argb argb argb
-    Sk4px(const Sk16b& v) : INHERITED(v) {}
+    Sk4px(SkAlpha a) : INHERITED(a) {} // NOLINT, Duplicate 16x: a    -> aaaa aaaa aaaa aaaa
+    Sk4px(SkPMColor);                  // NOLINT, Duplicate 4x:  argb -> argb argb argb argb
+    Sk4px(const Sk16b& v) : INHERITED(v) {}  // NOLINT, implicit
 
     Sk4px alphas() const;  // ARGB argb XYZW xyzw -> AAAA aaaa XXXX xxxx
 
@@ -43,7 +43,7 @@ public:
     // This is most useful as the result of a multiply, e.g. from mulWiden().
     class Wide : public Sk16h {
     public:
-        Wide(const Sk16h& v) : Sk16h(v) {}
+        Wide(const Sk16h& v) : Sk16h(v) {}  // NOLINT, implicit
 
         // Pack the top byte of each component back down into 4 SkPMColors.
         Sk4px addNarrowHi(const Sk16h&) const;

@@ -201,7 +201,7 @@ static char* dupstr(SkChunkAlloc* chunk, const char src[])
 
 class SkDOMParser : public SkXMLParser {
 public:
-    SkDOMParser(SkChunkAlloc* chunk) : SkXMLParser(&fParserError), fAlloc(chunk)
+    explicit SkDOMParser(SkChunkAlloc* chunk) : SkXMLParser(&fParserError), fAlloc(chunk)
     {
         fAlloc->reset();
         fRoot = NULL;

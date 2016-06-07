@@ -11,7 +11,7 @@
 
 class SkPathWriter {
 public:
-    SkPathWriter(SkPath& path);
+    explicit SkPathWriter(SkPath& path);
     void close();
     void conicTo(const SkPoint& pt1, const SkPoint& pt2, SkScalar weight);
     void cubicTo(const SkPoint& pt1, const SkPoint& pt2, const SkPoint& pt3);

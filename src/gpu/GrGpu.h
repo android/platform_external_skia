@@ -35,7 +35,7 @@ public:
 
     ////////////////////////////////////////////////////////////////////////////
 
-    GrGpu(GrContext* context);
+    explicit GrGpu(GrContext* context);
     ~GrGpu() override;
 
     GrContext* getContext() { return fContext; }

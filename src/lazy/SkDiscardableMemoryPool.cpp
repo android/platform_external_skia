@@ -29,7 +29,7 @@ public:
     /**
      *  Without mutex, will be not be thread safe.
      */
-    DiscardableMemoryPool(size_t budget, SkBaseMutex* mutex = NULL);
+    explicit DiscardableMemoryPool(size_t budget, SkBaseMutex* mutex = NULL);
     virtual ~DiscardableMemoryPool();
 
     SkDiscardableMemory* create(size_t bytes) override;

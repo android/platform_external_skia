@@ -14,7 +14,7 @@ class SkThread : SkNoncopyable {
 public:
     typedef void (*entryPointProc)(void*);
 
-    SkThread(entryPointProc entryPoint, void* data = NULL);
+    explicit SkThread(entryPointProc entryPoint, void* data = NULL);
 
     /**
      * Non-virtual, do not subclass.

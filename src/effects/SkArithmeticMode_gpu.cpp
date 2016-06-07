@@ -54,7 +54,7 @@ static void add_arithmetic_code(GrGLFragmentBuilder* fsBuilder,
 
 class GLArithmeticFP : public GrGLFragmentProcessor {
 public:
-    GLArithmeticFP(const GrProcessor&)
+    explicit GLArithmeticFP(const GrProcessor&)
         : fEnforcePMColor(true) {
     }
 
@@ -215,7 +215,7 @@ private:
 
 class GLArithmeticXP : public GrGLXferProcessor {
 public:
-    GLArithmeticXP(const GrProcessor&)
+    explicit GLArithmeticXP(const GrProcessor&)
         : fEnforcePMColor(true) {
     }
 

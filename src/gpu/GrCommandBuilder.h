@@ -69,7 +69,7 @@ protected:
     typedef GrTargetCommands::CopySurface CopySurface;
     typedef GrTargetCommands::XferBarrier XferBarrier;
 
-    GrCommandBuilder(GrGpu* gpu) : fCommands(gpu) {}
+    explicit GrCommandBuilder(GrGpu* gpu) : fCommands(gpu) {}
 
     GrTargetCommands::CmdBuffer* cmdBuffer() { return fCommands.cmdBuffer(); }
     GrBatchTarget* batchTarget() { return fCommands.batchTarget(); }

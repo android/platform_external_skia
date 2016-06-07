@@ -53,7 +53,7 @@ protected:
                                const GrStrokeInfo&) override;
 
 private:
-    GrStencilAndCoverPathRenderer(GrGpu*);
+    explicit GrStencilAndCoverPathRenderer(GrGpu*);
 
     GrGpu* fGpu;
 

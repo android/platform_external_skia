@@ -21,7 +21,7 @@
 class SK_API SkROLockPixelsPixelRef : public SkPixelRef {
 public:
     SK_DECLARE_INST_COUNT(SkROLockPixelsPixelRef)
-    SkROLockPixelsPixelRef(const SkImageInfo&);
+    explicit SkROLockPixelsPixelRef(const SkImageInfo&);
     virtual ~SkROLockPixelsPixelRef();
 
 protected:

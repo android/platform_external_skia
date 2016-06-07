@@ -54,7 +54,7 @@ public:
 class SkDeflateWStream : public SkWStream {
 public:
     /** Does not take ownership of the stream. */
-    SkDeflateWStream(SkWStream*);
+    explicit SkDeflateWStream(SkWStream*);
 
     /** The destructor calls finalize(). */
     ~SkDeflateWStream();

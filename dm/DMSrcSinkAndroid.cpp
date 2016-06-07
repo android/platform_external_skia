@@ -42,7 +42,7 @@ Error ViaAndroidSDK::draw(const Src& src,
                           SkString* log) const {
     struct ProxySrc : public Src {
         const Src& fSrc;
-        ProxySrc(const Src& src)
+        explicit ProxySrc(const Src& src)
             : fSrc(src) {}
 
         Error draw(SkCanvas* canvas) const override {

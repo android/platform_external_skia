@@ -418,7 +418,7 @@ namespace {
 
 class CacheImpl : public SkImageFilter::Cache {
 public:
-    CacheImpl(size_t maxBytes) : fMaxBytes(maxBytes), fCurrentBytes(0) {
+    explicit CacheImpl(size_t maxBytes) : fMaxBytes(maxBytes), fCurrentBytes(0) {
     }
     virtual ~CacheImpl() {
         SkTDynamicHash<Value, Key>::Iter iter(&fLookup);

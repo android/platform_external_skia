@@ -950,7 +950,7 @@ public:
     SkSTArray<1, Geometry, true>* geoData() { return &fGeoData; }
 
 private:
-    AAConvexPathBatch(const Geometry& geometry) {
+    explicit AAConvexPathBatch(const Geometry& geometry) {
         this->initClassID<AAConvexPathBatch>();
         fGeoData.push_back(geometry);
 

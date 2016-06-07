@@ -33,7 +33,7 @@ static const int kMaxPathSize = 10;
 
 class HairlinePathBench : public Benchmark {
 public:
-    HairlinePathBench(Flags flags) : fFlags(flags) {
+    explicit HairlinePathBench(Flags flags) : fFlags(flags) {
         fPaint.setStyle(SkPaint::kStroke_Style);
         fPaint.setStrokeWidth(SkIntToScalar(0));
     }
@@ -79,7 +79,7 @@ private:
 
 class LinePathBench : public HairlinePathBench {
 public:
-    LinePathBench(Flags flags) : INHERITED(flags) {}
+    explicit LinePathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("line");
@@ -111,7 +111,7 @@ private:
 
 class QuadPathBench : public HairlinePathBench {
 public:
-    QuadPathBench(Flags flags) : INHERITED(flags) {}
+    explicit QuadPathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("quad");
@@ -143,7 +143,7 @@ private:
 
 class ConicPathBench : public HairlinePathBench {
 public:
-    ConicPathBench(Flags flags) : INHERITED(flags) {}
+    explicit ConicPathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("conic");
@@ -179,7 +179,7 @@ private:
 
 class CubicPathBench : public HairlinePathBench {
 public:
-    CubicPathBench(Flags flags) : INHERITED(flags) {}
+    explicit CubicPathBench(Flags flags) : INHERITED(flags) {}
 
     void appendName(SkString* name) override {
         name->append("cubic");

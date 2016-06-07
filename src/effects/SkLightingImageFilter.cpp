@@ -60,7 +60,7 @@ inline void shiftMatrixLeft(int m[9]) {
 
 class DiffuseLightingType {
 public:
-    DiffuseLightingType(SkScalar kd)
+    explicit DiffuseLightingType(SkScalar kd)
         : fKD(kd) {}
     SkPMColor light(const SkPoint3& normal, const SkPoint3& surfaceTolight,
                     const SkPoint3& lightColor) const {
@@ -694,13 +694,13 @@ public:
     static SkLight* UnflattenLight(SkReadBuffer& buffer);
 
 protected:
-    SkLight(SkColor color)
+    explicit SkLight(SkColor color)
       : fColor(SkIntToScalar(SkColorGetR(color)),
                SkIntToScalar(SkColorGetG(color)),
                SkIntToScalar(SkColorGetB(color))) {}
-    SkLight(const SkPoint3& color)
+    explicit SkLight(const SkPoint3& color)
       : fColor(color) {}
-    SkLight(SkReadBuffer& buffer) {
+    explicit SkLight(SkReadBuffer& buffer) {
         fColor = readPoint3(buffer);
     }
 
@@ -746,7 +746,7 @@ public:
                fDirection == o.fDirection;
     }
 
-    SkDistantLight(SkReadBuffer& buffer) : INHERITED(buffer) {
+    explicit SkDistantLight(SkReadBuffer& buffer) : INHERITED(buffer) {
         fDirection = readPoint3(buffer);
     }
 
@@ -810,7 +810,7 @@ public:
         return new SkPointLight(location, color());
     }
 
-    SkPointLight(SkReadBuffer& buffer) : INHERITED(buffer) {
+    explicit SkPointLight(SkReadBuffer& buffer) : INHERITED(buffer) {
         fLocation = readPoint3(buffer);
     }
 
@@ -909,7 +909,7 @@ public:
     SkScalar coneScale() const { return fConeScale; }
     const SkPoint3& s() const { return fS; }
 
-    SkSpotLight(SkReadBuffer& buffer) : INHERITED(buffer) {
+    explicit SkSpotLight(SkReadBuffer& buffer) : INHERITED(buffer) {
         fLocation = readPoint3(buffer);
         fTarget = readPoint3(buffer);
         fSpecularExponent = buffer.readScalar();
@@ -1471,7 +1471,7 @@ SkString emitNormalFunc(BoundaryMode mode,
 
 class GrGLLightingEffect  : public GrGLFragmentProcessor {
 public:
-    GrGLLightingEffect(const GrProcessor&);
+    explicit GrGLLightingEffect(const GrProcessor&);
     virtual ~GrGLLightingEffect();
 
     void emitCode(GrGLFPBuilder*,
@@ -1504,7 +1504,7 @@ private:
 
 class GrGLDiffuseLightingEffect  : public GrGLLightingEffect {
 public:
-    GrGLDiffuseLightingEffect(const GrProcessor&);
+    explicit GrGLDiffuseLightingEffect(const GrProcessor&);
     void emitLightFunc(GrGLFPBuilder*, SkString* funcName) override;
     void setData(const GrGLProgramDataManager&, const GrProcessor&) override;
 
@@ -1518,7 +1518,7 @@ private:
 
 class GrGLSpecularLightingEffect  : public GrGLLightingEffect {
 public:
-    GrGLSpecularLightingEffect(const GrProcessor&);
+    explicit GrGLSpecularLightingEffect(const GrProcessor&);
     void emitLightFunc(GrGLFPBuilder*, SkString* funcName) override;
     void setData(const GrGLProgramDataManager&, const GrProcessor&) override;
 

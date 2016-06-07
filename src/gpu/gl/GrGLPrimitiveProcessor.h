@@ -101,7 +101,7 @@ protected:
     public:
         bool isValid() const { return fHandle > -1; }
         ShaderVarHandle() : fHandle(-1) {}
-        ShaderVarHandle(int value) : fHandle(value) { SkASSERT(this->isValid()); }
+        ShaderVarHandle(int value) : fHandle(value) { SkASSERT(this->isValid()); } // NOLINT, implicit
         int handle() const { SkASSERT(this->isValid()); return fHandle; }
         UniformHandle convertToUniformHandle() {
             SkASSERT(this->isValid());

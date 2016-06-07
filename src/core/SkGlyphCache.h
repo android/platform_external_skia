@@ -160,7 +160,7 @@ public:
 
     class AutoValidate : SkNoncopyable {
     public:
-        AutoValidate(const SkGlyphCache* cache) : fCache(cache) {
+        explicit AutoValidate(const SkGlyphCache* cache) : fCache(cache) {
             if (fCache) {
                 fCache->validate();
             }
@@ -271,7 +271,7 @@ public:
 protected:
     // Hide the constructors so we can't create one of these directly.
     // Create SkAutoGlyphCache or SkAutoGlyphCacheNoCache instead.
-    SkAutoGlyphCacheBase(SkGlyphCache* cache) : fCache(cache) {}
+    explicit SkAutoGlyphCacheBase(SkGlyphCache* cache) : fCache(cache) {}
     SkAutoGlyphCacheBase(SkTypeface* typeface, const SkDescriptor* desc) {
         fCache = SkGlyphCache::DetachCache(typeface, desc);
     }
@@ -297,7 +297,7 @@ private:
 
 class SkAutoGlyphCache : public SkAutoGlyphCacheBase {
 public:
-    SkAutoGlyphCache(SkGlyphCache* cache) : SkAutoGlyphCacheBase(cache) {}
+    explicit SkAutoGlyphCache(SkGlyphCache* cache) : SkAutoGlyphCacheBase(cache) {}
     SkAutoGlyphCache(SkTypeface* typeface, const SkDescriptor* desc) :
         SkAutoGlyphCacheBase(typeface, desc) {}
     SkAutoGlyphCache(const SkPaint& paint,
@@ -313,7 +313,7 @@ private:
 
 class SkAutoGlyphCacheNoGamma : public SkAutoGlyphCacheBase {
 public:
-    SkAutoGlyphCacheNoGamma(SkGlyphCache* cache) : SkAutoGlyphCacheBase(cache) {}
+    explicit SkAutoGlyphCacheNoGamma(SkGlyphCache* cache) : SkAutoGlyphCacheBase(cache) {}
     SkAutoGlyphCacheNoGamma(SkTypeface* typeface, const SkDescriptor* desc) :
         SkAutoGlyphCacheBase(typeface, desc) {}
     SkAutoGlyphCacheNoGamma(const SkPaint& paint,

@@ -26,7 +26,7 @@ public:
     typedef GrGLProcessor::TransformedCoordsArray TransformedCoordsArray;
     typedef GrGLProcessor::TextureSampler TextureSampler;
 
-    GrGLShaderBuilder(GrGLProgramBuilder* program);
+    explicit GrGLShaderBuilder(GrGLProgramBuilder* program);
 
     void addInput(GrGLShaderVar i) { fInputs.push_back(i); }
     void addOutput(GrGLShaderVar i) { fOutputs.push_back(i); }
@@ -110,7 +110,7 @@ public:
      */
     class ShaderBlock {
     public:
-        ShaderBlock(GrGLShaderBuilder* builder) : fBuilder(builder) {
+        explicit ShaderBlock(GrGLShaderBuilder* builder) : fBuilder(builder) {
             SkASSERT(builder);
             fBuilder->codeAppend("{");
         }

@@ -425,7 +425,7 @@ public:
         // this class always generates the same code.
         static void GenKey(const GrProcessor&, const GrGLSLCaps&, GrProcessorKeyBuilder* b) {}
 
-        GLProcessor(const GrProcessor&) {}
+        explicit GLProcessor(const GrProcessor&) {}
 
         virtual void emitCode(GrGLFPBuilder* builder,
                               const GrFragmentProcessor&,
@@ -484,7 +484,7 @@ public:
     };
 
 private:
-    ColorMatrixEffect(const SkColorMatrix& matrix) : fMatrix(matrix) {
+    explicit ColorMatrixEffect(const SkColorMatrix& matrix) : fMatrix(matrix) {
         this->initClassID<ColorMatrixEffect>();
     }
 

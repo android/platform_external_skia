@@ -39,7 +39,7 @@ void SkNWayCanvas::removeAll() {
 
 class SkNWayCanvas::Iter {
 public:
-    Iter(const SkTDArray<SkCanvas*>& list) : fList(list) {
+    explicit Iter(const SkTDArray<SkCanvas*>& list) : fList(list) {
         fIndex = 0;
     }
     bool next() {

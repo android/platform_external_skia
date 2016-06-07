@@ -110,7 +110,7 @@ private:
     // they're updated to use the Functions struct.
     template <typename FNPTR_TYPE> class GLPtrAlias {
     public:
-        GLPtrAlias(GLPtr<FNPTR_TYPE>* base) : fBase(base) {}
+        explicit GLPtrAlias(GLPtr<FNPTR_TYPE>* base) : fBase(base) {}
         void operator=(FNPTR_TYPE ptr) { *fBase = ptr; }
     private:
         GLPtr<FNPTR_TYPE>* fBase;

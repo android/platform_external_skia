@@ -29,7 +29,7 @@ public:
     /**
      * Create a new GrGLPathRendering object from a given GrGLGpu.
      */
-    GrGLPathRendering(GrGLGpu* gpu);
+    explicit GrGLPathRendering(GrGLGpu* gpu);
     virtual ~GrGLPathRendering();
 
     // GrPathRendering implementations.

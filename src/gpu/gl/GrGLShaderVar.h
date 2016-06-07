@@ -54,7 +54,7 @@ public:
         SkASSERT(kVoid_GrSLType != type);
     }
 
-    GrGLShaderVar(const GrShaderVar& var)
+    GrGLShaderVar(const GrShaderVar& var)  // NOLINT, implicit
         : GrShaderVar(var)
         , fOrigin(kDefault_Origin)
         , fUseUniformFloatArrays(USE_UNIFORM_FLOAT_ARRAYS) {

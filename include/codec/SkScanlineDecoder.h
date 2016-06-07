@@ -71,7 +71,7 @@ public:
     }
 
 protected:
-    SkScanlineDecoder(const SkImageInfo& requested)
+    explicit SkScanlineDecoder(const SkImageInfo& requested)
         : fDstInfo(requested)
         , fCurrScanline(0) {}
 

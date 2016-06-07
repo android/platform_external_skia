@@ -33,7 +33,7 @@ struct PathOpsThreadState {
 
 class PathOpsThreadedTestRunner {
 public:
-    PathOpsThreadedTestRunner(skiatest::Reporter* reporter) : fReporter(reporter) {}
+    explicit PathOpsThreadedTestRunner(skiatest::Reporter* reporter) : fReporter(reporter) {}
 
     ~PathOpsThreadedTestRunner();
 

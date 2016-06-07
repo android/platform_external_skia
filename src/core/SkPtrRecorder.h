@@ -63,7 +63,7 @@ public:
      */
     class Iter {
     public:
-        Iter(const SkPtrSet& set)
+        explicit Iter(const SkPtrSet& set)
             : fSet(set)
             , fIndex(0) {}
 

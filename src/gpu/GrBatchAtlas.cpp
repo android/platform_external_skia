@@ -200,7 +200,7 @@ private:
 
 class GrPlotUploader : public GrBatchTarget::Uploader {
 public:
-    GrPlotUploader(BatchPlot* plot)
+    explicit GrPlotUploader(BatchPlot* plot)
         : INHERITED(plot->lastUploadToken())
         , fPlot(SkRef(plot)) {
         SkASSERT(plot);

@@ -302,7 +302,7 @@ void SkDisplacementMapEffect::toString(SkString* str) const {
 #if SK_SUPPORT_GPU
 class GrGLDisplacementMapEffect : public GrGLFragmentProcessor {
 public:
-    GrGLDisplacementMapEffect(const GrProcessor&);
+    explicit GrGLDisplacementMapEffect(const GrProcessor&);
     virtual ~GrGLDisplacementMapEffect();
 
     virtual void emitCode(GrGLFPBuilder*,

@@ -150,7 +150,7 @@ template <typename T> void operator delete(void*, SkTLazy<T>*) { SK_CRASH(); }
 template <typename T>
 class SkTCopyOnFirstWrite {
 public:
-    SkTCopyOnFirstWrite(const T& initial) : fObj(&initial) {}
+    explicit SkTCopyOnFirstWrite(const T& initial) : fObj(&initial) {}
 
     // Constructor for delayed initialization.
     SkTCopyOnFirstWrite() : fObj(NULL) {}

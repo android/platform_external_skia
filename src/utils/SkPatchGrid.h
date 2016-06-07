@@ -87,7 +87,7 @@ public:
         kColorsAndTexs_VertexType = 0x03
     };
     
-    SkPatchGrid(int rows = 0, int cols = 0, VertexType flags = kNone_VertexType,
+    explicit SkPatchGrid(int rows = 0, int cols = 0, VertexType flags = kNone_VertexType,
                 SkXfermode* xfer = NULL);
     
     ~SkPatchGrid();

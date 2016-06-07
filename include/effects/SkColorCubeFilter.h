@@ -40,7 +40,7 @@ private:
      */
     class ColorCubeProcesingCache {
     public:
-        ColorCubeProcesingCache(int cubeDimension);
+        explicit ColorCubeProcesingCache(int cubeDimension);
 
         void getProcessingLuts(const int* (*colorToIndex)[2],
                                const SkScalar* (*colorToFactors)[2],

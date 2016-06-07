@@ -233,7 +233,7 @@ protected:
     SkDeferredDevice* getDeferredDevice() const;
 
 private:
-    SkDeferredCanvas(SkDeferredDevice*);
+    explicit SkDeferredCanvas(SkDeferredDevice*);
 
     void recordedDrawCommand();
     SkCanvas* drawingCanvas() const;

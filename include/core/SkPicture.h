@@ -48,7 +48,7 @@ public:
         typedef uint8_t Domain;
         typedef uint32_t Key;
 
-        AccelData(Key key) : fKey(key) { }
+        explicit AccelData(Key key) : fKey(key) { }
 
         const Key& getKey() const { return fKey; }
 

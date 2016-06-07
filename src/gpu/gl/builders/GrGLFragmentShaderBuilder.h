@@ -17,7 +17,7 @@ class GrGLVarying;
  */
 class GrGLFragmentBuilder : public GrGLShaderBuilder {
 public:
-    GrGLFragmentBuilder(GrGLProgramBuilder* program) : INHERITED(program) {}
+    explicit GrGLFragmentBuilder(GrGLProgramBuilder* program) : INHERITED(program) {}
     virtual ~GrGLFragmentBuilder() {}
     /**
      * Use of these features may require a GLSL extension to be enabled. Shaders may not compile
@@ -60,7 +60,7 @@ private:
  */
 class GrGLXPFragmentBuilder : public GrGLFragmentBuilder {
 public:
-    GrGLXPFragmentBuilder(GrGLProgramBuilder* program) : INHERITED(program) {}
+    explicit GrGLXPFragmentBuilder(GrGLProgramBuilder* program) : INHERITED(program) {}
 
     /** Returns the variable name that holds the color of the destination pixel. This may be NULL if
         no effect advertised that it will read the destination. */

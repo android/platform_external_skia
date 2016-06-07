@@ -257,7 +257,7 @@ class SkROBufferStreamAsset : public SkStreamAsset {
 #endif
 
 public:
-    SkROBufferStreamAsset(const SkROBuffer* buffer) : fBuffer(SkRef(buffer)), fIter(buffer) {
+    explicit SkROBufferStreamAsset(const SkROBuffer* buffer) : fBuffer(SkRef(buffer)), fIter(buffer) {
         fGlobalOffset = fLocalOffset = 0;
     }
 

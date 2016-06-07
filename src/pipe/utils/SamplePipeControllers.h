@@ -16,7 +16,7 @@ class SkMatrix;
 
 class PipeController : public SkGPipeController {
 public:
-    PipeController(SkCanvas* target, SkPicture::InstallPixelRefProc proc = NULL);
+    explicit PipeController(SkCanvas* target, SkPicture::InstallPixelRefProc proc = NULL);
     virtual ~PipeController();
     void* requestBlock(size_t minRequest, size_t* actual) override;
     void notifyWritten(size_t bytes) override;
@@ -34,7 +34,7 @@ private:
 
 class TiledPipeController : public PipeController {
 public:
-    TiledPipeController(const SkBitmap&, SkPicture::InstallPixelRefProc proc = NULL,
+    explicit TiledPipeController(const SkBitmap&, SkPicture::InstallPixelRefProc proc = NULL,
                         const SkMatrix* initialMatrix = NULL);
     virtual ~TiledPipeController() {};
     void notifyWritten(size_t bytes) override;
@@ -56,7 +56,7 @@ private:
  */
 class ThreadSafePipeController : public SkGPipeController {
 public:
-    ThreadSafePipeController(int numberOfReaders);
+    explicit ThreadSafePipeController(int numberOfReaders);
     void* requestBlock(size_t minRequest, size_t* actual) override;
     void notifyWritten(size_t bytes) override;
     int numberOfReaders() const override { return fNumberOfReaders; }

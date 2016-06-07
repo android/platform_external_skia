@@ -171,7 +171,7 @@ typedef SkFlatDictionary<SkFlattenable, SkFlattenableTraits> FlatDictionary;
  */
 class BitmapShuttle : public SkBitmapHeap::ExternalStorage {
 public:
-    BitmapShuttle(SkGPipeCanvas*);
+    explicit BitmapShuttle(SkGPipeCanvas*);
 
     ~BitmapShuttle();
 
@@ -354,7 +354,7 @@ private:
 
     class AutoPipeNotify {
     public:
-        AutoPipeNotify(SkGPipeCanvas* canvas) : fCanvas(canvas) {}
+        explicit AutoPipeNotify(SkGPipeCanvas* canvas) : fCanvas(canvas) {}
         ~AutoPipeNotify() { fCanvas->doNotify(); }
     private:
         SkGPipeCanvas* fCanvas;

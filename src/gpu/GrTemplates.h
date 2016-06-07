@@ -39,7 +39,7 @@ template <typename T> class GrAutoTRestore : SkNoncopyable {
 public:
     GrAutoTRestore() : fPtr(NULL), fVal() {}
 
-    GrAutoTRestore(T* ptr) {
+    explicit GrAutoTRestore(T* ptr) {
         fPtr = ptr;
         if (ptr) {
             fVal = *ptr;

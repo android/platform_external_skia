@@ -57,7 +57,7 @@ private:
 
     class RunIterator {
     public:
-        RunIterator(const SkTextBlob* blob);
+        explicit RunIterator(const SkTextBlob* blob);
 
         bool done() const;
         void next();

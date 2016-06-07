@@ -55,7 +55,7 @@ static const char* ja = "ja";
 
 class FontMgrGM : public skiagm::GM {
 public:
-    FontMgrGM(SkFontMgr* fontMgr = NULL) {
+    explicit FontMgrGM(SkFontMgr* fontMgr = NULL) {
         SkGraphics::SetFontCacheLimit(16 * 1024 * 1024);
 
         fName.set("fontmgr_iter");

@@ -22,7 +22,7 @@
 class GrBatchTarget : public SkNoncopyable {
 public:
     typedef GrBatchAtlas::BatchToken BatchToken;
-    GrBatchTarget(GrGpu* gpu);
+    explicit GrBatchTarget(GrGpu* gpu);
 
     void initDraw(const GrPrimitiveProcessor* primProc, const GrPipeline* pipeline) {
         GrNEW_APPEND_TO_RECORDER(fFlushBuffer, BufferedFlush, (primProc, pipeline));
@@ -32,7 +32,7 @@ public:
 
     class TextureUploader {
     public:
-        TextureUploader(GrGpu* gpu) : fGpu(gpu) { SkASSERT(gpu); }
+        explicit TextureUploader(GrGpu* gpu) : fGpu(gpu) { SkASSERT(gpu); }
 
         /**
          * Updates the pixels in a rectangle of a texture.
@@ -60,7 +60,7 @@ public:
 
     class Uploader : public SkRefCnt {
     public:
-        Uploader(BatchToken lastUploadToken) : fLastUploadToken(lastUploadToken) {}
+        explicit Uploader(BatchToken lastUploadToken) : fLastUploadToken(lastUploadToken) {}
         BatchToken lastUploadToken() const { return fLastUploadToken; }
         virtual void upload(TextureUploader)=0;
 

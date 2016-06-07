@@ -187,7 +187,7 @@ void SkSweepGradient::SweepGradientContext::shadeSpan16(int x, int y, uint16_t* 
 class GrGLSweepGradient : public GrGLGradientEffect {
 public:
 
-    GrGLSweepGradient(const GrProcessor&) {}
+    explicit GrGLSweepGradient(const GrProcessor&) {}
     virtual ~GrGLSweepGradient() { }
 
     virtual void emitCode(GrGLFPBuilder*,

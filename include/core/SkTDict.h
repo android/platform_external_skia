@@ -14,7 +14,7 @@
 
 template <typename T> class SkTDict : SkNoncopyable {
 public:
-    SkTDict(size_t minStringAlloc) : fStrings(minStringAlloc) {}
+    explicit SkTDict(size_t minStringAlloc) : fStrings(minStringAlloc) {}
 
     void reset() {
         fArray.reset();
@@ -100,7 +100,7 @@ public:
 public:
     class Iter {
     public:
-        Iter(const SkTDict<T>& dict) {
+        explicit Iter(const SkTDict<T>& dict) {
             fIter = dict.fArray.begin();
             fStop = dict.fArray.end();
         }

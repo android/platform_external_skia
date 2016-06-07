@@ -21,7 +21,7 @@ class DeferredSurfaceCopyBench : public Benchmark {
         kSurfaceHeight = 1000,
     };
 public:
-    DeferredSurfaceCopyBench(bool discardableContents) {
+    explicit DeferredSurfaceCopyBench(bool discardableContents) {
         fDiscardableContents = discardableContents;
     }
 

@@ -97,7 +97,7 @@ class NestedAAClipBench : public Benchmark {
     SkPoint fSizes[kNestingDepth+1];
 
 public:
-    NestedAAClipBench(bool doAA) : fDoAA(doAA) {
+    explicit NestedAAClipBench(bool doAA) : fDoAA(doAA) {
         fName.printf("nested_aaclip_%s", doAA ? "AA" : "BW");
 
         fDrawRect = SkRect::MakeLTRB(0, 0,

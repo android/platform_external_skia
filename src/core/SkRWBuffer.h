@@ -29,7 +29,7 @@ public:
     
     class Iter {
     public:
-        Iter(const SkROBuffer*);
+        explicit Iter(const SkROBuffer*);
 
         void reset(const SkROBuffer*);
 
@@ -72,7 +72,7 @@ private:
  */
 class SkRWBuffer {
 public:
-    SkRWBuffer(size_t initialCapacity = 0);
+    explicit SkRWBuffer(size_t initialCapacity = 0);
     ~SkRWBuffer();
     
     size_t size() const { return fTotalUsed; }

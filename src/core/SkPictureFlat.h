@@ -125,7 +125,7 @@ protected:
 
 class SkFactoryPlayback {
 public:
-    SkFactoryPlayback(int count) : fCount(count) {
+    explicit SkFactoryPlayback(int count) : fCount(count) {
         fArray = SkNEW_ARRAY(SkFlattenable::Factory, count);
     }
 
@@ -175,7 +175,7 @@ class SkFlatController : public SkRefCnt {
 public:
     SK_DECLARE_INST_COUNT(SkFlatController)
 
-    SkFlatController(uint32_t writeBufferFlags = 0);
+    explicit SkFlatController(uint32_t writeBufferFlags = 0);
     virtual ~SkFlatController();
     /**
      * Return a new block of memory for the SkFlatDictionary to use.

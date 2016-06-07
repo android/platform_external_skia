@@ -245,7 +245,7 @@ namespace {
 // This SkPDFObject only outputs the alpha layer of the given bitmap.
 class PDFAlphaBitmap : public SkPDFObject {
 public:
-    PDFAlphaBitmap(const SkBitmap& bm) : fBitmap(bm) {}
+    explicit PDFAlphaBitmap(const SkBitmap& bm) : fBitmap(bm) {}
     ~PDFAlphaBitmap() {}
     void emitObject(SkWStream*,
                     const SkPDFObjNumMap&,

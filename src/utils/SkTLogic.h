@@ -88,7 +88,7 @@ template <class Condition, class T = void> struct SkTEnableIf
 #define SK_CREATE_MEMBER_DETECTOR(member)                                           \
 template <typename T>                                                               \
 class HasMember_##member {                                                          \
-    struct Fallback { int member; };                                                \
+    struct Fallback { int (member); };                                              \
     struct Derived : T, Fallback {};                                                \
     template <typename U, U> struct Check;                                          \
     template <typename U> static uint8_t func(Check<int Fallback::*, &U::member>*); \

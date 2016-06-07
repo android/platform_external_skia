@@ -382,7 +382,7 @@ GR_STATIC_ASSERT(sizeof(GrStencilSettingsStruct) == sizeof(GrStencilSettings));
     (FRONT_PASS_OP),(BACK_PASS_OP),(FRONT_FAIL_OP),(BACK_FAIL_OP),           \
     (FRONT_FUNC),(BACK_FUNC),(FRONT_MASK),(BACK_MASK),                       \
     (FRONT_REF),(BACK_REF),(FRONT_WRITE_MASK),(BACK_WRITE_MASK))             \
-    static const GrStencilSettings& NAME =                                   \
+    static const GrStencilSettings& (NAME) =                                 \
         *GR_CONST_STENCIL_SETTINGS_PTR_FROM_STRUCT_PTR(&(NAME ## _STRUCT));
 
 

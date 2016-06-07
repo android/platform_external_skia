@@ -21,7 +21,7 @@ static int activeRecorderItems = 0;
 class IntWrapper {
 public:
     IntWrapper() {}
-    IntWrapper(int value) : fValue(value) {}
+    explicit IntWrapper(int value) : fValue(value) {}
     operator int() { return fValue; }
 private:
     int fValue;
@@ -69,7 +69,7 @@ static void test_empty_back_and_pop(skiatest::Reporter* reporter) {
 struct ExtraData {
     typedef GrTRecorder<ExtraData, int> Recorder;
 
-    ExtraData(int i) : fData(i) {
+    explicit ExtraData(int i) : fData(i) {
         int* extraData = this->extraData();
         for (int j = 0; j < i; j++) {
             extraData[j] = i;
@@ -180,7 +180,7 @@ private:
 
 class SubclassExtraData : public Base {
 public:
-    SubclassExtraData(int length) : fLength(length) {
+    explicit SubclassExtraData(int length) : fLength(length) {
         int* data = reinterpret_cast<int*>(Recorder::GetDataForItem(this));
         for (int i = 0; i < fLength; ++i) {
             data[i] = ValueAt(i);

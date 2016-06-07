@@ -6,7 +6,7 @@
 namespace {
 
 struct CreateIntFromFloat {
-    CreateIntFromFloat(float val) : fVal(val) {}
+    explicit CreateIntFromFloat(float val) : fVal(val) {}
     int* operator()() const { return SkNEW_ARGS(int, ((int)fVal)); }
     float fVal;
 };

@@ -40,7 +40,7 @@ public:
 
     class Editor {
     public:
-        Editor(SkAutoTUnref<SkPathRef>* pathRef,
+        explicit Editor(SkAutoTUnref<SkPathRef>* pathRef,
                int incReserveVerbs = 0,
                int incReservePoints = 0);
 

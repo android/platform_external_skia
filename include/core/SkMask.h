@@ -132,7 +132,7 @@ struct SkMask {
  */
 class SkAutoMaskFreeImage {
 public:
-    SkAutoMaskFreeImage(uint8_t* maskImage) {
+    explicit SkAutoMaskFreeImage(uint8_t* maskImage) {
         fImage = maskImage;
     }
 

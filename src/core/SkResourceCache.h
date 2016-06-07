@@ -91,7 +91,7 @@ public:
 
     // Used with SkMessageBus
     struct PurgeSharedIDMessage {
-        PurgeSharedIDMessage(uint64_t sharedID) : fSharedID(sharedID) {}
+        explicit PurgeSharedIDMessage(uint64_t sharedID) : fSharedID(sharedID) {}
 
         uint64_t    fSharedID;
     };
@@ -172,7 +172,7 @@ public:
      *  and getTotalByteLimit() will return 0, and setTotalByteLimit
      *  will ignore its argument and return 0.
      */
-    SkResourceCache(DiscardableFactory);
+    explicit SkResourceCache(DiscardableFactory);
 
     /**
      *  Construct the cache, allocating memory with malloc, and respect the

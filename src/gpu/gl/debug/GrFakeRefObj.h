@@ -79,9 +79,10 @@ private:
 // factory creation entry point. This entry point is used by the GrGLDebug
 // object to instantiate the various objects
 // all globally unique IDs
+// NOLINT: clang-tidy adds parentheses around declaration.
 #define GR_DEFINE_CREATOR(className)                        \
     public:                                                 \
-    static GrFakeRefObj *create ## className() {            \
+    static GrFakeRefObj *create ## className() {  /* NOLINT */ \
         return SkNEW(className);                            \
     }
 

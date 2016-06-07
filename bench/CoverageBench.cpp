@@ -24,7 +24,7 @@ class DrawPathBench : public Benchmark {
     SkDraw      fDraw;
     bool        fDrawCoverage;
 public:
-    DrawPathBench(bool drawCoverage) : fDrawCoverage(drawCoverage) {
+    explicit DrawPathBench(bool drawCoverage) : fDrawCoverage(drawCoverage) {
         fPaint.setAntiAlias(true);
         fName.printf("draw_coverage_%s", drawCoverage ? "true" : "false");
 

@@ -202,7 +202,7 @@ public:
         return gGrads[gradType].fMaker(pts, data, tm, scale);
     }
 
-    GradientBench(GradType gradType,
+    explicit GradientBench(GradType gradType,
                   GradData data = gGradData[0],
                   SkShader::TileMode tm = SkShader::kClamp_TileMode,
                   GeomType geomType = kRect_GeomType,
@@ -327,7 +327,7 @@ class Gradient2Bench : public Benchmark {
     bool     fHasAlpha;
 
 public:
-    Gradient2Bench(bool hasAlpha)  {
+    explicit Gradient2Bench(bool hasAlpha)  {
         fName.printf("gradient_create_%s", hasAlpha ? "alpha" : "opaque");
         fHasAlpha = hasAlpha;
     }

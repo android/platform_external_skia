@@ -756,7 +756,7 @@ public:
     SkSTArray<1, Geometry, true>* geoData() { return &fGeoData; }
 
 private:
-    CircleBatch(const Geometry& geometry) {
+    explicit CircleBatch(const Geometry& geometry) {
         this->initClassID<CircleBatch>();
         fGeoData.push_back(geometry);
 
@@ -985,7 +985,7 @@ public:
     SkSTArray<1, Geometry, true>* geoData() { return &fGeoData; }
 
 private:
-    EllipseBatch(const Geometry& geometry) {
+    explicit EllipseBatch(const Geometry& geometry) {
         this->initClassID<EllipseBatch>();
         fGeoData.push_back(geometry);
 
@@ -1633,7 +1633,7 @@ public:
     SkSTArray<1, Geometry, true>* geoData() { return &fGeoData; }
 
 private:
-    RRectCircleRendererBatch(const Geometry& geometry) {
+    explicit RRectCircleRendererBatch(const Geometry& geometry) {
         this->initClassID<RRectCircleRendererBatch>();
         fGeoData.push_back(geometry);
 
@@ -1825,7 +1825,7 @@ public:
     SkSTArray<1, Geometry, true>* geoData() { return &fGeoData; }
 
 private:
-    RRectEllipseRendererBatch(const Geometry& geometry) {
+    explicit RRectEllipseRendererBatch(const Geometry& geometry) {
         this->initClassID<RRectEllipseRendererBatch>();
         fGeoData.push_back(geometry);
 

@@ -95,7 +95,7 @@ GrFragmentProcessor* CircleEffect::TestCreate(SkRandom* random,
 
 class GLCircleEffect : public GrGLFragmentProcessor {
 public:
-    GLCircleEffect(const GrProcessor&);
+    explicit GLCircleEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& fp,
@@ -278,7 +278,7 @@ GrFragmentProcessor* EllipseEffect::TestCreate(SkRandom* random,
 
 class GLEllipseEffect : public GrGLFragmentProcessor {
 public:
-    GLEllipseEffect(const GrProcessor&);
+    explicit GLEllipseEffect(const GrProcessor&);
 
     virtual void emitCode(GrGLFPBuilder* builder,
                           const GrFragmentProcessor& fp,

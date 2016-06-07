@@ -428,7 +428,7 @@ GrFragmentProcessor* GrCustomXfermode::CreateFP(SkXfermode::Mode mode, GrTexture
 
 class GLCustomXferFP : public GrGLFragmentProcessor {
 public:
-    GLCustomXferFP(const GrFragmentProcessor&) {}
+    explicit GLCustomXferFP(const GrFragmentProcessor&) {}
     ~GLCustomXferFP() override {};
 
     void emitCode(GrGLFPBuilder* builder,
@@ -572,7 +572,7 @@ GrXPFactory* GrCustomXfermode::CreateXPFactory(SkXfermode::Mode mode) {
 
 class GLCustomXP : public GrGLXferProcessor {
 public:
-    GLCustomXP(const GrXferProcessor&) {}
+    explicit GLCustomXP(const GrXferProcessor&) {}
     ~GLCustomXP() override {}
 
     static void GenKey(const GrXferProcessor& p, const GrGLSLCaps& caps, GrProcessorKeyBuilder* b) {

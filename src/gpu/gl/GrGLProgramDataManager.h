@@ -33,7 +33,7 @@ public:
             : fValue(-1) {
         }
     protected:
-        ShaderResourceHandle(int value)
+        explicit ShaderResourceHandle(int value)
             : fValue(value) {
             SkASSERT(isValid());
         }
@@ -48,7 +48,7 @@ public:
         UniformHandle() { }
         bool operator==(const UniformHandle& other) const { return other.fValue == fValue; }
     private:
-        UniformHandle(int value) : ShaderResourceHandle(value) { }
+        explicit UniformHandle(int value) : ShaderResourceHandle(value) { }
         int toProgramDataIndex() const { SkASSERT(isValid()); return fValue; }
         int toShaderBuilderIndex() const { return toProgramDataIndex(); }
 

@@ -16,7 +16,7 @@
 
 class SkRasterBlitter : public SkBlitter {
 public:
-    SkRasterBlitter(const SkBitmap& device) : fDevice(device) {}
+    explicit SkRasterBlitter(const SkBitmap& device) : fDevice(device) {}
 
 protected:
     const SkBitmap& fDevice;

@@ -19,7 +19,7 @@ class PremulAndUnpremulAlphaOpsBench : public Benchmark {
     SkBitmap fBmp1, fBmp2;
 
 public:
-    PremulAndUnpremulAlphaOpsBench(SkColorType ct) {
+    explicit PremulAndUnpremulAlphaOpsBench(SkColorType ct) {
         fColorType = ct;
         fName.printf("premul_and_unpremul_alpha_%s", sk_tool_utils::colortype_name(ct));
     }

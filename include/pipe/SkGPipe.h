@@ -24,7 +24,7 @@ class SkCanvas;
 class SkGPipeReader {
 public:
     SkGPipeReader();
-    SkGPipeReader(SkCanvas* target);
+    explicit SkGPipeReader(SkCanvas* target);
     ~SkGPipeReader();
 
     enum Status {

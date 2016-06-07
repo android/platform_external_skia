@@ -161,7 +161,7 @@ public:
     SkSTArray<1, Geometry, true>* geoData() { return &fGeoData; }
 
 private:
-    RectBatch(const Geometry& geometry) {
+    explicit RectBatch(const Geometry& geometry) {
         this->initClassID<RectBatch>();
         fGeoData.push_back(geometry);
 

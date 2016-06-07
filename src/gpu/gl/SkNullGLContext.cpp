@@ -21,7 +21,7 @@ class BufferObj {
 public:
     SK_DECLARE_INST_COUNT(BufferObj);
 
-    BufferObj(GrGLuint id) : fID(id), fDataPtr(NULL), fSize(0), fMapped(false) {}
+    explicit BufferObj(GrGLuint id) : fID(id), fDataPtr(NULL), fSize(0), fMapped(false) {}
     ~BufferObj() { SkDELETE_ARRAY(fDataPtr); }
 
     void allocate(GrGLsizeiptr size, const GrGLchar* dataPtr) {
@@ -336,7 +336,7 @@ GrGLvoid GR_GL_FUNCTION_TYPE nullGLGetBufferParameteriv(GrGLenum target, GrGLenu
 
 class NullInterface : public GrGLInterface {
 public:
-    NullInterface(State* state) : fState(SkRef(state)) {}
+    explicit NullInterface(State* state) : fState(SkRef(state)) {}
     ~NullInterface() override {
         fState->unref();
     }

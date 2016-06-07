@@ -463,7 +463,7 @@ void SkLinearGradient::LinearGradientContext::shadeSpan16(int x, int y,
 class GrGLLinearGradient : public GrGLGradientEffect {
 public:
 
-    GrGLLinearGradient(const GrProcessor&) {}
+    explicit GrGLLinearGradient(const GrProcessor&) {}
 
     virtual ~GrGLLinearGradient() { }
 

@@ -94,12 +94,12 @@ typedef SkTRegistry<Test> TestRegistry;
     static void test_##name(skiatest::Reporter*, GrContextFactory*); \
     skiatest::TestRegistry name##TestRegistry(                       \
             skiatest::Test(#name, false, test_##name));              \
-    void test_##name(skiatest::Reporter* reporter, GrContextFactory*)
+    void test_##name(skiatest::Reporter* (reporter), GrContextFactory*)
 
 #define DEF_GPUTEST(name, reporter, factory)                         \
     static void test_##name(skiatest::Reporter*, GrContextFactory*); \
     skiatest::TestRegistry name##TestRegistry(                       \
             skiatest::Test(#name, true, test_##name));               \
-    void test_##name(skiatest::Reporter* reporter, GrContextFactory* factory)
+    void test_##name(skiatest::Reporter* (reporter), GrContextFactory* (factory))
 
 #endif

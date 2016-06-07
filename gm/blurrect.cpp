@@ -175,7 +175,7 @@ class BlurRectDirectGM : public skiagm::GM {
     int fGMWidth, fGMHeight;
     int fPadding, fMargin;
 public:
-    BlurRectDirectGM(const char name[])
+    explicit BlurRectDirectGM(const char name[])
         : fName(name),
           fGMWidth(1200),
           fGMHeight(1024),

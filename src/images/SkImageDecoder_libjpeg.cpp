@@ -1211,17 +1211,17 @@ bool SkJPEGImageDecoder::onDecodeSubset(SkBitmap* bm, const SkIRect& region) {
 
     #define CSHIFT  16
 #else      // 8bit - fast, slightly less precise
-    #define CYR     77    // 0.299
+    #define CYR      77    // 0.299
     #define CYG     150    // 0.587
     #define CYB      29    // 0.114
 
-    #define CUR     -43    // -0.16874
-    #define CUG    -85    // -0.33126
-    #define CUB     128    // 0.5
+    #define CUR    (-43)    // -0.16874
+    #define CUG    (-85)    // -0.33126
+    #define CUB     128     // 0.5
 
-    #define CVR      128   // 0.5
-    #define CVG     -107   // -0.41869
-    #define CVB      -21   // -0.08131
+    #define CVR      128    // 0.5
+    #define CVG    (-107)   // -0.41869
+    #define CVB     (-21)   // -0.08131
 
     #define CSHIFT  8
 #endif

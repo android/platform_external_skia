@@ -114,7 +114,7 @@ SkPaint& SkPaint::operator=(const SkPaint& src) {
     }
 
 #define COPY(field) field = src.field
-#define REF_COPY(field) SkSafeUnref(field); field = SkSafeRef(src.field)
+#define REF_COPY(field) SkSafeUnref(field); (field) = SkSafeRef(src.field)
 
     REF_COPY(fTypeface);
     REF_COPY(fPathEffect);
@@ -773,7 +773,7 @@ SkScalar SkPaint::setupForAsPaths() {
 
 class SkCanonicalizePaint {
 public:
-    SkCanonicalizePaint(const SkPaint& paint) : fPaint(&paint), fScale(0) {
+    explicit SkCanonicalizePaint(const SkPaint& paint) : fPaint(&paint), fScale(0) {
         if (paint.isLinearText() || SkDraw::ShouldDrawTextAsPaths(paint, SkMatrix::I())) {
             SkPaint* p = fLazy.set(paint);
             fScale = p->setupForAsPaths();

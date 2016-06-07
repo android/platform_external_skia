@@ -89,7 +89,7 @@ inline bool SkDrawTreatAsHairline(const SkPaint& paint, const SkMatrix& matrix,
 
 class SkTextAlignProc {
 public:
-    SkTextAlignProc(SkPaint::Align align)
+    explicit SkTextAlignProc(SkPaint::Align align)
         : fAlign(align) {
     }
 

@@ -24,7 +24,7 @@ class GrInOrderDrawBuffer;
 
 class GrTargetCommands : ::SkNoncopyable {
 public:
-    GrTargetCommands(GrGpu* gpu)
+    explicit GrTargetCommands(GrGpu* gpu)
         : fCmdBuffer(kCmdBufferInitialSizeInBytes)
         , fBatchTarget(gpu) {
     }
@@ -42,7 +42,7 @@ public:
             kXferBarrier_CmdType       = 8,
         };
 
-        Cmd(CmdType type) : fMarkerID(-1), fType(type) {}
+        explicit Cmd(CmdType type) : fMarkerID(-1), fType(type) {}
         virtual ~Cmd() {}
 
         virtual void execute(GrGpu*) = 0;
@@ -74,7 +74,7 @@ private:
     // TODO: This can be just a pipeline once paths are in batch, and it should live elsewhere
     struct State : public SkNVRefCnt<State> {
         // TODO get rid of the prim proc parameter when we use batch everywhere
-        State(const GrPrimitiveProcessor* primProc = NULL)
+        explicit State(const GrPrimitiveProcessor* primProc = NULL)
             : fPrimitiveProcessor(primProc)
             , fCompiled(false) {}
 
@@ -174,7 +174,7 @@ private:
 
     // This is also used to record a discard by setting the color to GrColor_ILLEGAL
     struct Clear : public Cmd {
-        Clear(GrRenderTarget* rt) : Cmd(kClear_CmdType), fRenderTarget(rt) {}
+        explicit Clear(GrRenderTarget* rt) : Cmd(kClear_CmdType), fRenderTarget(rt) {}
 
         GrRenderTarget* renderTarget() const { return fRenderTarget.get(); }
 
@@ -190,7 +190,7 @@ private:
 
     // This command is ONLY used by the clip mask manager to clear the stencil clip bits
     struct ClearStencilClip : public Cmd {
-        ClearStencilClip(GrRenderTarget* rt) : Cmd(kClear_CmdType), fRenderTarget(rt) {}
+        explicit ClearStencilClip(GrRenderTarget* rt) : Cmd(kClear_CmdType), fRenderTarget(rt) {}
 
         GrRenderTarget* renderTarget() const { return fRenderTarget.get(); }
 
@@ -242,7 +242,7 @@ private:
     };
 
     struct XferBarrier : public Cmd {
-        XferBarrier(GrRenderTarget* rt)
+        explicit XferBarrier(GrRenderTarget* rt)
             : Cmd(kXferBarrier_CmdType)
             , fRenderTarget(rt) {
         }

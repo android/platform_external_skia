@@ -76,7 +76,7 @@ public:
 
     class GLProcessor : public GrGLFragmentProcessor {
     public:
-        GLProcessor(const GrProcessor&) {}
+        explicit GLProcessor(const GrProcessor&) {}
 
         static void GenKey(const GrProcessor&, const GrGLSLCaps&, GrProcessorKeyBuilder* b) {}
 

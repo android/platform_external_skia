@@ -13,8 +13,8 @@
 
 class SkRasterClip {
 public:
-    SkRasterClip(bool forceConservativeRects = false);
-    SkRasterClip(const SkIRect&, bool forceConservativeRects = false);
+    explicit SkRasterClip(bool forceConservativeRects = false);
+    explicit SkRasterClip(const SkIRect&, bool forceConservativeRects = false);
     SkRasterClip(const SkRasterClip&);
     ~SkRasterClip();
 
@@ -115,7 +115,7 @@ private:
 
 class SkAutoRasterClipValidate : SkNoncopyable {
 public:
-    SkAutoRasterClipValidate(const SkRasterClip& rc) : fRC(rc) {
+    explicit SkAutoRasterClipValidate(const SkRasterClip& rc) : fRC(rc) {
         fRC.validate();
     }
     ~SkAutoRasterClipValidate() {

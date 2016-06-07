@@ -135,7 +135,7 @@ private:
 class SkAutoDescriptor : SkNoncopyable {
 public:
     SkAutoDescriptor() : fDesc(NULL) {}
-    SkAutoDescriptor(size_t size) : fDesc(NULL) { this->reset(size); }
+    explicit SkAutoDescriptor(size_t size) : fDesc(NULL) { this->reset(size); }
 
     ~SkAutoDescriptor() { this->free(); }
 

@@ -10,7 +10,7 @@
 
 class SkSPRITE_CLASSNAME : public SkSpriteBlitter {
 public:
-    SkSPRITE_CLASSNAME(const SkBitmap& source SkSPRITE_ARGS)
+    explicit SkSPRITE_CLASSNAME(const SkBitmap& source SkSPRITE_ARGS)
         : SkSpriteBlitter(source) {
         SkSPRITE_INIT
     }

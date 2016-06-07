@@ -9,7 +9,7 @@
 
 class PathTest_Private {
 public:
-    PathTest_Private(SkPath* path)
+    explicit PathTest_Private(SkPath* path)
         : fPath(path) {}
 
     void setPt(int index, SkScalar x, SkScalar y) {

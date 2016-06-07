@@ -30,7 +30,7 @@ class VerticesGM : public skiagm::GM {
     unsigned    fAlpha;
 
 public:
-    VerticesGM(unsigned alpha) : fShader(NULL), fAlpha(alpha) {
+    explicit VerticesGM(unsigned alpha) : fShader(NULL), fAlpha(alpha) {
     }
 
     virtual ~VerticesGM() {

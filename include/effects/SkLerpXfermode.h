@@ -35,7 +35,7 @@ protected:
     void flatten(SkWriteBuffer&) const override;
 
 private:
-    SkLerpXfermode(unsigned scale256);
+    explicit SkLerpXfermode(unsigned scale256);
 
     unsigned fScale256;  // 0..256
 

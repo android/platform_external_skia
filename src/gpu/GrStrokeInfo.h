@@ -18,7 +18,7 @@
  */
 class GrStrokeInfo {
 public: 
-    GrStrokeInfo(SkStrokeRec::InitStyle style) :
+    explicit GrStrokeInfo(SkStrokeRec::InitStyle style) :
         fStroke(style), fDashType(SkPathEffect::kNone_DashType) {}
 
     GrStrokeInfo(const GrStrokeInfo& src, bool includeDash = true) : fStroke(src.fStroke) {

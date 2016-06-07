@@ -602,7 +602,7 @@ private:
     const Options                   fOptions;
     const uint32_t                  fUniqueID;
 
-    GrContext(const Options&); // init must be called after the constructor.
+    explicit GrContext(const Options&); // init must be called after the constructor.
     bool init(GrBackend, GrBackendContext);
     void initMockContext();
     void initCommon();

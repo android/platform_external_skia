@@ -18,7 +18,7 @@ class SkSurface_Gpu : public SkSurface_Base {
 public:
     SK_DECLARE_INST_COUNT(SkSurface_Gpu)
 
-    SkSurface_Gpu(SkGpuDevice*);
+    explicit SkSurface_Gpu(SkGpuDevice*);
     virtual ~SkSurface_Gpu();
 
     SkCanvas* onNewCanvas() override;

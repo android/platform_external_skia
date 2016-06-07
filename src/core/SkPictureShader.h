@@ -34,7 +34,7 @@ public:
                              GrColor*, GrFragmentProcessor**) const override;
 
 protected:
-    SkPictureShader(SkReadBuffer&);
+    explicit SkPictureShader(SkReadBuffer&);
     void flatten(SkWriteBuffer&) const override;
     Context* onCreateContext(const ContextRec&, void* storage) const override;
 

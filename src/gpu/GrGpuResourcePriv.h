@@ -64,7 +64,7 @@ public:
     void removeScratchKey() const { fResource->removeScratchKey();  }
 
 protected:
-    ResourcePriv(GrGpuResource* resource) : fResource(resource) {   }
+    explicit ResourcePriv(GrGpuResource* resource) : fResource(resource) {   }
     ResourcePriv(const ResourcePriv& that) : fResource(that.fResource) {}
     ResourcePriv& operator=(const CacheAccess&); // unimpl
 

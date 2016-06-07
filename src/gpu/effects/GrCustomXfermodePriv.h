@@ -58,7 +58,7 @@ private:
 
 class GrCustomXPFactory : public GrXPFactory {
 public:
-    GrCustomXPFactory(SkXfermode::Mode mode); 
+    explicit GrCustomXPFactory(SkXfermode::Mode mode); 
 
     bool supportsRGBCoverage(GrColor knownColor, uint32_t knownColorFlags) const override {
         return true;

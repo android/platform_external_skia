@@ -87,7 +87,7 @@
 #endif
 
 #define ALLOC_NEW(Type, args, alloc) \
-    SkNEW_PLACEMENT_ARGS(alloc.allocThrow(sizeof(Type)), Type, args)
+    SkNEW_PLACEMENT_ARGS((alloc).allocThrow(sizeof(Type)), Type, args)
 
 namespace {
 
@@ -138,7 +138,7 @@ void remove(T* t, T** head, T** tail) {
  */
 
 struct Vertex {
-  Vertex(const SkPoint& point)
+  explicit Vertex(const SkPoint& point)
     : fPoint(point), fPrev(NULL), fNext(NULL)
     , fFirstEdgeAbove(NULL), fLastEdgeAbove(NULL)
     , fFirstEdgeBelow(NULL), fLastEdgeBelow(NULL)
@@ -309,7 +309,7 @@ struct Edge {
 /***************************************************************************************/
 
 struct Poly {
-    Poly(int winding)
+    explicit Poly(int winding)
         : fWinding(winding)
         , fHead(NULL)
         , fTail(NULL)

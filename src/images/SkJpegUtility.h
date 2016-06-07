@@ -52,7 +52,7 @@ struct skjpeg_source_mgr : jpeg_source_mgr {
  * object.
  */
 struct skjpeg_destination_mgr : jpeg_destination_mgr {
-    skjpeg_destination_mgr(SkWStream* stream);
+    explicit skjpeg_destination_mgr(SkWStream* stream);
 
     SkWStream*  fStream;
 

@@ -36,7 +36,7 @@ public:
 
     SK_DECLARE_INST_COUNT(GrPathRendererChain)
 
-    GrPathRendererChain(GrContext* context);
+    explicit GrPathRendererChain(GrContext* context);
 
     ~GrPathRendererChain();
 

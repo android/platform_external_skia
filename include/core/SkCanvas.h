@@ -1464,7 +1464,7 @@ private:
  */
 class SkAutoROCanvasPixels : SkNoncopyable {
 public:
-    SkAutoROCanvasPixels(SkCanvas* canvas);
+    explicit SkAutoROCanvasPixels(SkCanvas* canvas);
 
     // returns NULL on failure
     const void* addr() const { return fAddr; }

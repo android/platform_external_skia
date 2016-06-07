@@ -306,7 +306,7 @@ static bool radii_are_nine_patch(const SkVector radii[4]) {
 // There is a simplified version of this method in setRectXY
 void SkRRect::computeType() {
     struct Validator {
-        Validator(const SkRRect* r) : fR(r) {}
+        explicit Validator(const SkRRect* r) : fR(r) {}
         ~Validator() { SkDEBUGCODE(fR->validate();) }
         const SkRRect* fR;
     } autoValidate(this);

@@ -138,7 +138,7 @@ private:
 
 class GLEdge2PtConicalEffect : public GrGLGradientEffect {
 public:
-    GLEdge2PtConicalEffect(const GrProcessor&);
+    explicit GLEdge2PtConicalEffect(const GrProcessor&);
     virtual ~GLEdge2PtConicalEffect() { }
 
     virtual void emitCode(GrGLFPBuilder*,
@@ -426,7 +426,7 @@ private:
 
 class GLFocalOutside2PtConicalEffect : public GrGLGradientEffect {
 public:
-    GLFocalOutside2PtConicalEffect(const GrProcessor&);
+    explicit GLFocalOutside2PtConicalEffect(const GrProcessor&);
     virtual ~GLFocalOutside2PtConicalEffect() { }
 
     virtual void emitCode(GrGLFPBuilder*,
@@ -647,7 +647,7 @@ private:
 
 class GLFocalInside2PtConicalEffect : public GrGLGradientEffect {
 public:
-    GLFocalInside2PtConicalEffect(const GrProcessor&);
+    explicit GLFocalInside2PtConicalEffect(const GrProcessor&);
     virtual ~GLFocalInside2PtConicalEffect() {}
 
     virtual void emitCode(GrGLFPBuilder*,
@@ -898,7 +898,7 @@ private:
 
 class GLCircleInside2PtConicalEffect : public GrGLGradientEffect {
 public:
-    GLCircleInside2PtConicalEffect(const GrProcessor&);
+    explicit GLCircleInside2PtConicalEffect(const GrProcessor&);
     virtual ~GLCircleInside2PtConicalEffect() {}
 
     virtual void emitCode(GrGLFPBuilder*,
@@ -1134,7 +1134,7 @@ private:
 
 class GLCircleOutside2PtConicalEffect : public GrGLGradientEffect {
 public:
-    GLCircleOutside2PtConicalEffect(const GrProcessor&);
+    explicit GLCircleOutside2PtConicalEffect(const GrProcessor&);
     virtual ~GLCircleOutside2PtConicalEffect() {}
 
     virtual void emitCode(GrGLFPBuilder*,

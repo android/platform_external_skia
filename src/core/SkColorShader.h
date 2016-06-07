@@ -62,7 +62,7 @@ public:
     SK_DECLARE_PUBLIC_FLATTENABLE_DESERIALIZATION_PROCS(SkColorShader)
 
 protected:
-    SkColorShader(SkReadBuffer&);
+    explicit SkColorShader(SkReadBuffer&);
     void flatten(SkWriteBuffer&) const override;
     Context* onCreateContext(const ContextRec&, void* storage) const override;
     bool onAsLuminanceColor(SkColor* lum) const override {

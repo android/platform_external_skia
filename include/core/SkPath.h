@@ -897,7 +897,7 @@ public:
     class SK_API RawIter {
     public:
         RawIter();
-        RawIter(const SkPath&);
+        explicit RawIter(const SkPath&);
 
         void setPath(const SkPath&);
 

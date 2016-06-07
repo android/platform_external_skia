@@ -528,7 +528,7 @@ static inline void decode_rgba_baseoffset(const int *v, SkColor *endpoints, bool
 template <typename T>
 class SkTBits {
 public:
-    SkTBits(const T val) : fVal(val) { }
+    explicit SkTBits(const T val) : fVal(val) { }
 
     // Returns the bit at the given position
     T operator [](const int idx) const {

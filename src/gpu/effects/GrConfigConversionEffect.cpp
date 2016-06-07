@@ -15,7 +15,7 @@
 
 class GrGLConfigConversionEffect : public GrGLFragmentProcessor {
 public:
-    GrGLConfigConversionEffect(const GrProcessor& processor) {
+    explicit GrGLConfigConversionEffect(const GrProcessor& processor) {
         const GrConfigConversionEffect& configConversionEffect =
                 processor.cast<GrConfigConversionEffect>();
         fSwapRedAndBlue = configConversionEffect.swapsRedAndBlue();

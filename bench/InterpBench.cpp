@@ -5,7 +5,7 @@
 #include "SkRandom.h"
 #include "SkString.h"
 
-#define TILE(x, width)  (((x) & 0xFFFF) * width >> 16)
+#define TILE(x, width)  (((x) & 0xFFFF) * (width) >> 16)
 
 class InterpBench : public Benchmark {
     enum {
@@ -16,7 +16,7 @@ class InterpBench : public Benchmark {
     int16_t     fDst[kBuffer];
     float       fFx, fDx;
 public:
-    InterpBench(const char name[])  {
+    explicit InterpBench(const char name[])  {
         fName.printf("interp_%s", name);
         fFx = 3.3f;
         fDx = 0.1257f;

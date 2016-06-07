@@ -142,7 +142,7 @@ static bool memeq(const char* s1, const char* s2, size_t n1, size_t n2) {
 }
 #define MEMEQ(c, s, n) memeq(c, s, sizeof(c) - 1, n)
 
-#define ATTS_NON_NULL(a, i) (a[i] != NULL && a[i+1] != NULL)
+#define ATTS_NON_NULL(a, i) ((a)[i] != NULL && (a)[(i)+1] != NULL)
 
 #define SK_FONTCONFIGPARSER_PREFIX "[SkFontConfigParser] "
 

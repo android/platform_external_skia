@@ -88,7 +88,7 @@ class RepeatTileBench : public Benchmark {
     SkString            fName;
     SkBitmap            fBitmap;
 public:
-    RepeatTileBench(SkColorType ct, SkAlphaType at = kPremul_SkAlphaType)
+    explicit RepeatTileBench(SkColorType ct, SkAlphaType at = kPremul_SkAlphaType)
         : fColorType(ct), fAlphaType(at)
     {
         const int w = 50;
