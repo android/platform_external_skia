@@ -789,10 +789,30 @@ LOCAL_SRC_FILES_x86_64 += \
 LOCAL_CFLAGS_mips += \
 	-EL
 
+ifeq ($(TARGET_ARCH_VARIANT), mips32r2dspr2-fp)
+LOCAL_CFLAGS_mips += \
+	-DSK_MIPS_HAS_DSPR2
+
+LOCAL_SRC_FILES_mips += \
+	src/opts/SkBitmapProcState_opts_mips_dsp.cpp \
+	src/opts/SkBlitRow_opts_mips_dsp.cpp \
+	src/opts/SkBlitMask_opts_none.cpp
+
+else ifeq ($(TARGET_ARCH_VARIANT), mips32r2dsp-fp)
+LOCAL_CFLAGS_mips += \
+	-DSK_MIPS_HAS_DSP
+
+LOCAL_SRC_FILES_mips += \
+	src/opts/SkBitmapProcState_opts_mips_dsp.cpp \
+	src/opts/SkBlitRow_opts_mips_dsp.cpp \
+	src/opts/SkBlitMask_opts_none.cpp
+
+else
 LOCAL_SRC_FILES_mips += \
 	src/opts/SkBitmapProcState_opts_none.cpp \
 	src/opts/SkBlitMask_opts_none.cpp \
 	src/opts/SkBlitRow_opts_none.cpp
+endif
 
 LOCAL_CFLAGS_mips64 += \
 	-EL

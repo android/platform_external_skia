@@ -11,6 +11,7 @@
 #include "SkDither.h"
 #include "SkMathPriv.h"
 
+#if defined(SK_MIPS_HAS_DSPR2)
 static void S32_D565_Blend_mips_dsp(uint16_t* SK_RESTRICT dst,
                                     const SkPMColor* SK_RESTRICT src, int count,
                                     U8CPU alpha, int /*x*/, int /*y*/) {
@@ -804,6 +805,7 @@ static void S32_Blend_BlitRow32_mips_dsp(SkPMColor* SK_RESTRICT dst,
         : "memory", "hi", "lo"
     );
 }
+#endif
 
 void blitmask_d565_opaque_mips(int width, int height, uint16_t* device,
                                unsigned deviceRB, const uint8_t* alpha,
@@ -917,7 +919,7 @@ void blitmask_d565_opaque_mips(int width, int height, uint16_t* device,
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+#if defined(SK_MIPS_HAS_DSPR2)
 const SkBlitRow::Proc16 platform_565_procs_mips_dsp[] = {
     // no dither
     nullptr,
@@ -938,9 +940,14 @@ static const SkBlitRow::Proc32 platform_32_procs_mips_dsp[] = {
     nullptr,   // S32A_Opaque,
     nullptr,   // S32A_Blend,
 };
+#endif
 
 SkBlitRow::Proc16 SkBlitRow::PlatformFactory565(unsigned flags) {
+#if defined(SK_MIPS_HAS_DSPR2)
     return platform_565_procs_mips_dsp[flags];
+#else
+    return nullptr;
+#endif
 }
 
 SkBlitRow::ColorProc16 SkBlitRow::PlatformColorFactory565(unsigned flags) {
@@ -948,5 +955,9 @@ SkBlitRow::ColorProc16 SkBlitRow::PlatformColorFactory565(unsigned flags) {
 }
 
 SkBlitRow::Proc32 SkBlitRow::PlatformProcs32(unsigned flags) {
+#if defined(SK_MIPS_HAS_DSPR2)
     return platform_32_procs_mips_dsp[flags];
+#else
+    return nullptr;
+#endif
 }
