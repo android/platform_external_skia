@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f28e353f_a76a7bd2",
+        "filename": "OWNERS",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2017-02-24T14:07:06Z",
+      "side": 1,
+      "message": "you can add the following registered owners to this file all of which are registered in AOSP and help maintain Skia on Android.\n\ndjsollen@google.com\nmsarett@google.com\nscroggo@google.com",
+      "revId": "9cf4713a17368c3e7a92922e84842a8072e8167b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
