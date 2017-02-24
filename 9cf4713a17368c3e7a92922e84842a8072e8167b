@@ -16,6 +16,24 @@
       "revId": "9cf4713a17368c3e7a92922e84842a8072e8167b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33ecebbc_ba8ec3f6",
+        "filename": "OWNERS",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1052399
+      },
+      "writtenOn": "2017-02-24T18:13:31Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "f28e353f_a76a7bd2",
+      "revId": "9cf4713a17368c3e7a92922e84842a8072e8167b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
