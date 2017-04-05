@@ -20,6 +20,8 @@ extern "C" {
     #include "jerror.h"
 }
 
+#include "SkUniquePtr.h"
+
 /*
  * Error handling struct
  */
@@ -39,12 +41,8 @@ struct skjpeg_source_mgr : jpeg_source_mgr {
     skjpeg_source_mgr(SkStream* stream);
 
     SkStream* fStream; // unowned
-    enum {
-        // TODO (msarett): Experiment with different buffer sizes.
-        // This size was chosen because it matches SkImageDecoder.
-        kBufferSize = 1024
-    };
-    uint8_t fBuffer[kBufferSize];
+    size_t fBufferSize = 0;
+    skstd::unique_ptr<char[]> fBuffer;
 };
 
 #endif
