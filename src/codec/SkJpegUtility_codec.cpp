@@ -22,7 +22,7 @@ static void sk_init_source(j_decompress_ptr dinfo) {
  */
 static boolean sk_fill_input_buffer(j_decompress_ptr dinfo) {
     skjpeg_source_mgr* src = (skjpeg_source_mgr*) dinfo->src;
-    size_t bytes = src->fStream->read(src->fBuffer, skjpeg_source_mgr::kBufferSize);
+    size_t bytes = src->fStream->read(src->fBuffer, src->nBufferSize);
 
     // libjpeg is still happy with a less than full read, as long as the result is non-zero
     if (bytes == 0) {
@@ -75,6 +75,14 @@ static void sk_term_source(j_decompress_ptr dinfo)
 skjpeg_source_mgr::skjpeg_source_mgr(SkStream* stream)
     : fStream(stream)
 {
+    nBufferSize = stream->getLength();
+    nBufferSize = ((nBufferSize>>10)+1)<<10;
+    if (nBufferSize > (size_t)512*1024) {
+        nBufferSize = 512*1024;
+    }
+    SkDebugf("skjpeg_source_mgr set buffer size to %d\n", nBufferSize);
+    fBuffer = (char*)sk_malloc_throw(nBufferSize);
+
     init_source = sk_init_source;
     fill_input_buffer = sk_fill_input_buffer;
     skip_input_data = sk_skip_input_data;
@@ -82,6 +90,10 @@ skjpeg_source_mgr::skjpeg_source_mgr(SkStream* stream)
     term_source = sk_term_source;
 }
 
+skjpeg_source_mgr::~skjpeg_source_mgr()
+{
+    sk_free(fBuffer);
+}
 /*
  * Call longjmp to continue execution on an error
  */
