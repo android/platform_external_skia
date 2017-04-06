@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bb4e8c0_8aae39bc",
+        "filename": "src/codec/SkJpegUtility_codec.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1080023
+      },
+      "writtenOn": "2017-04-06T13:17:13Z",
+      "side": 1,
+      "message": "Not all SkStreams have length (they may return 0 here).  We\u0027ll need a default in that case.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 38
+      },
+      "revId": "ef385aeaf1f75935b719ef90ca1429eba40b32bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ccab521_0ba41959",
+        "filename": "src/codec/SkJpegUtility_codec.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1080023
+      },
+      "writtenOn": "2017-04-06T13:17:13Z",
+      "side": 1,
+      "message": "How did you choose this maximum size?  Is it statistically important to allow the size to be this big?",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 38
+      },
+      "revId": "ef385aeaf1f75935b719ef90ca1429eba40b32bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a82537e_35bdad50",
+        "filename": "src/codec/SkJpegUtility_codec.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1080023
+      },
+      "writtenOn": "2017-04-06T13:17:13Z",
+      "side": 1,
+      "message": "Please remove this.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 71
+      },
+      "revId": "ef385aeaf1f75935b719ef90ca1429eba40b32bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c97c70fd_8f5d8076",
+        "filename": "src/codec/SkJpegUtility_codec.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1080023
+      },
+      "writtenOn": "2017-04-06T13:17:13Z",
+      "side": 1,
+      "message": "Can we still stack allocate this, given that the max size is 512 KB?\n\nIf not, can we std::unique_ptr (so it auto-deletes)?",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 50
+      },
+      "revId": "ef385aeaf1f75935b719ef90ca1429eba40b32bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dd1646a_884c3ac0",
+        "filename": "src/codec/SkJpegUtility_codec.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1080023
+      },
+      "writtenOn": "2017-04-06T13:17:13Z",
+      "side": 1,
+      "message": "Let\u0027s remove this and replace with comments explaining the new method?\n\nOr maybe the comments should go in the .cpp file?",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 62
+      },
+      "revId": "ef385aeaf1f75935b719ef90ca1429eba40b32bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
