@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82d77de8_8aa1a5b2",
+        "filename": "src/codec/SkJpegUtility_codec.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2017-04-20T16:25:16Z",
+      "side": 1,
+      "message": "nit: Skia uses \"f\" to indicate member fields. So this should be fBufferSize.",
+      "range": {
+        "startLine": 44,
+        "startChar": 11,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "db7ce1b822de225ae7a767186640efc190f1bfa9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
