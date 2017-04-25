@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8743d1b1_d9344a30",
+        "filename": "src/codec/SkJpegUtility_codec.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1153028
+      },
+      "writtenOn": "2017-04-25T07:52:25Z",
+      "side": 1,
+      "message": "Please help review if sk_throw() is correct behavior in this case.",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 19
+      },
+      "revId": "0361d184bac5cba4dc5488c32e3cfc7012073daa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

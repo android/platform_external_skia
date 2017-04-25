@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "25ad28df_e8818305",
+        "filename": "src/codec/SkJpegUtility_codec.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1153028
+      },
+      "writtenOn": "2017-04-25T07:52:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c97c70fd_8f5d8076",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 50
+      },
+      "revId": "ef385aeaf1f75935b719ef90ca1429eba40b32bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dd1646a_884c3ac0",
         "filename": "src/codec/SkJpegUtility_codec.h",
         "patchSetId": 1
