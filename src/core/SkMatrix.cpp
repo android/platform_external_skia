@@ -1130,6 +1130,10 @@ bool SkMatrix::mapRect(SkRect* dst, const SkRect& src) const {
     if (this->isScaleTranslate()) {
         this->mapRectScaleTranslate(dst, src);
         return true;
+    } else if (this->rectStaysRect()) {
+        this->mapPoints((SkPoint*)dst, (const SkPoint*)&src, 2);
+        dst->sort();
+        return true;
     } else {
         SkPoint quad[4];
 
