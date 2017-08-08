@@ -769,6 +769,9 @@ cc_library {
                 "src/opts/SkBlitRow_opts_arm_neon.cpp",
                 "src/opts/SkOpts_crc32.cpp",
             ],
+
+            // libskia has too many segments when pagerando is enabled
+            pagerando: false,
         },
 
         mips: {
