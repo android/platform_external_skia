@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04c4182f_28b4a5e5",
+        "filename": "Android.bp",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2017-08-10T04:11:19Z",
+      "side": 1,
+      "message": "change this to neon: and you won\u0027t need to add a copy",
+      "range": {
+        "startLine": 698,
+        "startChar": 12,
+        "endLine": 698,
+        "endChar": 24
+      },
+      "revId": "69d6fc48997296f41ce6effac0b352e880bda855",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
