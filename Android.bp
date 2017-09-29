@@ -4,7 +4,11 @@ cc_library {
     name: "libskia",
     cflags: [
         "-fexceptions",
+        "-Wall",
+        "-Werror",
+        "-Wno-error=deprecated-declarations",
         "-Wno-unused-parameter",
+        "-Wno-unused-variable",
         "-U_FORTIFY_SOURCE",
         "-D_FORTIFY_SOURCE=1",
         "-DSKIA_IMPLEMENTATION=1",
@@ -844,7 +848,11 @@ cc_test {
     name: "skia_dm",
 
     cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-error=deprecated-declarations",
         "-Wno-unused-parameter",
+        "-Wno-unused-variable",
     ],
 
     local_include_dirs: [
@@ -1601,6 +1609,8 @@ cc_test {
     name: "skia_nanobench",
 
     cflags: [
+        "-Wall",
+        "-Werror",
         "-Wno-unused-parameter",
     ],
 
