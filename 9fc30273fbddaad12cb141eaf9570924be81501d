@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cab2569_00ab866d",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2017-10-05T15:53:53Z",
+      "side": 1,
+      "message": "These seem to be fine; we test with those in upstream Skia as well.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 8,
+        "endChar": 18
+      },
+      "revId": "9fc30273fbddaad12cb141eaf9570924be81501d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849fb5de_ee8c5efd",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2017-10-05T15:53:53Z",
+      "side": 1,
+      "message": "These just turn off errors? We have a slightly different one in upstream: -Wno-deprecated-declarations. Not sure if there\u0027s a difference.",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "9fc30273fbddaad12cb141eaf9570924be81501d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e658c5a_55047961",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1613,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2017-10-05T15:53:53Z",
+      "side": 1,
+      "message": "Is it deliberate that you left off \"-Wno-error\u003ddeprecated-declarations\" and \"-Wno-unused-variable\" from nanobench, but include them in dm?\n\nIf I understand correctly, this means that nanobench might break for errors/warnings that were skipped in dm/Skia?\n\nIn upstream, these two have merged anyway, so it would be simplest to use the same flags.",
+      "range": {
+        "startLine": 1612,
+        "startChar": 8,
+        "endLine": 1613,
+        "endChar": 18
+      },
+      "revId": "9fc30273fbddaad12cb141eaf9570924be81501d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
