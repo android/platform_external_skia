@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5666317b_ddafcd76",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010056
+      },
+      "writtenOn": "2017-10-05T16:22:14Z",
+      "side": 1,
+      "message": "This should indeed be \"-Wno-deprecated-declarations\". The difference is that this will not generate any diagnostic output at all for use of deprecated declarations. In the \"-Wno-error\u003d...\" case, you would still get a noisy warning diagnostic. If you are not intending on fixing those issues (and the upstream behavior seems to indicate that), then switching to -Wno-deprecated-declarations would be preferred.",
+      "parentUuid": "849fb5de_ee8c5efd",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "9fc30273fbddaad12cb141eaf9570924be81501d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e658c5a_55047961",
         "filename": "Android.bp",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2017-10-05T15:53:53Z",
       "side": 1,
       "message": "Is it deliberate that you left off \"-Wno-error\u003ddeprecated-declarations\" and \"-Wno-unused-variable\" from nanobench, but include them in dm?\n\nIf I understand correctly, this means that nanobench might break for errors/warnings that were skipped in dm/Skia?\n\nIn upstream, these two have merged anyway, so it would be simplest to use the same flags.",
+      "range": {
+        "startLine": 1612,
+        "startChar": 8,
+        "endLine": 1613,
+        "endChar": 18
+      },
+      "revId": "9fc30273fbddaad12cb141eaf9570924be81501d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3ebd106_c094b87d",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1613,
+      "author": {
+        "id": 1010056
+      },
+      "writtenOn": "2017-10-05T16:22:14Z",
+      "side": 1,
+      "message": "These cflags are only used for building some other sources that clearly don\u0027t need further warning suppressions. I would prefer not to add flags that aren\u0027t being used, because it will keep folks from slipping into bad behaviors (unused variables, etc.). If you do take an upstream merge that needs those warnings suppressed, you can add the flag at that time.",
+      "parentUuid": "6e658c5a_55047961",
       "range": {
         "startLine": 1612,
         "startChar": 8,
