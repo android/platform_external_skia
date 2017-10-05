@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d42ea58c_ee2aaa16",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2017-10-05T17:45:10Z",
+      "side": 1,
+      "message": "Sounds good. Will switch to match upstream.\n\nOn that note, upstream does *not* use \"-Wno-unused-variable\", so our only unused variables are ANDROID_FRAMEWORK-specific. I just found them and will fix along with the update.",
+      "parentUuid": "5666317b_ddafcd76",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "9fc30273fbddaad12cb141eaf9570924be81501d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e658c5a_55047961",
         "filename": "Android.bp",
         "patchSetId": 1
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "These cflags are only used for building some other sources that clearly don\u0027t need further warning suppressions. I would prefer not to add flags that aren\u0027t being used, because it will keep folks from slipping into bad behaviors (unused variables, etc.). If you do take an upstream merge that needs those warnings suppressed, you can add the flag at that time.",
       "parentUuid": "6e658c5a_55047961",
+      "range": {
+        "startLine": 1612,
+        "startChar": 8,
+        "endLine": 1613,
+        "endChar": 18
+      },
+      "revId": "9fc30273fbddaad12cb141eaf9570924be81501d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17616e1d_e67b3339",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1613,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2017-10-05T17:45:10Z",
+      "side": 1,
+      "message": "Just building locally on master, it seems dm does not need it either. I\u0027ll see if I can skip them both.",
+      "parentUuid": "f3ebd106_c094b87d",
       "range": {
         "startLine": 1612,
         "startChar": 8,
