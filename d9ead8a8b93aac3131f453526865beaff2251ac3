@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "634224ca_1d9fc5e4",
+        "filename": "gn/gn_to_bp.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2017-10-10T16:52:40Z",
+      "side": 0,
+      "message": "These should probably go in include/core/SkUserConfigManual.h",
+      "range": {
+        "startLine": 271,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 29
+      },
+      "revId": "d9ead8a8b93aac3131f453526865beaff2251ac3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
