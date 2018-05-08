@@ -841,6 +841,8 @@ cc_library_static {
                     "src/opts/SkBlitRow_opts_arm_neon.cpp",
                 ],
             },
+
+            ldflags: ["-Wl,--plugin-opt,-pagerando-bin-size=16384"],
         },
 
         arm64: {
@@ -853,6 +855,11 @@ cc_library_static {
                 "src/opts/SkBlitRow_opts_arm.cpp",
                 "src/opts/SkBlitRow_opts_arm_neon.cpp",
                 "src/opts/SkOpts_crc32.cpp",
+            ],
+
+            // libskia has too many segments when pagerando is enabled
+            ldflags: [
+                "-Wl,--plugin-opt,-pagerando-bin-size=16384"
             ],
         },
 
