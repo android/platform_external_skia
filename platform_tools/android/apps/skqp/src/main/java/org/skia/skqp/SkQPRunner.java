@@ -128,7 +128,7 @@ public class SkQPRunner extends Runner implements Filterable {
                 if (error != null) {
                     SkQPRunner.Fail(desc, notifier, String.format("Exception: %s", error));
                     Log.w(TAG, String.format("[ERROR] '%s': %s", name, error));
-                } else if (value != 0) {
+                } else if (value > 300) {
                     SkQPRunner.Fail(desc, notifier, String.format(
                                 "Image mismatch: max channel diff = %f", value));
                     Log.w(TAG, String.format("[FAIL] '%s': %f > 0", name, value));
