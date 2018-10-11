@@ -113,7 +113,7 @@ SkCodec::Result SkSampledCodec::onGetAndroidPixels(const SkImageInfo& info, void
         const SkCodec::Result startResult = this->codec()->startIncrementalDecode(
                 scaledInfo, pixels, rowBytes, &codecOptions);
         if (SkCodec::kSuccess == startResult) {
-            int rowsDecoded;
+            int rowsDecoded = 0;
             const SkCodec::Result incResult = this->codec()->incrementalDecode(&rowsDecoded);
             if (incResult == SkCodec::kSuccess) {
                 return SkCodec::kSuccess;
@@ -244,7 +244,7 @@ SkCodec::Result SkSampledCodec::sampledDecode(const SkImageInfo& info, void* pix
 
             sampler->setSampleY(sampleY);
 
-            int rowsDecoded;
+            int rowsDecoded = 0;
             const SkCodec::Result incResult = this->codec()->incrementalDecode(&rowsDecoded);
             if (incResult == SkCodec::kSuccess) {
                 return SkCodec::kSuccess;
