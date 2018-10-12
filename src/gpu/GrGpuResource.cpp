@@ -50,6 +50,9 @@ GrGpuResource::~GrGpuResource() {
 }
 
 void GrGpuResource::release() {
+    if (this->wasDestroyed()) {
+        return;
+    }
     SkASSERT(fGpu);
     this->onRelease();
     get_resource_cache(fGpu)->resourceAccess().removeResource(this);
