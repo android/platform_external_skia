@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fb5f78a_d2b3d18b",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1058860
+      },
+      "writtenOn": "2018-11-09T22:01:16Z",
+      "side": 1,
+      "message": "Fix whitespace...",
+      "revId": "22f0b518dcc3e3112d7d395ba6064e8488e337c8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
