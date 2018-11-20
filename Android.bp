@@ -946,7 +946,7 @@ cc_defaults {
         "libexpat",
         "libft2",
         "libheif",
-        "libicui18n",
+        "libicui18n", // libskia depends on libsfntly, which uses libicuuc and libicui18n
         "libicuuc",
         "libjpeg",
         "liblog",
