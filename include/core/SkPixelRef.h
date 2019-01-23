@@ -114,6 +114,7 @@ private:
     // Bottom bit indicates the Gen ID is unique.
     bool genIDIsUnique() const { return SkToBool(fTaggedGenID.load() & 1); }
     mutable SkAtomic<uint32_t> fTaggedGenID;
+    mutable SkMutex fMutex;
 
 #ifdef SK_BUILD_FOR_ANDROID_FRAMEWORK
     const uint32_t fStableID;

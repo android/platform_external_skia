@@ -92,6 +92,7 @@ void SkPixelRef::addGenIDChangeListener(GenIDChangeListener* listener) {
         delete listener;
         return;
     }
+    SkAutoMutexAcquire mutex(fMutex);
     *fGenIDChangeListeners.append() = listener;
 }
 
@@ -110,6 +111,7 @@ void SkPixelRef::callGenIDChangeListeners() {
         }
     }
     // Listeners get at most one shot, so whether these triggered or not, blow them away.
+    SkAutoMutexAcquire mutex(fMutex);
     fGenIDChangeListeners.deleteAll();
 }
 
