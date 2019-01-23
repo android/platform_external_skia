@@ -12,6 +12,7 @@
 #include "GrGpu.h"
 #include "GrGpuResourcePriv.h"
 #include "SkTraceMemoryDump.h"
+#include "SkMutex.h"
 
 static inline GrResourceCache* get_resource_cache(GrGpu* gpu) {
     SkASSERT(gpu);
@@ -51,6 +52,7 @@ GrGpuResource::~GrGpuResource() {
 
 void GrGpuResource::release() {
     SkASSERT(fGpu);
+    SkAutoMutexAcquire mutex(fMutex);
     this->onRelease();
     get_resource_cache(fGpu)->resourceAccess().removeResource(this);
     fGpu = nullptr;
@@ -62,6 +64,7 @@ void GrGpuResource::abandon() {
         return;
     }
     SkASSERT(fGpu);
+    SkAutoMutexAcquire mutex(fMutex);
     this->onAbandon();
     get_resource_cache(fGpu)->resourceAccess().removeResource(this);
     fGpu = nullptr;
