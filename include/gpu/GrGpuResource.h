@@ -9,6 +9,7 @@
 #define GrGpuResource_DEFINED
 
 #include "../private/GrTypesPriv.h"
+#include "../private/SkMutex.h"
 #include "GrResourceKey.h"
 
 class GrContext;
@@ -353,6 +354,7 @@ private:
     // is destroyed. Those calls set will this to NULL.
     GrGpu* fGpu;
     mutable size_t fGpuMemorySize;
+    mutable SkMutex fMutex;
 
     SkBudgeted fBudgeted;
     bool fRefsWrappedObjects;
