@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a55179da_40bb8264",
+        "filename": "src/pdf/SkPDFMetadata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1051978
+      },
+      "writtenOn": "2019-03-12T20:56:22Z",
+      "side": 1,
+      "message": "should be unnecessary due to \"named return value optimization\".",
+      "revId": "9ba1c8b8a9e1546570298c2eec00c8734dbb7d72",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
