@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82d5af43_f2ac2d24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2019-03-12T17:10:46Z",
+      "side": 1,
+      "message": "Kevin\u0027s original CL calls std::move() on a variable that doesn\u0027t exist in the aosp version. That code just says\n\n    return sk_make_sp\u003cPDFJpegBitmap\u003e(...);\n\nI think that should be fine?",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "0bdb12aad822f097e4b2c2fae59f1b79f94bf910",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b167f488_722e2a0d",
+        "filename": "experimental/skottie/Skottie.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2019-03-12T17:10:46Z",
+      "side": 1,
+      "message": "The conflict in this file was just that when Kevin\u0027s original CL landed, we had already removed this.",
+      "range": {
+        "startLine": 1132,
+        "startChar": 0,
+        "endLine": 1133,
+        "endChar": 70
+      },
+      "revId": "0bdb12aad822f097e4b2c2fae59f1b79f94bf910",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
