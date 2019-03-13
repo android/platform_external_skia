@@ -16,6 +16,24 @@
       "revId": "9ba1c8b8a9e1546570298c2eec00c8734dbb7d72",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "969d46a0_9cf9662c",
+        "filename": "src/pdf/SkPDFMetadata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2019-03-13T13:22:40Z",
+      "side": 1,
+      "message": "This is just a cherry-pick of Kevin\u0027s https://skia-review.googlesource.com/c/skia/+/121354, and it looks like this method is otherwise unchanged, unless I\u0027ve missed something. Did Kevin make this change unnecessarily?\n\nHow is this different from the case below, in MakePdfId?\n\nFrom https://en.cppreference.com/w/cpp/language/copy_elision, I see:\n\nIn a return statement, when the operand is the name of a non-volatile object with automatic storage duration, which isn\u0027t a function parameter or a catch clause parameter, and which is of the same class type (ignoring cv-qualification) as the function return type. This variant of copy elision is known as NRVO, \"named return value optimization\".\n\nIIUC, that means that \"named return value optimization\" requires that the type of the object is the same as the return type of the method. It looks to me like they don\u0027t match, though (SkPDFDict vs SkPDFObject). Or am I missing something?",
+      "parentUuid": "a55179da_40bb8264",
+      "revId": "9ba1c8b8a9e1546570298c2eec00c8734dbb7d72",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
