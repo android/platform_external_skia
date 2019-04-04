@@ -33,6 +33,14 @@ public:
     // return the byte-size of the lattice, even if the buffer is null
     // storage must be 4-byte aligned
     static size_t WriteLattice(void* storage, const SkCanvas::Lattice&);
+
+    static int SaveBehind(SkCanvas* canvas, const SkRect* subset) {
+        return canvas->only_axis_aligned_saveBehind(subset);
+    }
+
+    static void DrawBehind(SkCanvas* canvas, const SkPaint& paint) {
+        canvas->drawClippedToSaveBehind(paint);
+    }
 };
 
 #endif

@@ -51,6 +51,7 @@ namespace SkRecords {
     M(Restore)                                                      \
     M(Save)                                                         \
     M(SaveLayer)                                                    \
+    M(SaveBehind)                                                   \
     M(SetMatrix)                                                    \
     M(Translate)                                                    \
     M(Concat)                                                       \
@@ -66,6 +67,7 @@ namespace SkRecords {
     M(DrawImageNine)                                                \
     M(DrawDRRect)                                                   \
     M(DrawOval)                                                     \
+    M(DrawBehind)                                                   \
     M(DrawPaint)                                                    \
     M(DrawPath)                                                     \
     M(DrawPatch)                                                    \
@@ -189,6 +191,9 @@ RECORD(SaveLayer, kHasPaint_Tag,
        Optional<SkMatrix> clipMatrix;
        SkCanvas::SaveLayerFlags saveLayerFlags);
 
+RECORD(SaveBehind, 0,
+       Optional<SkRect> subset);
+
 RECORD(SetMatrix, 0,
         TypedMatrix matrix);
 RECORD(Concat, 0,
@@ -276,6 +281,8 @@ RECORD(DrawOval, kDraw_Tag|kHasPaint_Tag,
         SkRect oval);
 RECORD(DrawPaint, kDraw_Tag|kHasPaint_Tag,
         SkPaint paint);
+RECORD(DrawBehind, kDraw_Tag|kHasPaint_Tag,
+       SkPaint paint);
 RECORD(DrawPath, kDraw_Tag|kHasPaint_Tag,
         SkPaint paint;
         PreCachedPath path);

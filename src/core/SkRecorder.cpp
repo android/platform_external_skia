@@ -133,6 +133,10 @@ void SkRecorder::onDrawPaint(const SkPaint& paint) {
     APPEND(DrawPaint, paint);
 }
 
+void SkRecorder::onDrawBehind(const SkPaint& paint) {
+    APPEND(DrawBehind, paint);
+}
+
 void SkRecorder::onDrawPoints(PointMode mode,
                               size_t count,
                               const SkPoint pts[],
@@ -363,6 +367,11 @@ SkCanvas::SaveLayerStrategy SkRecorder::getSaveLayerStrategy(const SaveLayerRec&
                     , this->copy(rec.fClipMatrix)
                     , rec.fSaveLayerFlags);
     return SkCanvas::kNoLayer_SaveLayerStrategy;
+}
+
+bool SkRecorder::onDoSaveBehind(const SkRect* subset) {
+    APPEND(SaveBehind, this->copy(subset));
+    return false;
 }
 
 void SkRecorder::didRestore() {

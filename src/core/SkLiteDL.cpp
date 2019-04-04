@@ -6,6 +6,7 @@
  */
 
 #include "SkCanvas.h"
+#include "SkCanvasPriv.h"
 #include "SkData.h"
 #include "SkDrawFilter.h"
 #include "SkDrawShadowInfo.h"
@@ -48,10 +49,11 @@ static const D* pod(const T* op, size_t offset = 0) {
 
 namespace {
 #define TYPES(M)                                                               \
-    M(SetDrawFilter) M(Flush) M(Save) M(Restore) M(SaveLayer)                   \
+    M(SetDrawFilter) M(Flush) M(Save) M(Restore) M(SaveLayer) M(SaveBehind)     \
     M(Concat) M(SetMatrix) M(Translate)                                         \
     M(ClipPath) M(ClipRect) M(ClipRRect) M(ClipRegion)                          \
-    M(DrawPaint) M(DrawPath) M(DrawRect) M(DrawRegion) M(DrawOval) M(DrawArc)   \
+    M(DrawPaint) M(DrawBehind)M(DrawPath) M(DrawRect)                           \
+    M(DrawRegion) M(DrawOval) M(DrawArc)                                        \
     M(DrawRRect) M(DrawDRRect) M(DrawAnnotation) M(DrawDrawable) M(DrawPicture) \
     M(DrawImage) M(DrawImageNine) M(DrawImageRect) M(DrawImageLattice)          \
     M(DrawText) M(DrawPosText) M(DrawPosTextH)                                  \
@@ -117,7 +119,16 @@ namespace {
                            clipMatrix.isIdentity() ? nullptr : &clipMatrix, flags });
         }
     };
-
+    struct SaveBehind final : Op {
+        static const auto kType = Type::SaveBehind;
+        SaveBehind(const SkRect* subset) {
+            if (subset) { this->subset = *subset; }
+        }
+        SkRect  subset = kUnset;
+        void draw(SkCanvas* c, const SkMatrix&) const {
+            SkCanvasPriv::SaveBehind(c, maybe_unset(subset));
+        }
+    };
     struct Concat final : Op {
         static const auto kType = Type::Concat;
         Concat(const SkMatrix& matrix) : matrix(matrix) {}
@@ -178,6 +189,12 @@ namespace {
         DrawPaint(const SkPaint& paint) : paint(paint) {}
         SkPaint paint;
         void draw(SkCanvas* c, const SkMatrix&) const { c->drawPaint(paint); }
+    };
+    struct DrawBehind final : Op {
+        static const auto kType = Type::DrawBehind;
+        DrawBehind(const SkPaint& paint) : paint(paint) {}
+        SkPaint paint;
+        void draw(SkCanvas* c, const SkMatrix&) const { SkCanvasPriv::DrawBehind(c, paint); }
     };
     struct DrawPath final : Op {
         static const auto kType = Type::DrawPath;
@@ -553,6 +570,9 @@ void SkLiteDL::saveLayer(const SkRect* bounds, const SkPaint* paint,
                          const SkMatrix* clipMatrix, SkCanvas::SaveLayerFlags flags) {
     this->push<SaveLayer>(0, bounds, paint, backdrop, clipMask, clipMatrix, flags);
 }
+void SkLiteDL::saveBehind(const SkRect* subset) {
+    this->push<SaveBehind>(0, subset);
+}
 
 void SkLiteDL::   concat(const SkMatrix& matrix)   { this->push   <Concat>(0, matrix); }
 void SkLiteDL::setMatrix(const SkMatrix& matrix)   { this->push<SetMatrix>(0, matrix); }
@@ -573,6 +593,9 @@ void SkLiteDL::clipRegion(const SkRegion& region, SkClipOp op) {
 
 void SkLiteDL::drawPaint(const SkPaint& paint) {
     this->push<DrawPaint>(0, paint);
+}
+void SkLiteDL::drawBehind(const SkPaint& paint) {
+    this->push<DrawBehind>(0, paint);
 }
 void SkLiteDL::drawPath(const SkPath& path, const SkPaint& paint) {
     this->push<DrawPath>(0, path, paint);

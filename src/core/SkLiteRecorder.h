@@ -25,6 +25,7 @@ public:
 
     void willSave() override;
     SaveLayerStrategy getSaveLayerStrategy(const SaveLayerRec&) override;
+    bool onDoSaveBehind(const SkRect*) override;
     void willRestore() override;
 
     void onFlush() override;
@@ -39,6 +40,7 @@ public:
     void onClipRegion(const SkRegion&, SkClipOp) override;
 
     void onDrawPaint (const SkPaint&) override;
+    void onDrawBehind(const SkPaint&) override;
     void onDrawPath  (const SkPath&, const SkPaint&) override;
     void onDrawRect  (const SkRect&, const SkPaint&) override;
     void onDrawRegion(const SkRegion&, const SkPaint&) override;

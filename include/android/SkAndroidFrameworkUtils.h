@@ -9,6 +9,7 @@
 #define SkAndroidFrameworkUtils_DEFINED
 
 #include "SkTypes.h"
+#include "SkRect.h"
 
 #ifdef SK_BUILD_FOR_ANDROID
 
@@ -31,6 +32,8 @@ public:
      */
     static bool clipWithStencil(SkCanvas* canvas);
 #endif //SK_SUPPORT_GPU
+
+    static int SaveBehind(SkCanvas* canvas, const SkRect* subset);
 };
 
 #endif // SK_BUILD_FOR_ANDROID

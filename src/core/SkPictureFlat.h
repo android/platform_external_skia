@@ -96,8 +96,10 @@ enum DrawType {
     DRAW_VERTICES_OBJECT,
 
     FLUSH,
+    SAVE_BEHIND,
+    DRAW_BEHIND_PAINT,
 
-    LAST_DRAWTYPE_ENUM = FLUSH
+    LAST_DRAWTYPE_ENUM = DRAW_BEHIND_PAINT,
 };
 
 // In the 'match' method, this constant will match any flavor of DRAW_BITMAP*
@@ -126,6 +128,10 @@ enum SaveLayerRecFlatFlags {
     SAVELAYERREC_HAS_FLAGS      = 1 << 3,
     SAVELAYERREC_HAS_CLIPMASK   = 1 << 4,
     SAVELAYERREC_HAS_CLIPMATRIX = 1 << 5,
+};
+
+enum SaveBehindFlatFlags {
+    SAVEBEHIND_HAS_SUBSET = 1 << 0,
 };
 
 ///////////////////////////////////////////////////////////////////////////////

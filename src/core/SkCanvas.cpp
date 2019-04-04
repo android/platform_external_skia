@@ -272,6 +272,14 @@ struct DeviceCM {
     }
 };
 
+namespace {
+// Encapsulate state needed to restore from saveBehind()
+struct BackImage {
+    sk_sp<SkSpecialImage> fImage;
+    SkIPoint              fLoc;
+};
+}
+
 /*  This is the record we keep for each save/restore level in the stack.
     Since a level optionally copies the matrix and/or stack, we have pointers
     for these fields. If the value is copied for this level, the copy is
@@ -290,6 +298,7 @@ public:
         or a previous one in a lower level.)
     */
     DeviceCM*           fTopLayer;
+    std::unique_ptr<BackImage> fBackImage;
     SkConservativeClip  fRasterClip;
     SkMatrix            fMatrix;
     int                 fDeferredSaveCount;
@@ -1011,6 +1020,22 @@ int SkCanvas::saveLayer(const SaveLayerRec& origRec) {
     return this->getSaveCount() - 1;
 }
 
+int SkCanvas::only_axis_aligned_saveBehind(const SkRect* bounds) {
+    if (bounds && !this->getLocalClipBounds().intersects(*bounds)) {
+        // Assuming clips never expand, if the request bounds is outside of the current clip
+        // there is no need to copy/restore the area, so just devolve back to a regular save.
+        this->save();
+    } else {
+        bool doTheWork = this->onDoSaveBehind(bounds);
+        fSaveCount += 1;
+        this->internalSave();
+        if (doTheWork) {
+            this->internalSaveBehind(bounds);
+        }
+    }
+    return this->getSaveCount() - 1;
+}
+
 void SkCanvas::DrawDeviceWithFilter(SkBaseDevice* src, const SkImageFilter* filter,
                                     SkBaseDevice* dst, const SkIPoint& dstOrigin,
                                     const SkMatrix& ctm) {
@@ -1171,6 +1196,44 @@ int SkCanvas::saveLayerAlpha(const SkRect* bounds, U8CPU alpha) {
     }
 }
 
+void SkCanvas::internalSaveBehind(const SkRect* localBounds) {
+    SkIRect devBounds;
+    if (localBounds) {
+        SkRect tmp;
+        fMCRec->fMatrix.mapRect(&tmp, *localBounds);
+        if (!devBounds.intersect(tmp.round(), this->getDeviceClipBounds())) {
+            devBounds.setEmpty();
+        }
+    } else {
+        devBounds = this->getDeviceClipBounds();
+    }
+    if (devBounds.isEmpty()) {
+        return;
+    }
+
+    SkBaseDevice* device = this->getTopDevice();
+    if (nullptr == device) {   // Do we still need this check???
+        return;
+    }
+
+    // need the bounds relative to the device itself
+    devBounds.offset(-device->fOrigin.fX, -device->fOrigin.fY);
+
+    auto backImage = device->snapBackImage(devBounds);
+    if (!backImage) {
+        return;
+    }
+
+    // we really need the save, so we can wack the fMCRec
+    this->checkForDeferredSave();
+
+    fMCRec->fBackImage.reset(new BackImage{std::move(backImage), devBounds.topLeft()});
+
+    SkPaint paint;
+    paint.setBlendMode(SkBlendMode::kClear);
+    this->drawClippedToSaveBehind(paint);
+}
+
 void SkCanvas::internalRestore() {
     SkASSERT(fMCStack.count() != 0);
 
@@ -1179,6 +1242,9 @@ void SkCanvas::internalRestore() {
     // now detach it from fMCRec so we can pop(). Gets freed after its drawn
     fMCRec->fLayer = nullptr;
 
+    // move this out before we do the actual restore
+    auto backImage = std::move(fMCRec->fBackImage);
+
     // now do the normal restore()
     fMCRec->~MCRec();       // balanced in save()
     fMCStack.pop_back();
@@ -1186,6 +1252,15 @@ void SkCanvas::internalRestore() {
 
     if (fMCRec) {
         FOR_EACH_TOP_DEVICE(device->restore(fMCRec->fMatrix));
+    }
+
+    if (backImage) {
+        SkPaint paint;
+        paint.setBlendMode(SkBlendMode::kDstOver);
+        const int x = backImage->fLoc.x();
+        const int y = backImage->fLoc.y();
+        this->getTopDevice()->drawSpecial(backImage->fImage.get(), x, y, paint,
+                                          nullptr, SkMatrix::I());
     }
 
     /*  Time to draw the layer's offscreen. We can't call the public drawSprite,
@@ -1710,6 +1785,11 @@ void SkCanvas::drawRect(const SkRect& r, const SkPaint& paint) {
     this->onDrawRect(r.makeSorted(), paint);
 }
 
+void SkCanvas::drawClippedToSaveBehind(const SkPaint& paint) {
+    TRACE_EVENT0("skia", TRACE_FUNC);
+    this->onDrawBehind(paint);
+}
+
 void SkCanvas::drawRegion(const SkRegion& region, const SkPaint& paint) {
     TRACE_EVENT0("skia", TRACE_FUNC);
     if (region.isEmpty()) {
@@ -2081,6 +2161,40 @@ void SkCanvas::onDrawRegion(const SkRegion& region, const SkPaint& paint) {
 
     while (iter.next()) {
         iter.fDevice->drawRegion(region, looper.paint());
+    }
+
+    LOOPER_END
+}
+
+void SkCanvas::onDrawBehind(const SkPaint& paint) {
+    SkIRect bounds;
+    SkDeque::Iter iter(fMCStack, SkDeque::Iter::kBack_IterStart);
+    for (;;) {
+        const MCRec* rec = (const MCRec*)iter.prev();
+        if (!rec) {
+            return; // no backimages, so nothing to draw
+        }
+        if (rec->fBackImage) {
+            bounds = SkIRect::MakeXYWH(rec->fBackImage->fLoc.fX, rec->fBackImage->fLoc.fY,
+                                       rec->fBackImage->fImage->width(),
+                                       rec->fBackImage->fImage->height());
+            break;
+        }
+    }
+
+    LOOPER_BEGIN(paint, SkDrawFilter::kPaint_Type, nullptr)
+
+    while (iter.next()) {
+        SkBaseDevice* dev = iter.fDevice;
+
+        dev->save();
+        // We use clipRegion because it is already defined to operate in dev-space
+        // (i.e. ignores the ctm). However, it is going to first translate by -origin,
+        // but we don't want that, so we undo that before calling in.
+        SkRegion rgn(bounds.makeOffset(dev->fOrigin.fX, dev->fOrigin.fY));
+        dev->clipRegion(rgn, SkClipOp::kIntersect);
+        dev->drawPaint(looper.paint());
+        dev->restore(fMCRec->fMatrix);
     }
 
     LOOPER_END
@@ -2958,6 +3072,10 @@ SkNoDrawCanvas::SkNoDrawCanvas(const SkIRect& bounds)
 SkCanvas::SaveLayerStrategy SkNoDrawCanvas::getSaveLayerStrategy(const SaveLayerRec& rec) {
     (void)this->INHERITED::getSaveLayerStrategy(rec);
     return kNoLayer_SaveLayerStrategy;
+}
+
+bool SkNoDrawCanvas::onDoSaveBehind(const SkRect*) {
+    return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

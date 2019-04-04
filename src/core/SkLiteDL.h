@@ -34,6 +34,7 @@ public:
     void save();
     void saveLayer(const SkRect*, const SkPaint*, const SkImageFilter*, const SkImage*,
                    const SkMatrix*, SkCanvas::SaveLayerFlags);
+    void saveBehind(const SkRect*);
     void restore();
 
     void    concat (const SkMatrix&);
@@ -47,6 +48,7 @@ public:
     void clipRegion(const SkRegion&, SkClipOp);
 
     void drawPaint (const SkPaint&);
+    void drawBehind(const SkPaint&);
     void drawPath  (const SkPath&, const SkPaint&);
     void drawRect  (const SkRect&, const SkPaint&);
     void drawRegion(const SkRegion&, const SkPaint&);

@@ -419,6 +419,14 @@ void SkPicturePlayback::handleOp(SkReadBuffer* reader,
                 canvas->drawPaint(*paint);
             }
         } break;
+        case DRAW_BEHIND_PAINT: {
+            const SkPaint* paint = fPictureData->getPaint(reader);
+            BREAK_ON_READ_ERROR(reader);
+
+            if (paint) {
+                SkCanvasPriv::DrawBehind(canvas, *paint);
+            }
+        } break;
         case DRAW_PATCH: {
             const SkPaint* paint = fPictureData->getPaint(reader);
 
@@ -685,6 +693,16 @@ void SkPicturePlayback::handleOp(SkReadBuffer* reader,
         case SAVE:
             canvas->save();
             break;
+        case SAVE_BEHIND: {
+            uint32_t flags = reader->readInt();
+            const SkRect* subset = nullptr;
+            SkRect storage;
+            if (flags & SAVEBEHIND_HAS_SUBSET) {
+                reader->readRect(&storage);
+                subset = &storage;
+            }
+            SkCanvasPriv::SaveBehind(canvas, subset);
+        } break;
         case SAVE_LAYER_SAVEFLAGS_DEPRECATED: {
             SkRect storage;
             const SkRect* boundsPtr = get_rect_ptr(reader, &storage);
