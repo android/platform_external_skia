@@ -8,6 +8,7 @@
 #include "GrGLContext.h"
 #include "GrGLGLSL.h"
 #include "SkSLCompiler.h"
+#include "cutils/properties.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +42,8 @@ std::unique_ptr<GrGLContext> GrGLContext::Make(sk_sp<const GrGLInterface> interf
 
     GrGLGetANGLEInfoFromString(renderer, &args.fANGLEBackend, &args.fANGLEVendor,
                                &args.fANGLERenderer);
+
+    int32_t sdkVersion = property_get_int32("ro.build.version.sdk", 0);
     /*
      * Qualcomm drivers for the 3xx series have a horrendous bug with some drivers. Though they
      * claim to support GLES 3.00, some perfectly valid GLSL300 shaders will only compile with
@@ -49,7 +52,7 @@ std::unique_ptr<GrGLContext> GrGLContext::Make(sk_sp<const GrGLInterface> interf
      * ?????/2015 - This bug is still present in Lollipop pre-mr1
      * 06/18/2015 - This bug does not affect the nexus 6 (which has an Adreno 4xx).
      */
-    if (kAdreno3xx_GrGLRenderer == args.fRenderer) {
+    if (sdkVersion <= 27) {  //This will set if Android version is equal or less than O
         args.fGLSLGeneration = k110_GrGLSLGeneration;
     }
 
