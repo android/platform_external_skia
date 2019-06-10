@@ -41,17 +41,6 @@ std::unique_ptr<GrGLContext> GrGLContext::Make(sk_sp<const GrGLInterface> interf
 
     GrGLGetANGLEInfoFromString(renderer, &args.fANGLEBackend, &args.fANGLEVendor,
                                &args.fANGLERenderer);
-    /*
-     * Qualcomm drivers for the 3xx series have a horrendous bug with some drivers. Though they
-     * claim to support GLES 3.00, some perfectly valid GLSL300 shaders will only compile with
-     * #version 100, and will fail to compile with #version 300 es.  In the long term, we
-     * need to lock this down to a specific driver version.
-     * ?????/2015 - This bug is still present in Lollipop pre-mr1
-     * 06/18/2015 - This bug does not affect the nexus 6 (which has an Adreno 4xx).
-     */
-    if (kAdreno3xx_GrGLRenderer == args.fRenderer) {
-        args.fGLSLGeneration = k110_GrGLSLGeneration;
-    }
 
     GrGLGetDriverInfo(interface->fStandard, args.fVendor, renderer, ver,
                       &args.fDriver, &args.fDriverVersion);
