@@ -1,0 +1,7 @@
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Build-Cop-Override+1: Xin Li <delphij@google.com>
+Submitted-by: Xin Li <delphij@google.com>
+Submitted-at: Mon, 10 Jun 2019 19:54:56 +0000
+Reviewed-on: https://android-review.googlesource.com/c/platform/external/skia/+/980050
+Project: platform/external/skia
+Branch: refs/heads/master
