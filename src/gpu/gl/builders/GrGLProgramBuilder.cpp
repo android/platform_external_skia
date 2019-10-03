@@ -157,6 +157,11 @@ GrGLProgram* GrGLProgramBuilder::finalize() {
 
     SkSL::Program::Inputs inputs;
     SkTDArray<GrGLuint> shadersToDelete;
+    // Calling GetProgramiv is expensive in Chromium. Assume success in release builds.
+    bool checkLinked = kChromium_GrGLDriver != fGpu->ctxInfo().driver();
+#ifdef SK_DEBUG
+    checkLinked = true;
+#endif
     bool cached = fGpu->glCaps().programBinarySupport() && nullptr != fCached.get();
     if (cached) {
         this->bindProgramResourceLocations(programID);
@@ -176,7 +181,9 @@ GrGLProgram* GrGLProgramBuilder::finalize() {
             if (inputs.fRTHeight) {
                 this->addRTHeightUniform(SKSL_RTHEIGHT_NAME);
             }
-            cached = this->checkLinkStatus(programID);
+            if (checkLinked) {
+                cached = this->checkLinkStatus(programID);
+            }
         } else {
             cached = false;
         }
@@ -249,28 +256,31 @@ GrGLProgram* GrGLProgramBuilder::finalize() {
 
         GL_CALL(LinkProgram(programID));
     }
-    // Calling GetProgramiv is expensive in Chromium. Assume success in release builds.
-    bool checkLinked = kChromium_GrGLDriver != fGpu->ctxInfo().driver();
-#ifdef SK_DEBUG
-    checkLinked = true;
-#endif
     if (checkLinked) {
         if (!this->checkLinkStatus(programID)) {
+            GL_CALL(DeleteProgram(programID));
             SkDebugf("VS:\n");
-            GrGLPrintShader(fGpu->glContext(), GR_GL_VERTEX_SHADER, fVS.fCompilerStrings.begin(),
-                            fVS.fCompilerStringLengths.begin(), fVS.fCompilerStrings.count(),
+            GrGLPrintShader(fGpu->glContext(),
+                            GR_GL_VERTEX_SHADER,
+                            fVS.fCompilerStrings.begin(),
+                            fVS.fCompilerStringLengths.begin(),
+                            fVS.fCompilerStrings.count(),
                             settings);
             if (primProc.willUseGeoShader()) {
                 SkDebugf("\nGS:\n");
-                GrGLPrintShader(fGpu->glContext(), GR_GL_GEOMETRY_SHADER,
-                                fGS.fCompilerStrings.begin(), fGS.fCompilerStringLengths.begin(),
+                GrGLPrintShader(fGpu->glContext(),
+                                GR_GL_GEOMETRY_SHADER,
+                                fGS.fCompilerStrings.begin(),
+                                fGS.fCompilerStringLengths.begin(),
                                 fGS.fCompilerStrings.count(), settings);
             }
             SkDebugf("\nFS:\n");
-            GrGLPrintShader(fGpu->glContext(), GR_GL_FRAGMENT_SHADER, fFS.fCompilerStrings.begin(),
-                            fFS.fCompilerStringLengths.begin(), fFS.fCompilerStrings.count(),
+            GrGLPrintShader(fGpu->glContext(),
+                            GR_GL_FRAGMENT_SHADER,
+                            fFS.fCompilerStrings.begin(),
+                            fFS.fCompilerStringLengths.begin(),
+                            fFS.fCompilerStrings.count(),
                             settings);
-            SkDEBUGFAIL("");
             return nullptr;
         }
     }
@@ -346,8 +356,6 @@ bool GrGLProgramBuilder::checkLinkStatus(GrGLuint programID) {
                                       (char*)log.get()));
             SkDebugf("%s", (char*)log.get());
         }
-        GL_CALL(DeleteProgram(programID));
-        programID = 0;
     }
     return SkToBool(linked);
 }
