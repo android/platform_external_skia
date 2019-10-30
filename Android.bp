@@ -10,7 +10,6 @@ cc_library_static {
         "-DSKIA_IMPLEMENTATION=1",
         "-DSK_PRINT_CODEC_MESSAGES",
         "-D_FORTIFY_SOURCE=1",
-        "-Wno-implicit-fallthrough",
         "-Wno-missing-field-initializers",
         "-Wno-thread-safety-analysis",
         "-Wno-unused-parameter",
@@ -20,6 +19,7 @@ cc_library_static {
 
     cppflags:[
         "-fexceptions",
+        "-Wno-implicit-fallthrough",
     ],
 
     export_include_dirs: [
@@ -1039,9 +1039,11 @@ cc_defaults {
         "libskia",
     ],
     cflags: [
-        "-Wno-implicit-fallthrough",
         "-Wno-unused-parameter",
         "-Wno-unused-variable",
+    ],
+    cppflags: [
+        "-Wno-implicit-fallthrough",
     ],
 }
 
