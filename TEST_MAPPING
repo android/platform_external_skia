@@ -5,9 +5,6 @@
     },
     {
       "name": "CtsGraphicsTestCases"
-    },
-    {
-      "name": "minikin_tests"
     }
   ]
 }
