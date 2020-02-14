@@ -15,6 +15,7 @@ cc_library_static {
         "-Wno-thread-safety-analysis",
         "-Wno-unused-parameter",
         "-Wno-unused-variable",
+        "-Wno-sizeof-array-div", // found in SkPath.cpp:1511
         "-fvisibility=hidden",
     ],
 
