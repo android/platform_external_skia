@@ -1,0 +1,8 @@
+Lint+1: Lint 🤖 <android-build-ayeaye@system.gserviceaccount.com>
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Code-Review+2: Derek Sollenberger <djsollen@google.com>
+Submitted-by: Leon Scroggins <scroggo@google.com>
+Submitted-at: Wed, 16 Sep 2020 13:44:24 +0000
+Reviewed-on: https://android-review.googlesource.com/c/platform/external/skia/+/1426988
+Project: platform/external/skia
+Branch: refs/heads/master
