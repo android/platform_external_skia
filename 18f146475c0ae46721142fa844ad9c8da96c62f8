@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06524108_4b476d9c",
+        "filename": "src/ports/SkMemory_malloc.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1120458
+      },
+      "writtenOn": "2020-09-18T19:01:19Z",
+      "side": 1,
+      "message": "main questions for jreck:\n- how should I go about getting a change here merged (upstream?)\n- is there an appropriate place/way to add a SCUDO dependency? (I can actually avoid the RAII class here, I thought there would be a lot more allocation sites, but it makes sense skia abstracts that away)\n- any other places you can think of where there might be a problem?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
