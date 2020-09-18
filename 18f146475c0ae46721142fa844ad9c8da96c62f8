@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db9a5ca5_39f845fd",
+        "filename": "fixme_mem.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1120458
+      },
+      "writtenOn": "2020-09-18T20:41:41Z",
+      "side": 1,
+      "message": "SCUDO headers would be considered part of the platform build (like libbinder), and I think it\u0027s unlikely we would expose a hook for this in the NDK. Do you mean that this code is compiled and used inside of an app? For instance, libhwui uses skia to implement SDK/NDK APIs that would be used by an app, but it is not restricted to run in an app; it\u0027s part of the platform.\n\nBut, ahah! I see SK_BUILD_FOR_ANDROID_FRAMEWORK now. That should work. Thanks!",
+      "parentUuid": "7c097cee_13b20012",
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06524108_4b476d9c",
         "filename": "src/ports/SkMemory_malloc.cpp",
         "patchSetId": 1
@@ -78,6 +96,54 @@
       "side": 1,
       "message": "We would want to land this CL at skia.googlesource.com and it would then get automerged into Android.\n\nI think SCUDO is applied at a per binary level and Skia is included in the libhwui binary and other test binaries in frameworks/base/libs/hwui.  Is it reasonable to add any dependencies to the makefiles there?",
       "parentUuid": "254d1ba7_30eea6e8",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7005c59b_33f4d468",
+        "filename": "src/ports/SkMemory_malloc.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1120458
+      },
+      "writtenOn": "2020-09-18T20:41:41Z",
+      "side": 1,
+      "message": "Yeah, we would definitely want to add explicit dependencies. I\u0027ll have to wait until the SCUDO APIs are finalized and we figure out how to handle the API issue, but I can certainly move it there then. Thanks!",
+      "parentUuid": "441c1ad7_00d815e6",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5954cc0_eded591c",
+        "filename": "src/ports/SkMemory_malloc.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1120458
+      },
+      "writtenOn": "2020-09-18T20:41:41Z",
+      "side": 1,
+      "message": "libscudo is included statically once in libc.\n\nI suppose what I mean is, if we have an Android-only header library like \"libscudo_flags\" or similar, is it okay to include here?",
+      "parentUuid": "441c1ad7_00d815e6",
       "range": {
         "startLine": 10,
         "startChar": 0,
