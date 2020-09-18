@@ -7,6 +7,8 @@
 
 #include "include/private/SkMalloc.h"
 
+#include "fixme_mem.h"
+
 #include <cstdlib>
 
 #define SK_DEBUGFAILF(fmt, ...) \
@@ -68,6 +70,7 @@ void* sk_malloc_flags(size_t size, unsigned flags) {
     if (flags & SK_MALLOC_ZERO_INITIALIZE) {
         p = calloc(size, 1);
     } else {
+        SCOPE_WITHOUT_HEAP_ZEROING;
         p = malloc(size);
     }
     if (flags & SK_MALLOC_THROW) {
