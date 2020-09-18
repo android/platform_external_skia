@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "d69a594f_1ee631b4",
+        "filename": "fixme_mem.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2020-09-18T21:14:10Z",
+      "side": 1,
+      "message": "That would be awesome.  Until then SK_BUILD_FOR_ANDROID_FRAMEWORK is the best path forward.  We can also update the Android.bp file for Skia (or more accurately the script that generates the bp file) to include whatever SCUDO deps we need in order to get access to the header that defines that param.",
+      "parentUuid": "e41f07a5_40849440",
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06524108_4b476d9c",
         "filename": "src/ports/SkMemory_malloc.cpp",
         "patchSetId": 1
