@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7c097cee_13b20012",
+        "filename": "fixme_mem.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2020-09-18T19:23:56Z",
+      "side": 1,
+      "message": "Are the SCUDO headers exposed at all in the NDK?  If so we can compile SkMemory_malloc.cpp with the appropriate build flags and then guard this code with SK_BUILD_FOR_ANDROID",
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06524108_4b476d9c",
         "filename": "src/ports/SkMemory_malloc.cpp",
         "patchSetId": 1
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "+djsollen for to answer these questions",
       "parentUuid": "06524108_4b476d9c",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441c1ad7_00d815e6",
+        "filename": "src/ports/SkMemory_malloc.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2020-09-18T19:23:56Z",
+      "side": 1,
+      "message": "We would want to land this CL at skia.googlesource.com and it would then get automerged into Android.\n\nI think SCUDO is applied at a per binary level and Skia is included in the libhwui binary and other test binaries in frameworks/base/libs/hwui.  Is it reasonable to add any dependencies to the makefiles there?",
+      "parentUuid": "254d1ba7_30eea6e8",
       "range": {
         "startLine": 10,
         "startChar": 0,
