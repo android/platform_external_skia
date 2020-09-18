@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "3f4b3984_80c73216",
+        "filename": "fixme_mem.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003224
+      },
+      "writtenOn": "2020-09-18T21:23:49Z",
+      "side": 1,
+      "message": "\u003e will you expose these APIs from libc\n\nyes, the API i\u0027m saying will be added in S will be in libc.",
+      "parentUuid": "a1c0329f_5e8a0249",
+      "revId": "18f146475c0ae46721142fa844ad9c8da96c62f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06524108_4b476d9c",
         "filename": "src/ports/SkMemory_malloc.cpp",
         "patchSetId": 1
