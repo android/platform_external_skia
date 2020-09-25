@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e47064_1bd6dbf8",
+        "filename": "src/ports/SkMemory_malloc.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1120458
+      },
+      "writtenOn": "2020-09-25T23:54:58Z",
+      "side": 1,
+      "message": "going to run this on Android presubmit before moving to skia gerrit.\n\nOut of curiosity, any preference on how to document:\n- b/169449588 - after this bug is fixed, we will want to change L76 to restore original behavior instead of always disabling the flag\n- b/158870657 - after scudo is used globally, we can assert on an error return",
+      "revId": "781b0b65c27be4ca8ac253e2d46fc1c5aa77ad51",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
