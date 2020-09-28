@@ -34,6 +34,24 @@
       "revId": "781b0b65c27be4ca8ac253e2d46fc1c5aa77ad51",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3542988b_c3213ba3",
+        "filename": "src/ports/SkMemory_malloc.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1120458
+      },
+      "writtenOn": "2020-09-28T20:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feb04064_da9d116a",
+      "revId": "781b0b65c27be4ca8ac253e2d46fc1c5aa77ad51",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
