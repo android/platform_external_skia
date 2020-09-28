@@ -16,6 +16,24 @@
       "revId": "781b0b65c27be4ca8ac253e2d46fc1c5aa77ad51",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb04064_da9d116a",
+        "filename": "src/ports/SkMemory_malloc.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2020-09-28T12:47:12Z",
+      "side": 1,
+      "message": "I would put a TODOs right in this section of the code to make that clear.\n\n\n#if defined(SK_BUILD_FOR_ANDROID_FRAMEWORK) \u0026\u0026 defined(__BIONIC__)\n        /* TODO: After b/169449588 is fixed, we will want to change this to restore\n         *       original behavior instead of always disabling the flag.\n         * TODO: After b/158870657 is fixed and scudo is used globally, we can assert when an\n         *       an error is returned.\n         */\n        (void)mallopt(M_THREAD_DISABLE_MEM_INIT, 1);\n        p \u003d malloc(size);\n        (void)mallopt(M_THREAD_DISABLE_MEM_INIT, 0);\n#else\n        p \u003d malloc(size);\n#endif",
+      "parentUuid": "59e47064_1bd6dbf8",
+      "revId": "781b0b65c27be4ca8ac253e2d46fc1c5aa77ad51",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
