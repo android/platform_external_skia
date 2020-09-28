@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24123944_00ac9a24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1120458
+      },
+      "writtenOn": "2020-09-28T21:40:33Z",
+      "side": 1,
+      "message": "TODO: update w/ version merged in skia branch",
+      "revId": "c52dc07c7c2860f1b19e15bbe46eb76e2173790a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
