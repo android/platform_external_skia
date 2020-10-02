@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "380b505c_b91819dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2020-10-02T18:21:02Z",
+      "side": 1,
+      "message": "I think this needs to be I3f8922892192e070525c740945e14e5f6fb54991 to match the Change-Id of the merge commit that pushed in the fix.",
+      "revId": "02e9c43a49a99c9d859d1bceabfea259ef6ff1fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "332665cf_fc5d38e9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
