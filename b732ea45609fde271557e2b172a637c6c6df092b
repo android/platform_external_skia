@@ -1,0 +1,8 @@
+Code-Review+2: Derek Sollenberger <djsollen@google.com>
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Lint+1: Lint 🤖 <android-build-ayeaye@system.gserviceaccount.com>
+Submitted-by: Steven Moreland <smoreland@google.com>
+Submitted-at: Fri, 02 Oct 2020 20:13:18 +0000
+Reviewed-on: https://android-review.googlesource.com/c/platform/external/skia/+/1431544
+Project: platform/external/skia
+Branch: refs/heads/master
