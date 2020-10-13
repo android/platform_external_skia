@@ -2478,3 +2478,168 @@ cc_test {
         "resources/**/*",
     ],
 }
+
+cc_defaults {
+    name: "skia_fuzz_defaults",
+    defaults: [
+        "skia_deps",
+    ],
+    static_libs: [
+        "libskia",
+    ],
+    srcs: [
+        "fuzz/Fuzz.cpp",
+    ],
+    cflags: [
+        "-DIS_FUZZING_WITH_LIBFUZZER",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_android_codec_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    shared_libs: [
+        "libnativewindow",
+    ],
+    srcs: [
+        "fuzz/oss_fuzz/FuzzAndroidCodec.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_anim_image_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/oss_fuzz/FuzzAnimatedImage.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_api_descriptor_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/FuzzSkDescriptor.cpp",
+        "fuzz/oss_fuzz/FuzzAPISkDescriptor.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_draw_functions_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/FuzzDrawFunctions.cpp",
+        "fuzz/oss_fuzz/FuzzDrawFunctions.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_gradients_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/FuzzGradients.cpp",
+        "fuzz/oss_fuzz/FuzzGradients.cpp",
+        "tools/flags/CommandLineFlags.cpp",
+    ],
+    cflags: [
+        "-Wno-unused-parameter",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_image_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/oss_fuzz/FuzzImage.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_incr_image_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/oss_fuzz/FuzzIncrementalImage.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_jpeg_encoder_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/FuzzEncoders.cpp",
+        "fuzz/oss_fuzz/FuzzJPEGEncoder.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_json_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/oss_fuzz/FuzzJSON.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_path_deserialize_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/oss_fuzz/FuzzPathDeserialize.cpp",
+    ],
+    cflags: [
+        "-Wno-unused-parameter",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_path_measure_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/FuzzCommon.cpp",
+        "fuzz/FuzzPathMeasure.cpp",
+        "fuzz/oss_fuzz/FuzzPathMeasure.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_pathop_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/FuzzCommon.cpp",
+        "fuzz/FuzzPathop.cpp",
+        "fuzz/oss_fuzz/FuzzPathop.cpp",
+    ],
+}
+
+cc_fuzz {
+    name: "skia_png_encoder_fuzzer",
+    defaults: [
+        "skia_fuzz_defaults",
+    ],
+    srcs: [
+        "fuzz/FuzzEncoders.cpp",
+        "fuzz/oss_fuzz/FuzzPNGEncoder.cpp",
+    ],
+}
