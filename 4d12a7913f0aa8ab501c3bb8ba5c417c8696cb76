@@ -16,6 +16,24 @@
       "message": "Skia development happens upstream, so I\u0027ve uploaded this CL to https://skia-review.googlesource.com/c/skia/+/334048. mast@, I listed you as the author, so you should\u0027ve gotten an email. oth@, you haven\u0027t used Skia\u0027s Gerrit instance, so I was unable to cc you, but if you click that link you should be able to reply to the CL.\n\n",
       "revId": "4d12a7913f0aa8ab501c3bb8ba5c417c8696cb76",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4e1d55_a1bed0ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2020-11-11T16:47:46Z",
+      "side": 1,
+      "message": "I agree that we need to make the change in skia, but I think we need this CL as well.  This CL will update AOSP which is needed because the skia change won\u0027t propagate here until the next android release.",
+      "parentUuid": "62e7159e_de299f83",
+      "revId": "4d12a7913f0aa8ab501c3bb8ba5c417c8696cb76",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
