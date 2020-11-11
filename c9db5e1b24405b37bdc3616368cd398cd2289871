@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae6b4218_148123b2",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1373864
+      },
+      "writtenOn": "2020-11-11T02:53:15Z",
+      "side": 1,
+      "message": "I patched the changes below by hand, because I couldn\u0027t get this to run without diving into its source code. I suggest providing a copy-paste-able command here.",
+      "range": {
+        "startLine": 1,
+        "startChar": 33,
+        "endLine": 1,
+        "endChar": 44
+      },
+      "revId": "c9db5e1b24405b37bdc3616368cd398cd2289871",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
