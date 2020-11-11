@@ -34,6 +34,24 @@
       "parentUuid": "62e7159e_de299f83",
       "revId": "4d12a7913f0aa8ab501c3bb8ba5c417c8696cb76",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a9c3e0_94637a0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2020-11-11T17:36:17Z",
+      "side": 1,
+      "message": "AOSP also merges into internal main (master), so do we need to submit in a particular order to prevent merge conflicts? (Hopefully there won\u0027t be any, since we should be changing the same lines of code...)",
+      "parentUuid": "4d4e1d55_a1bed0ea",
+      "revId": "4d12a7913f0aa8ab501c3bb8ba5c417c8696cb76",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
