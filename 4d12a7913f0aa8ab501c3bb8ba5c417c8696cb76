@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62e7159e_de299f83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2020-11-11T15:15:42Z",
+      "side": 1,
+      "message": "Skia development happens upstream, so I\u0027ve uploaded this CL to https://skia-review.googlesource.com/c/skia/+/334048. mast@, I listed you as the author, so you should\u0027ve gotten an email. oth@, you haven\u0027t used Skia\u0027s Gerrit instance, so I was unable to cc you, but if you click that link you should be able to reply to the CL.\n\n",
+      "revId": "4d12a7913f0aa8ab501c3bb8ba5c417c8696cb76",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}

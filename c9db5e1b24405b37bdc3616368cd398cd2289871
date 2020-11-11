@@ -22,6 +22,30 @@
       },
       "revId": "c9db5e1b24405b37bdc3616368cd398cd2289871",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e2cc252_e713b631",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2020-11-11T15:15:42Z",
+      "side": 1,
+      "message": "Added better instructions in https://skia-review.googlesource.com/c/skia/+/334048.",
+      "parentUuid": "ae6b4218_148123b2",
+      "range": {
+        "startLine": 1,
+        "startChar": 33,
+        "endLine": 1,
+        "endChar": 44
+      },
+      "revId": "c9db5e1b24405b37bdc3616368cd398cd2289871",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
