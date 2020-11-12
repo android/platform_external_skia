@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7854fd0e_1351a034",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2020-11-12T19:47:17Z",
+      "side": 1,
+      "message": "I don\u0027t have +2 rights, but Derek does.",
+      "revId": "54144843de15f674b5431ce914ba383e27969254",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
