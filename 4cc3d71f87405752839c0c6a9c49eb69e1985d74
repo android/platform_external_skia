@@ -63,6 +63,24 @@
       "message": "Thanks!\n\nThis file is generated upstream. I\u0027ve uploaded https://skia-review.googlesource.com/c/skia/+/337723 to update the generator to make this change.\n\nWe\u0027ll probably want to do the following to keep all the merges happy (at least in Skia; I thought I saw a merge error in harfbuzz_ng, but I just glanced at the failing git.log):\n1. land the ICU changes\n2. land my CL in upstream Skia\n3. once the Skia change merges into Android, put its Change-Id into a Merged-In field in the commit message here\n4. submit this CL\n\nWe followed a similar process for aosp/1495316. I can handle 2 and 3.",
       "revId": "4cc3d71f87405752839c0c6a9c49eb69e1985d74",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93d69a1f_d80c9e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1047684
+      },
+      "writtenOn": "2020-11-23T23:29:44Z",
+      "side": 1,
+      "message": "For step 1, I will remove ICU change from this topic now.",
+      "parentUuid": "040d8ea0_bbe4daa7",
+      "revId": "4cc3d71f87405752839c0c6a9c49eb69e1985d74",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
