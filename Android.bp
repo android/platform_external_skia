@@ -2487,3 +2487,27 @@ cc_test {
         "resources/**/*",
     ],
 }
+
+cc_fuzz {
+    name: "libskia_json_fuzzer",
+    host_supported:true,
+
+    cflags: ["-DIS_FUZZING_WITH_LIBFUZZER"],
+
+    static_libs: [
+        "libskia",
+    ],
+
+    srcs: [
+        "fuzz/oss_fuzz/FuzzJSON.cpp",
+    ],
+
+    corpus: ["resources/particles/*.json"],
+
+    fuzz_config: {
+        cc: [
+            "mpgroover@google.com",
+        ],
+        componentid: 1346,
+    },
+}
