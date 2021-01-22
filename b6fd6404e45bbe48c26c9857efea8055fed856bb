@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dc82ed0_0edc0a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2021-01-22T15:13:14Z",
+      "side": 1,
+      "message": "Thanks! I\u0027ve uploaded https://skia-review.googlesource.com/c/skia/+/357277 in Skia so the generator will continue to include this.",
+      "revId": "b6fd6404e45bbe48c26c9857efea8055fed856bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
