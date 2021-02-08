@@ -16,6 +16,23 @@
       "message": "Bob, is this what Skia\u0027s should look like? I\u0027ve updated https://skia-review.googlesource.com/c/skia/+/357277 to match, with some slight modifications.",
       "revId": "c554118ad5c1a6b06b71b12ccf684987731a2fc8",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e0d4cf_d5c7d89d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012974
+      },
+      "writtenOn": "2021-02-08T20:34:21Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3:\n\u003e \n\u003e Does skia actually use the libgifcodec?\n\nYes it does.",
+      "revId": "c554118ad5c1a6b06b71b12ccf684987731a2fc8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
